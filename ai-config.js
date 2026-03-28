@@ -19,39 +19,35 @@ const AI_CONFIG = {
       group: "Usually Fast",
       groupAr: "سريعة عادةً",
       models: [
-        { id: "google/gemma-3-27b-it:free" },
-        { id: "meta-llama/llama-4-scout:free" },
-        { id: "meta-llama/llama-4-maverick:free" },
-        { id: "mistralai/mistral-small-3.2-24b-instruct:free" },
+        { id: "google/gemma-3-4b-it:free" },
+        { id: "google/gemma-3n-e4b-it:free" },
+        { id: "openai/gpt-oss-20b:free" },
+        { id: "mistralai/mistral-small-3.1-24b-instruct:free" },
+        { id: "qwen/qwen3-4b:free" },
+        { id: "meta-llama/llama-3.2-3b-instruct:free" },
+        { id: "liquid/lfm-2.5-1.2b-thinking:free" },
       ]
     },
     {
       group: "High Quality (may be slower)",
       groupAr: "جودة عالية (قد تكون أبطأ)",
       models: [
-        { id: "google/gemini-2.0-flash-exp:free" },
-        { id: "google/gemini-2.5-pro-exp-03-25:free" },
-        { id: "deepseek/deepseek-v3-0324:free" },
-        { id: "deepseek/deepseek-r1:free" },
+        { id: "google/gemma-3-27b-it:free" },
+        { id: "qwen/qwen3-coder:free" },
+        { id: "openai/gpt-oss-120b:free" },
+        { id: "meta-llama/llama-3.3-70b-instruct:free" },
       ]
     },
     {
       group: "Experimental",
       groupAr: "تجريبية",
       models: [
-        { id: "qwen/qwen3-235b-a22b:free" },
-        { id: "microsoft/phi-4-reasoning-plus:free" },
-      ]
-    },
-    {
-      group: "Ibra Special",
-      groupAr: "إبرا سبيشل",
-      models: [
         { id: "stepfun/step-3.5-flash:free" },
         { id: "nvidia/nemotron-3-super-120b-a12b:free" },
-        { id: "qwen/qwen3-coder:free" },
+        { id: "arcee-ai/trinity-large-preview:free" },
+        { id: "z-ai/glm-4.5-air:free" },
         { id: "minimax/minimax-m2.5:free" },
-        { id: "liquid/lfm-2.5-1.2b-thinking:free" },
+        { id: "nousresearch/hermes-3-llama-3.1-405b:free" },
       ]
     }
   ],
