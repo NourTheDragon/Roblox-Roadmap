@@ -231,6 +231,104 @@ body.ar .modal-complete-btn { font-family:'Cairo',sans-serif; letter-spacing:0; 
 body.ar .modal-next-btn { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.9rem; }
 .modal-next-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff}
 
+/* AI EXPLAIN BUTTON */
+.ai-explain-btn{
+  width:100%;padding:0.85rem 1.5rem;border-radius:100px;
+  font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+  cursor:pointer;transition:all 0.3s;
+  background:linear-gradient(135deg,rgba(0,229,204,0.08),rgba(191,95,255,0.08));
+  border:2px solid rgba(0,229,204,0.35);
+  color:var(--p1);
+  display:flex;align-items:center;justify-content:center;gap:0.6rem;
+  margin-top:0.5rem;
+}
+body.ar .ai-explain-btn{font-family:'Cairo',sans-serif;letter-spacing:0;font-size:0.9rem;}
+.ai-explain-btn:hover{background:linear-gradient(135deg,rgba(0,229,204,0.15),rgba(191,95,255,0.15));border-color:var(--p1);box-shadow:0 0 20px rgba(0,229,204,0.2)}
+.ai-explain-btn:disabled{opacity:0.5;cursor:not-allowed;box-shadow:none}
+.ai-explain-btn .ai-btn-icon{font-size:1rem;line-height:1}
+.ai-explain-btn .spinner{
+  width:14px;height:14px;border:2px solid rgba(0,229,204,0.3);
+  border-top-color:var(--p1);border-radius:50%;
+  animation:spin 0.7s linear infinite;display:none;
+}
+.ai-explain-btn.loading .spinner{display:block}
+.ai-explain-btn.loading .ai-btn-text{opacity:0.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* AI EXPLANATION PANEL */
+.ai-panel{
+  margin:0 2rem 1.5rem;
+  border:1px solid rgba(0,229,204,0.2);
+  border-radius:14px;
+  overflow:hidden;
+  display:none;
+}
+.ai-panel.visible{display:block;animation:slideDown 0.3s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.ai-panel-header{
+  background:linear-gradient(135deg,rgba(0,229,204,0.07),rgba(191,95,255,0.07));
+  padding:0.75rem 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(0,229,204,0.1);
+}
+.ai-panel-title{
+  font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;
+  color:var(--p1);display:flex;align-items:center;gap:0.5rem;
+}
+body.ar .ai-panel-title{font-family:'Cairo',sans-serif;letter-spacing:0;font-size:0.8rem;}
+.ai-panel-close{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:1rem;line-height:1;padding:0.2rem;transition:color 0.2s;
+}
+.ai-panel-close:hover{color:var(--p4)}
+.ai-panel-body{
+  padding:1.25rem 1.5rem;
+  font-size:0.88rem;line-height:1.75;
+  color:rgba(255,255,255,0.82);
+  max-height:480px;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(0,229,204,0.2) transparent;
+}
+.ai-panel-body h2{
+  font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;
+  color:#fff;margin:1.2rem 0 0.5rem;padding-bottom:0.4rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  text-transform:uppercase;
+}
+body.ar .ai-panel-body h2{font-family:'Cairo',sans-serif;letter-spacing:0;font-size:0.85rem;}
+.ai-panel-body h2:first-child{margin-top:0}
+.ai-panel-body p{margin-bottom:0.75rem}
+.ai-panel-body ul,.ai-panel-body ol{margin:0.5rem 0 0.75rem 1.2rem}
+.ai-panel-body li{margin-bottom:0.35rem}
+.ai-panel-body pre{
+  background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;padding:0.9rem 1rem;margin:0.75rem 0;
+  overflow-x:auto;font-size:0.78rem;line-height:1.6;
+}
+.ai-panel-body code{
+  font-family:'JetBrains Mono',monospace;color:var(--p1);
+  background:rgba(0,229,204,0.07);padding:0.1rem 0.35rem;
+  border-radius:3px;font-size:0.82em;
+}
+.ai-panel-body pre code{
+  background:none;padding:0;color:rgba(255,255,255,0.9);font-size:inherit;
+}
+.ai-panel-body a{color:var(--p6);text-decoration:none;}
+.ai-panel-body a:hover{text-decoration:underline;}
+.ai-panel-error{
+  padding:1rem 1.5rem;
+  color:var(--p4);font-size:0.85rem;
+  display:flex;align-items:flex-start;gap:0.5rem;
+}
+.ai-no-key{
+  padding:1rem 1.5rem;color:var(--p8);font-size:0.85rem;line-height:1.6;
+}
+.ai-no-key a{color:var(--p6);}
+.ai-no-key code{
+  font-family:'JetBrains Mono',monospace;
+  background:rgba(255,215,0,0.1);color:var(--p8);
+  padding:0.1rem 0.35rem;border-radius:3px;font-size:0.82em;
+}
+
 /* SCROLL ANIMATION */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
@@ -357,6 +455,24 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
         <div class="modal-list" id="modal-builds"></div>
       </div>
     </div>
+    <!-- AI Explain button -->
+    <div style="padding:0 2rem 0.25rem">
+      <button class="ai-explain-btn" id="ai-explain-btn" onclick="requestAIExplanation()">
+        <span class="ai-btn-icon">🤖</span>
+        <span class="ai-btn-text" id="ai-btn-text">Explain This Lesson with AI</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+
+    <!-- AI Explanation Panel -->
+    <div class="ai-panel" id="ai-panel">
+      <div class="ai-panel-header">
+        <div class="ai-panel-title">🤖 AI LESSON EXPLANATION</div>
+        <button class="ai-panel-close" onclick="closeAIPanel()" title="Close">✕</button>
+      </div>
+      <div class="ai-panel-body" id="ai-panel-body"></div>
+    </div>
+
     <div class="modal-footer">
       <button class="modal-complete-btn not-done" id="modal-complete-btn" onclick="toggleComplete()" data-t-notdone="mark_complete" data-t-done="marked_done">Mark Complete</button>
       <button class="modal-next-btn" onclick="nextLesson()" data-t="next_lesson">Next Lesson →</button>
@@ -364,6 +480,7 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
   </div>
 </div>
 
+<script src="ai-config.js"></script>
 <script>
 // ─────────────────────────────────────────────
 //  TRANSLATIONS
@@ -1275,6 +1392,181 @@ function makeStars(){
 makeStars();
 applyFont();
 applyLang(); // builds everything + applies lang
+
+// ─────────────────────────────────────────────
+//  AI LESSON EXPLANATION
+// ─────────────────────────────────────────────
+
+// Simple markdown-to-HTML renderer (no external lib needed)
+function mdToHtml(md) {
+  let html = md
+    // Escape HTML entities first
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    // Code blocks (``` ... ```)
+    .replace(/```[\w]*\n?([\s\S]*?)```/g, (_,code) =>
+      `<pre><code>${code.trim()}</code></pre>`)
+    // Inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // ## Headers (after code so ## inside code stays safe)
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    // ### Headers
+    .replace(/^### (.+)$/gm, '<h3 style="font-size:0.85rem;color:rgba(255,255,255,0.9);margin:0.8rem 0 0.4rem">$1</h3>')
+    // Bold
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#fff">$1</strong>')
+    // Bullet lists
+    .replace(/^[•\-\*] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
+    // Numbered lists
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // URLs as links
+    .replace(/(https?:\/\/[^\s<"]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+    // Paragraphs (lines not inside tags)
+    .replace(/\n{2,}/g, '\n\n')
+    .split('\n\n')
+    .map(p => {
+      p = p.trim();
+      if(!p) return '';
+      if(/^<(h[23]|ul|ol|pre|li)/.test(p)) return p;
+      return `<p>${p.replace(/\n/g,' ')}</p>`;
+    })
+    .join('\n');
+  return html;
+}
+
+function buildAIPrompt(phase, lesson) {
+  const lang = currentLang || 'en';
+  const title = lang === 'ar' && lesson.title.ar ? lesson.title.ar : lesson.title.en;
+  const learns = lesson.learns.en;  // always use EN for AI
+  const builds = lesson.builds.en;
+  const phaseTitle = phase.title.en;
+
+  return `I am learning Roblox Studio game development. I am on Phase ${phase.id}: "${phaseTitle}".
+
+Current Lesson: Lesson ${lesson.num} — "${lesson.title.en}" (difficulty: ${lesson.diff}, estimated time: ${lesson.time})
+
+FULL ROADMAP CONTEXT:
+This is part of a 32-lesson, 8-phase roadmap. The student is building ONE growing game — starting from an empty island and adding features each lesson. This lesson fits within that progression.
+
+WHAT THIS LESSON COVERS:
+Learning objectives:
+${learns.map((l,i) => `${i+1}. ${l.replace(/<[^>]+>/g,'')}`).join('\n')}
+
+What the student builds:
+${builds.map((b,i) => `${i+1}. ${b.replace(/<[^>]+>/g,'')}`).join('\n')}
+
+Please give me a FULL, DETAILED explanation of this lesson so I can actually learn and complete it in Roblox Studio. Use the LATEST Roblox Studio (2024-2025) and modern Luau syntax. Reference https://create.roblox.com/docs/ where relevant.`;
+}
+
+async function requestAIExplanation() {
+  if (!activeLesson) return;
+
+  const cfg = window.AI_CONFIG;
+  if (!cfg) {
+    showAIPanel(`<div class="ai-no-key">⚠️ Could not load <code>ai-config.js</code>. Make sure both files are in the same folder.</div>`);
+    return;
+  }
+
+  if (!cfg.apiKey || cfg.apiKey === 'YOUR_OPENROUTER_API_KEY_HERE') {
+    showAIPanel(`<div class="ai-no-key">
+      🔑 <strong style="color:#fff">Add your free OpenRouter API key to get AI explanations!</strong><br><br>
+      1. Go to <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Sign in (free) → Keys → Create Key<br>
+      2. Open <code>ai-config.js</code> in a text editor<br>
+      3. Replace <code>YOUR_OPENROUTER_API_KEY_HERE</code> with your key<br>
+      4. Save and reload the page<br><br>
+      <span style="color:var(--muted);font-size:0.82rem">The free tier supports models marked <code>:free</code> — no billing info needed.</span>
+    </div>`);
+    return;
+  }
+
+  const btn = document.getElementById('ai-explain-btn');
+  const panel = document.getElementById('ai-panel');
+
+  // If panel already open with content, just close it (toggle)
+  if (panel.classList.contains('visible') && !btn.classList.contains('loading')) {
+    closeAIPanel();
+    return;
+  }
+
+  // Set loading state
+  btn.disabled = true;
+  btn.classList.add('loading');
+  document.getElementById('ai-btn-text').textContent = 'Generating explanation…';
+  showAIPanel(`<div style="padding:0.5rem 0;color:var(--muted);display:flex;align-items:center;gap:0.75rem">
+    <div class="spinner" style="display:block;width:18px;height:18px;border-width:2px"></div>
+    <span>AI is reading the lesson and writing your explanation…</span>
+  </div>`);
+
+  const {phase, lesson} = activeLesson;
+  const prompt = buildAIPrompt(phase, lesson);
+
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${cfg.apiKey}`,
+        'HTTP-Referer': location.href,
+        'X-Title': 'Roblox Academy Roadmap'
+      },
+      body: JSON.stringify({
+        model: cfg.model,
+        max_tokens: cfg.maxTokens || 2048,
+        temperature: cfg.temperature ?? 0.7,
+        messages: [
+          { role: 'system', content: cfg.systemPrompt },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const text = data?.choices?.[0]?.message?.content;
+
+    if (!text) throw new Error('Empty response from AI.');
+
+    const modelUsed = data.model || cfg.model;
+    const html = mdToHtml(text);
+    showAIPanel(
+      `<div style="font-size:0.7rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">
+        Model: ${modelUsed} · Change in <code>ai-config.js</code>
+       </div>` + html
+    );
+
+  } catch(err) {
+    showAIPanel(`<div class="ai-panel-error">⚠️ <span><strong>Error:</strong> ${err.message}<br>
+      <span style="color:var(--muted);font-size:0.8rem">Check your API key and model ID in <code>ai-config.js</code>. Also check the browser console for details.</span>
+    </span></div>`);
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    document.getElementById('ai-btn-text').textContent = 'Explain This Lesson with AI';
+  }
+}
+
+function showAIPanel(html) {
+  const panel = document.getElementById('ai-panel');
+  document.getElementById('ai-panel-body').innerHTML = html;
+  panel.classList.add('visible');
+  // Scroll panel into view smoothly
+  setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
+}
+
+function closeAIPanel() {
+  document.getElementById('ai-panel').classList.remove('visible');
+}
+
+// Reset AI panel when modal opens a new lesson
+const _origOpenLesson = openLesson;
+window.openLesson = function(phaseId, lessonNum) {
+  closeAIPanel();
+  _origOpenLesson(phaseId, lessonNum);
+};
+
 </script>
 </body>
 </html>
