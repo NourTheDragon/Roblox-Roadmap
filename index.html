@@ -231,6 +231,88 @@ body.ar .modal-complete-btn { font-family:'Cairo',sans-serif; letter-spacing:0; 
 body.ar .modal-next-btn { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.9rem; }
 .modal-next-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff}
 
+/* AI CONTROLS WRAP */
+.ai-controls-wrap{padding:0 2rem 0.25rem;display:flex;flex-direction:column;gap:0.5rem}
+.ai-row{display:flex;align-items:center;gap:0.6rem;flex-wrap:nowrap}
+.ai-row-label{
+  font-family:'Orbitron',monospace;font-size:0.5rem;letter-spacing:1.5px;
+  color:var(--muted);white-space:nowrap;min-width:42px;text-align:right;
+}
+body.ar .ai-row-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-size:0.65rem}
+
+/* KEY INPUT */
+.ai-key-input-wrap{flex:1;min-width:0;display:flex;align-items:center;gap:0;position:relative}
+.ai-key-input{
+  flex:1;min-width:0;
+  background:#0a0e1a;
+  border:1px solid rgba(255,255,255,0.1);
+  border-right:none;
+  border-radius:7px 0 0 7px;
+  color:#e0e8ff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  padding:0.38rem 0.7rem;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.ai-key-input::placeholder{color:rgba(255,255,255,0.2)}
+.ai-key-input:focus{border-color:rgba(0,229,204,0.4);background:#0c1120}
+.ai-icon-btn{
+  background:#0a0e1a;
+  border:1px solid rgba(255,255,255,0.1);
+  border-left:none;
+  color:var(--muted);
+  cursor:pointer;
+  padding:0 0.5rem;
+  height:100%;
+  font-size:0.75rem;
+  line-height:1;
+  transition:color 0.2s,background 0.2s;
+  white-space:nowrap;
+  align-self:stretch;
+  display:flex;align-items:center;
+}
+.ai-icon-btn:last-child{border-radius:0 7px 7px 0}
+.ai-icon-btn:hover{color:#fff;background:rgba(255,255,255,0.07)}
+.ai-key-clear{color:rgba(255,45,85,0.6)!important}
+.ai-key-clear:hover{color:var(--p4)!important;background:rgba(255,45,85,0.08)!important}
+
+/* STATUS TAG */
+.ai-status-tag{font-size:0.6rem;color:var(--muted);white-space:nowrap;min-width:20px}
+
+/* MODEL SELECT */
+.ai-select-wrap{flex:1;min-width:0;position:relative}
+.ai-select-wrap::after{
+  content:'';position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);
+  border:4px solid transparent;border-top-color:var(--muted);
+  pointer-events:none;margin-top:2px;
+}
+.ai-model-select{
+  width:100%;
+  background:#0a0e1a;
+  border:1px solid rgba(255,255,255,0.1);
+  color:#e0e8ff;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  padding:0.38rem 1.6rem 0.38rem 0.7rem;
+  border-radius:7px;
+  cursor:pointer;
+  outline:none;
+  appearance:none;
+  -webkit-appearance:none;
+  transition:border-color 0.2s,background 0.2s;
+}
+.ai-model-select:focus,.ai-model-select:hover{
+  border-color:rgba(0,229,204,0.4);
+  background:#0c1120;
+}
+/* Style the dropdown options — works in Firefox; Chrome uses OS native */
+.ai-model-select option,.ai-model-select optgroup{
+  background:#0d1117;
+  color:#e0e8ff;
+}
+.ai-model-select optgroup{color:var(--muted);font-size:0.6rem}
+
 /* AI EXPLAIN BUTTON */
 .ai-explain-btn{
   width:100%;padding:0.85rem 1.5rem;border-radius:100px;
@@ -455,16 +537,63 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
         <div class="modal-list" id="modal-builds"></div>
       </div>
     </div>
-    <!-- AI Explain button -->
-    <div style="padding:0 2rem 0.25rem">
+    <!-- AI Explain section -->
+    <div class="ai-controls-wrap">
+
+      <!-- API Key row -->
+      <div class="ai-row">
+        <span class="ai-row-label">KEY</span>
+        <div class="ai-key-input-wrap">
+          <input
+            type="password"
+            id="ai-key-input"
+            class="ai-key-input"
+            placeholder="Paste your OpenRouter key (saved in browser)..."
+            oninput="onKeyInput(this.value)"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="ai-icon-btn" onclick="toggleKeyVisibility()" title="Show/hide key">&#128065;</button>
+          <button class="ai-icon-btn ai-key-clear" id="ai-key-clear" onclick="clearUserKey()" title="Clear key" style="display:none">&#10005;</button>
+        </div>
+        <span id="ai-key-status" class="ai-status-tag"></span>
+      </div>
+
+      <!-- Model picker row -->
+      <div class="ai-row">
+        <span class="ai-row-label">MODEL</span>
+        <div class="ai-select-wrap">
+          <select id="ai-model-select" class="ai-model-select" onchange="saveModelChoice(this.value)">
+            <optgroup label="Usually Fast">
+              <option value="google/gemma-3-27b-it:free">google/gemma-3-27b-it:free</option>
+              <option value="meta-llama/llama-4-scout:free">meta-llama/llama-4-scout:free</option>
+              <option value="meta-llama/llama-4-maverick:free">meta-llama/llama-4-maverick:free</option>
+              <option value="mistralai/mistral-small-3.2-24b-instruct:free">mistralai/mistral-small-3.2-24b-instruct:free</option>
+            </optgroup>
+            <optgroup label="High Quality (may be slower)">
+              <option value="google/gemini-2.0-flash-exp:free">google/gemini-2.0-flash-exp:free</option>
+              <option value="google/gemini-2.5-pro-exp-03-25:free">google/gemini-2.5-pro-exp-03-25:free</option>
+              <option value="deepseek/deepseek-v3-0324:free">deepseek/deepseek-v3-0324:free</option>
+              <option value="deepseek/deepseek-r1:free">deepseek/deepseek-r1:free</option>
+            </optgroup>
+            <optgroup label="Experimental">
+              <option value="qwen/qwen3-235b-a22b:free">qwen/qwen3-235b-a22b:free</option>
+              <option value="microsoft/phi-4-reasoning-plus:free">microsoft/phi-4-reasoning-plus:free</option>
+            </optgroup>
+          </select>
+        </div>
+        <span id="ai-model-status" class="ai-status-tag"></span>
+      </div>
+
+      <!-- Explain button -->
       <button class="ai-explain-btn" id="ai-explain-btn" onclick="requestAIExplanation()">
-        <span class="ai-btn-icon">🤖</span>
+        <span class="ai-btn-icon">&#129302;</span>
         <span class="ai-btn-text" id="ai-btn-text">Explain This Lesson with AI</span>
         <div class="spinner"></div>
       </button>
     </div>
 
-    <!-- AI Explanation Panel -->
+        <!-- AI Explanation Panel -->
     <div class="ai-panel" id="ai-panel">
       <div class="ai-panel-header">
         <div class="ai-panel-title">🤖 AI LESSON EXPLANATION</div>
@@ -1466,17 +1595,23 @@ async function requestAIExplanation() {
     return;
   }
 
-  if (!cfg.apiKey || cfg.apiKey.trim() === 'YOUR_OPENROUTER_API_KEY_HERE') {
+  // Resolve API key: user's saved key takes priority over ai-config.js
+  const userKey = getUserKey();
+  const cfgKey = (cfg.apiKey || '').trim();
+  const resolvedKey = userKey || (cfgKey !== 'YOUR_OPENROUTER_API_KEY_HERE' ? cfgKey : '');
+
+  if (!resolvedKey) {
     showAIPanel(`<div class="ai-no-key">
-      🔑 <strong style="color:#fff">Add your free OpenRouter API key to get AI explanations!</strong><br><br>
-      1. Go to <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Sign in (free) → Keys → Create Key<br>
-      2. Open <code>ai-config.js</code> in a text editor<br>
-      3. Replace <code>YOUR_OPENROUTER_API_KEY_HERE</code> with your key<br>
-      4. Save and reload the page<br><br>
-      <span style="color:var(--muted);font-size:0.82rem">The free tier supports models marked <code>:free</code> — no billing info needed.</span>
+      <strong style="color:#fff">&#128273; No API key found!</strong><br><br>
+      Paste your free OpenRouter key in the <strong>KEY</strong> field above — it saves automatically in your browser.<br><br>
+      Don't have one? Go to <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> &rarr; Sign in &rarr; Keys &rarr; Create Key (free, no billing needed for :free models).
     </div>`);
     return;
   }
+
+  // Read model from dropdown
+  const select = document.getElementById('ai-model-select');
+  const activeModel = select ? select.value : cfg.model;
 
   const btn = document.getElementById('ai-explain-btn');
   const panel = document.getElementById('ai-panel');
@@ -1491,6 +1626,7 @@ async function requestAIExplanation() {
   btn.disabled = true;
   btn.classList.add('loading');
   document.getElementById('ai-btn-text').textContent = 'Generating explanation…';
+  setModelStatus('⏳ asking…');
   showAIPanel(`<div style="padding:0.5rem 0;color:var(--muted);display:flex;align-items:center;gap:0.75rem">
     <div class="spinner" style="display:block;width:18px;height:18px;border-width:2px"></div>
     <span>AI is reading the lesson and writing your explanation…</span>
@@ -1504,12 +1640,12 @@ async function requestAIExplanation() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cfg.apiKey.trim()}`,
+        'Authorization': `Bearer ${resolvedKey}`,
         'HTTP-Referer': 'https://github.com',
         'X-OpenRouter-Title': 'Roblox Academy Roadmap'
       },
       body: JSON.stringify({
-        model: cfg.model,
+        model: activeModel,
         max_tokens: cfg.maxTokens || 2048,
         temperature: cfg.temperature ?? 0.7,
         messages: [
@@ -1534,17 +1670,19 @@ async function requestAIExplanation() {
 
     if (!text) throw new Error('Empty response from AI.');
 
-    const modelUsed = data.model || cfg.model;
+    const modelUsed = data.model || activeModel;
     const html = mdToHtml(text);
+    setModelStatus('✅ done');
     showAIPanel(
-      `<div style="font-size:0.7rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">
-        Model: ${modelUsed} · Change in <code>ai-config.js</code>
+      `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">
+        ✅ ${modelUsed}
        </div>` + html
     );
 
   } catch(err) {
+    setModelStatus('❌ failed');
     showAIPanel(`<div class="ai-panel-error">⚠️ <span><strong>Error:</strong> ${err.message}<br>
-      <span style="color:var(--muted);font-size:0.8rem">Check your API key and model ID in <code>ai-config.js</code>. Also check the browser console for details.</span>
+      <span style="color:var(--muted);font-size:0.8rem">Try switching to a different model in the dropdown above, then click the button again.</span>
     </span></div>`);
   } finally {
     btn.disabled = false;
@@ -1553,16 +1691,98 @@ async function requestAIExplanation() {
   }
 }
 
+function setModelStatus(msg) {
+  const el = document.getElementById('ai-model-status');
+  if (el) el.textContent = msg;
+}
+
+// ── KEY PERSISTENCE ──────────────────────────────────────────────────────────
+function getUserKey() {
+  try { return localStorage.getItem('ai_user_key') || ''; } catch(_){ return ''; }
+}
+function onKeyInput(val) {
+  try { localStorage.setItem('ai_user_key', val.trim()); } catch(_){}
+  updateKeyUI(val.trim());
+  closeAIPanel();
+}
+function updateKeyUI(key) {
+  const status = document.getElementById('ai-key-status');
+  const clearBtn = document.getElementById('ai-key-clear');
+  if (!status) return;
+  if (key) {
+    status.textContent = '✅ saved';
+    status.style.color = 'var(--p2)';
+    if (clearBtn) clearBtn.style.display = 'flex';
+  } else {
+    const cfgKey = window.AI_CONFIG?.apiKey;
+    const hasCfg = cfgKey && cfgKey !== 'YOUR_OPENROUTER_API_KEY_HERE';
+    status.textContent = hasCfg ? '(using config)' : '⚠️ no key';
+    status.style.color = hasCfg ? 'var(--muted)' : 'var(--p3)';
+    if (clearBtn) clearBtn.style.display = 'none';
+  }
+}
+function clearUserKey() {
+  try { localStorage.removeItem('ai_user_key'); } catch(_){}
+  const input = document.getElementById('ai-key-input');
+  if (input) input.value = '';
+  updateKeyUI('');
+  closeAIPanel();
+}
+function toggleKeyVisibility() {
+  const input = document.getElementById('ai-key-input');
+  if (!input) return;
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// ── MODEL PERSISTENCE ─────────────────────────────────────────────────────────
+function saveModelChoice(val) {
+  try { localStorage.setItem('ai_model_choice', val); } catch(_){}
+  setModelStatus('');
+  closeAIPanel();
+}
+
+function initModelSelect() {
+  const select = document.getElementById('ai-model-select');
+  const keyInput = document.getElementById('ai-key-input');
+
+  // Restore saved model
+  if (select) {
+    try {
+      const saved = localStorage.getItem('ai_model_choice');
+      const target = saved || window.AI_CONFIG?.model;
+      if (target) {
+        const opt = select.querySelector(`option[value="${target}"]`);
+        if (opt) {
+          select.value = target;
+        } else if (saved) {
+          // custom model not in list — add it
+          const o = document.createElement('option');
+          o.value = saved; o.textContent = saved;
+          select.appendChild(o);
+          select.value = saved;
+        }
+      }
+    } catch(_){}
+  }
+
+  // Restore saved user key
+  if (keyInput) {
+    const saved = getUserKey();
+    keyInput.value = saved;
+    updateKeyUI(saved);
+  }
+}
+
 function showAIPanel(html) {
   const panel = document.getElementById('ai-panel');
   document.getElementById('ai-panel-body').innerHTML = html;
   panel.classList.add('visible');
-  // Scroll panel into view smoothly
   setTimeout(() => panel.scrollIntoView({behavior:'smooth', block:'nearest'}), 50);
 }
 
 function closeAIPanel() {
   document.getElementById('ai-panel').classList.remove('visible');
+  setModelStatus('');
 }
 
 // Reset AI panel when modal opens a new lesson
@@ -1570,7 +1790,12 @@ const _origOpenLesson = openLesson;
 window.openLesson = function(phaseId, lessonNum) {
   closeAIPanel();
   _origOpenLesson(phaseId, lessonNum);
+  // Re-init select each time modal opens (DOM may have rebuilt)
+  setTimeout(initModelSelect, 0);
 };
+
+// Init on first load too
+setTimeout(initModelSelect, 300);
 
 </script>
 </body>
