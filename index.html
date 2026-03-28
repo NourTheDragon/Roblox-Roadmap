@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roblox Studio Expert Roadmap</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -18,9 +18,13 @@
   --p8:#FFD700;--p8d:#3D3000;--p8g:#1A1400;
   --bg:#060818;--card:#0D1117;--card2:#111827;
   --text:#E8EBF0;--muted:#7A8599;
-  --glow-size:0 0 20px;
+  --base-font-size: 16px;
 }
+
+html { font-size: var(--base-font-size); }
+
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;min-height:100vh}
+body.ar { font-family: 'Cairo', sans-serif; }
 
 /* STARS */
 #stars-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
@@ -31,37 +35,100 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 #app{position:relative;z-index:1}
 
 /* TOP BAR */
-.topbar{background:rgba(6,8,24,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 2rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:1.5rem;height:64px}
+.topbar{background:rgba(6,8,24,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 2rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:1.5rem;height:64px;flex-wrap:wrap}
 .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:#fff;white-space:nowrap;letter-spacing:2px}
 .logo span{color:var(--p1)}
-.progress-wrap{flex:1;max-width:400px}
-.progress-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;font-family:'Orbitron',monospace}
+.progress-wrap{flex:1;min-width:120px;max-width:400px}
+.progress-label{font-size:0.688rem;color:var(--muted);letter-spacing:1px;margin-bottom:4px;font-family:'Orbitron',monospace}
+body.ar .progress-label { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
 .progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p5),var(--p8));border-radius:3px;transition:width 0.5s ease;position:relative}
 .progress-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
-.prog-count{font-family:'Orbitron',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+body.ar .progress-fill::after { right:auto; left:0; }
+.prog-count{font-family:'Orbitron',monospace;font-size:0.688rem;color:var(--muted);white-space:nowrap}
+body.ar .prog-count { font-family: 'Cairo', sans-serif; }
+
+/* TOPBAR CONTROLS */
+.topbar-controls { display:flex; align-items:center; gap:0.75rem; margin-inline-start: auto; flex-shrink:0; }
+
+/* LANGUAGE DROPDOWN */
+.lang-select-wrap { position: relative; }
+.lang-select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 1px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-end: 1.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237A8599'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+}
+body.ar .lang-select { font-family: 'Cairo', sans-serif; letter-spacing:0; background-position: left 0.5rem center; }
+.lang-select:hover { border-color: var(--p1); background-color: rgba(0,229,204,0.07); }
+.lang-select option { background: #0D1117; color: #fff; font-family: 'Cairo', sans-serif; }
+
+/* FONT SIZE CONTROLS */
+.font-controls { display:flex; align-items:center; gap:0.35rem; }
+.font-ctrl-label { font-family:'Orbitron',monospace; font-size:0.563rem; color:var(--muted); letter-spacing:1px; white-space:nowrap; }
+body.ar .font-ctrl-label { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.75rem; }
+.font-btn {
+  width: 26px; height: 26px;
+  display:flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--muted);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: all 0.2s;
+  line-height:1;
+  flex-shrink:0;
+}
+.font-btn:hover { background: rgba(0,229,204,0.1); border-color: var(--p1); color: var(--p1); }
+.font-size-indicator {
+  font-family:'Orbitron',monospace;
+  font-size:0.563rem;
+  color: var(--muted);
+  min-width:28px;
+  text-align:center;
+}
 
 /* PHASE NAV */
 .phase-nav{background:rgba(6,8,24,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05);padding:0 2rem;overflow-x:auto;scrollbar-width:none;display:flex;gap:0;position:sticky;top:64px;z-index:99}
 .phase-nav::-webkit-scrollbar{display:none}
 .phase-tab{padding:0.75rem 1.25rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.3s;text-transform:uppercase}
+body.ar .phase-tab { font-family: 'Cairo', sans-serif; letter-spacing:0; font-size:0.8rem; }
 .phase-tab:hover{color:#fff}
 .phase-tab.active{color:#fff;border-bottom-color:var(--accent-color,#fff)}
 
 /* HERO */
 .hero{text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
 .hero-badge{display:inline-block;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:3px;padding:0.4rem 1rem;border:1px solid var(--p1);color:var(--p1);border-radius:2px;margin-bottom:1.5rem;text-transform:uppercase}
+body.ar .hero-badge { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.85rem; }
 .hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,6vw,4.5rem);font-weight:900;line-height:1;margin-bottom:1rem;color:#fff}
+body.ar .hero h1 { font-family:'Cairo',sans-serif; }
 .hero h1 em{display:block;font-style:normal;background:linear-gradient(90deg,var(--p1),var(--p5),var(--p8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:1.1rem;color:var(--muted);max-width:600px;margin:0 auto 2.5rem;line-height:1.6}
 .hero-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
 .hstat{text-align:center;padding:1rem 1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px}
 .hstat-num{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;line-height:1}
 .hstat-label{font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-top:0.25rem}
+body.ar .hstat-label { letter-spacing:0; }
 
 /* HOW IT WORKS */
 .how-section{padding:3rem 2rem;max-width:1100px;margin:0 auto}
 .section-title{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem}
+body.ar .section-title { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.9rem; }
 .rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
 .rule-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.25rem;display:flex;gap:1rem;align-items:flex-start}
 .rule-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
@@ -72,11 +139,15 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 .phase-section{padding:3rem 2rem;max-width:1100px;margin:0 auto}
 .phase-header{border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;position:relative;overflow:hidden}
 .phase-header::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;border-radius:50%;opacity:0.15;background:radial-gradient(circle,var(--pc) 0%,transparent 70%)}
+body.ar .phase-header::before { right:auto; left:-10%; }
 .phase-num{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:3px;opacity:0.7;margin-bottom:0.5rem}
+body.ar .phase-num { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.8rem; }
 .phase-title{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff;margin-bottom:0.5rem}
+body.ar .phase-title { font-family:'Cairo',sans-serif; }
 .phase-sub{font-size:1rem;opacity:0.8;color:#fff;max-width:600px}
 .phase-chips{display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap}
 .phase-chip{font-size:0.7rem;padding:0.25rem 0.75rem;border-radius:100px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);font-family:'Orbitron',monospace;letter-spacing:1px}
+body.ar .phase-chip { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.8rem; }
 
 /* LESSON GRID */
 .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin-bottom:1.5rem}
@@ -86,10 +157,15 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 .lesson-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.15)}
 .lesson-card.completed{border-color:rgba(57,255,20,0.3)}
 .lesson-card.completed .lcard-header::after{content:'✓';position:absolute;top:0.75rem;right:0.75rem;width:22px;height:22px;border-radius:50%;background:var(--p2);color:#000;font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center}
-.lcard-header{padding:1rem 1.25rem 0.75rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.05)}
+body.ar .lesson-card.completed .lcard-header::after { right:auto; left:0.75rem; }
+.lcard-header{padding:1rem 1.25rem 0.75rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--lcolor,#fff)}
+body.ar .lcard-header { border-left:none; border-right:3px solid var(--lcolor,#fff); }
 .lcard-num{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.5rem}
+body.ar .lcard-num { font-family:'Cairo',sans-serif; }
 .lcard-num-badge{padding:0.2rem 0.5rem;border-radius:4px;font-size:0.6rem;font-family:'Orbitron',monospace;font-weight:700}
+body.ar .lcard-num-badge { font-family:'Cairo',sans-serif; font-size:0.75rem; }
 .diff-badge{padding:0.2rem 0.6rem;border-radius:100px;font-size:0.6rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:0.5px}
+body.ar .diff-badge { font-family:'Cairo',sans-serif; font-size:0.75rem; }
 .diff-beginner{background:rgba(57,255,20,0.12);color:var(--p2)}
 .diff-easy{background:rgba(255,214,0,0.12);color:#FFD600}
 .diff-intermediate{background:rgba(255,140,0,0.12);color:var(--p3)}
@@ -100,11 +176,17 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 .lcard-preview{padding:0.75rem 1.25rem 1rem;display:flex;gap:0.5rem;flex-direction:column}
 .preview-tag{font-size:0.75rem;color:var(--muted);display:flex;align-items:center;gap:0.5rem;line-height:1.4}
 .preview-tag::before{content:'▸';flex-shrink:0}
+body.ar .preview-tag::before { content:'◂'; }
 .lcard-footer{padding:0.6rem 1.25rem;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between}
 .lcard-footer-left{font-size:0.7rem;color:var(--muted)}
 .mark-btn{font-size:0.7rem;font-family:'Orbitron',monospace;padding:0.3rem 0.8rem;border-radius:100px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+body.ar .mark-btn { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.8rem; }
 .mark-btn:hover{border-color:var(--p2);color:var(--p2)}
 .lesson-card.completed .mark-btn{border-color:var(--p2);color:var(--p2);background:rgba(57,255,20,0.08)}
+
+/* AR keyword style */
+.en-term { color: rgba(255,255,255,0.85); }
+.ar-trans { color: var(--muted); font-size:0.85em; }
 
 /* MILESTONE */
 .milestone-card{border-radius:16px;padding:2rem 2.5rem;margin:1.5rem 0;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.3s}
@@ -113,11 +195,11 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 .milestone-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mc),transparent)}
 .ms-top{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
 .ms-badge{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;padding:0.3rem 0.8rem;border:1px solid;border-radius:4px;text-transform:uppercase}
-.ms-num{font-family:'Orbitron',monospace;font-size:0.65rem;color:rgba(255,255,255,0.5);letter-spacing:1px}
+body.ar .ms-badge { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.8rem; }
 .ms-title{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:0.5rem}
+body.ar .ms-title { font-family:'Cairo',sans-serif; }
 .ms-inspo{font-size:0.85rem;margin-bottom:0.75rem;opacity:0.7;font-style:italic}
 .ms-desc{font-size:0.9rem;line-height:1.7;color:rgba(255,255,255,0.75);max-width:700px}
-.ms-expand{margin-top:1rem;font-size:0.75rem;font-family:'Orbitron',monospace;letter-spacing:1px;opacity:0.5}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(10px)}
@@ -126,46 +208,53 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 .modal-overlay.open .modal{transform:scale(1)}
 .modal-header{padding:1.5rem 2rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;background:#0D1117;z-index:10;display:flex;justify-content:space-between;align-items:flex-start}
 .modal-lesson-num{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--muted);margin-bottom:0.4rem}
+body.ar .modal-lesson-num { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.8rem; }
 .modal-title{font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:#fff;line-height:1.3}
+body.ar .modal-title { font-family:'Cairo',sans-serif; }
 .modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--muted);cursor:pointer;width:32px;height:32px;border-radius:8px;font-size:1rem;flex-shrink:0;transition:all 0.2s}
 .modal-close:hover{background:rgba(255,45,85,0.15);border-color:rgba(255,45,85,0.4);color:var(--p4)}
 .modal-body{padding:1.5rem 2rem}
 .modal-badges{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
 .modal-section{margin-bottom:1.5rem}
 .modal-section-title{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+body.ar .modal-section-title { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.85rem; }
 .modal-list{display:flex;flex-direction:column;gap:0.5rem}
 .modal-item{display:flex;gap:0.75rem;align-items:flex-start;font-size:0.9rem;line-height:1.5;color:rgba(255,255,255,0.8)}
 .modal-bullet{width:20px;height:20px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;margin-top:2px}
 .modal-footer{padding:1rem 2rem 1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap}
 .modal-complete-btn{flex:1;min-width:140px;padding:0.8rem 1.5rem;border-radius:100px;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;cursor:pointer;transition:all 0.3s;border:2px solid;text-transform:uppercase}
+body.ar .modal-complete-btn { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.9rem; }
 .modal-complete-btn.not-done{background:transparent;border-color:rgba(57,255,20,0.4);color:var(--p2)}
 .modal-complete-btn.not-done:hover{background:rgba(57,255,20,0.1)}
 .modal-complete-btn.done{background:rgba(57,255,20,0.1);border-color:var(--p2);color:var(--p2)}
 .modal-next-btn{padding:0.8rem 1.5rem;border-radius:100px;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;cursor:pointer;transition:all 0.3s;background:transparent;border:2px solid rgba(255,255,255,0.15);color:var(--muted)}
+body.ar .modal-next-btn { font-family:'Cairo',sans-serif; letter-spacing:0; font-size:0.9rem; }
 .modal-next-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff}
 
 /* SCROLL ANIMATION */
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
 
-/* CONNECTOR PATH */
-.phase-connector{display:flex;align-items:center;justify-content:center;padding:0.5rem 0;color:rgba(255,255,255,0.15);font-size:1.5rem}
-
 /* FOOTER */
 .footer-hero{text-align:center;padding:5rem 2rem;position:relative}
 .footer-hero h2{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:1rem}
+body.ar .footer-hero h2 { font-family:'Cairo',sans-serif; }
 .footer-hero p{font-size:1.1rem;color:var(--muted);max-width:500px;margin:0 auto}
 
 /* CHEATSHEET */
 .cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.75rem;margin-top:1.5rem}
 .cheat-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:0.75rem 1rem;display:flex;gap:1rem;align-items:flex-start}
-.cheat-code{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--p1);background:rgba(0,229,204,0.08);padding:0.2rem 0.5rem;border-radius:4px;flex-shrink:0;white-space:nowrap}
+.cheat-code{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--p1);background:rgba(0,229,204,0.08);padding:0.2rem 0.5rem;border-radius:4px;flex-shrink:0;white-space:nowrap;direction:ltr;}
 .cheat-desc{font-size:0.82rem;color:var(--muted);line-height:1.4}
 
-/* PULSE ANIMATION ON MILESTONE */
+/* FINAL PROJECT BOX */
+.final-box{text-align:center;padding:2rem;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:12px;margin-bottom:1.5rem}
+.final-box-label{font-family:'Orbitron',monospace;font-size:0.75rem;letter-spacing:2px;color:var(--p8);margin-bottom:0.75rem}
+body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-size:0.9rem;}
+.final-box-desc{font-size:1.1rem;color:rgba(255,255,255,0.8);line-height:1.7;max-width:700px;margin:0 auto}
+
 @keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,0.2)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
@@ -181,45 +270,53 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 <div class="topbar">
   <div class="logo">ROBLOX<span>ACADEMY</span></div>
   <div class="progress-wrap">
-    <div class="progress-label">EXPERT PROGRESS</div>
+    <div class="progress-label" data-t="progress_label">EXPERT PROGRESS</div>
     <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
-  <div class="prog-count"><span id="prog-done">0</span> / 32 lessons</div>
+  <div class="prog-count"><span id="prog-done">0</span> / 32 <span data-t="lessons_word">lessons</span></div>
+
+  <div class="topbar-controls">
+    <!-- Font size controls -->
+    <div class="font-controls">
+      <span class="font-ctrl-label" data-t="font_label">SIZE</span>
+      <button class="font-btn" id="font-down" title="Decrease font size">A−</button>
+      <span class="font-size-indicator" id="font-indicator">100%</span>
+      <button class="font-btn" id="font-up" title="Increase font size">A+</button>
+    </div>
+    <!-- Language select -->
+    <div class="lang-select-wrap">
+      <select class="lang-select" id="lang-select">
+        <option value="en">🇬🇧 English</option>
+        <option value="ar">🇸🇦 العربية</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <!-- PHASE NAV -->
-<nav class="phase-nav" id="phase-nav">
-  <button class="phase-tab" data-phase="1" style="--accent-color:var(--p1)">P1 World</button>
-  <button class="phase-tab" data-phase="2" style="--accent-color:var(--p2)">P2 Scripting</button>
-  <button class="phase-tab" data-phase="3" style="--accent-color:var(--p3)">P3 Events</button>
-  <button class="phase-tab" data-phase="4" style="--accent-color:var(--p4)">P4 Client/Server</button>
-  <button class="phase-tab" data-phase="5" style="--accent-color:var(--p5)">P5 Polish</button>
-  <button class="phase-tab" data-phase="6" style="--accent-color:var(--p6)">P6 Advanced</button>
-  <button class="phase-tab" data-phase="7" style="--accent-color:var(--p7)">P7 Pro Luau</button>
-  <button class="phase-tab" data-phase="8" style="--accent-color:var(--p8)">P8 Final Boss</button>
-</nav>
+<nav class="phase-nav" id="phase-nav"></nav>
 
 <!-- HERO -->
 <section class="hero fade-in">
-  <div class="hero-badge">From Zero to Expert</div>
-  <h1>Roblox Studio<em>Expert Roadmap</em></h1>
-  <p class="hero-sub">32 lessons. 8 phases. 5 milestone projects. One game that grows from an empty island to a full publishable experience — lesson by lesson.</p>
+  <div class="hero-badge" data-t="hero_badge">From Zero to Expert</div>
+  <h1 data-t="hero_h1_line1">Roblox Studio<em data-t="hero_h1_line2">Expert Roadmap</em></h1>
+  <p class="hero-sub" data-t="hero_sub">32 lessons. 8 phases. 5 milestone projects. One game that grows from an empty island to a full publishable experience — lesson by lesson.</p>
   <div class="hero-stats">
-    <div class="hstat"><div class="hstat-num" style="color:var(--p1)">32</div><div class="hstat-label">Lessons</div></div>
-    <div class="hstat"><div class="hstat-num" style="color:var(--p5)">8</div><div class="hstat-label">Phases</div></div>
-    <div class="hstat"><div class="hstat-num" style="color:var(--p8)">5</div><div class="hstat-label">Milestones</div></div>
-    <div class="hstat"><div class="hstat-num" style="color:var(--p2)">1</div><div class="hstat-label">Epic Game</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p1)">32</div><div class="hstat-label" data-t="stat_lessons">Lessons</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p5)">8</div><div class="hstat-label" data-t="stat_phases">Phases</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p8)">5</div><div class="hstat-label" data-t="stat_milestones">Milestones</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p2)">1</div><div class="hstat-label" data-t="stat_game">Epic Game</div></div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="how-section fade-in">
-  <div class="section-title">How this roadmap works</div>
+  <div class="section-title" data-t="how_title">How this roadmap works</div>
   <div class="rules-grid">
-    <div class="rule-card"><div class="rule-icon">🗺️</div><div><h4>One Growing Game</h4><p>You build ONE game from lesson 1. Every lesson adds something new to it. Never starting over.</p></div></div>
-    <div class="rule-card"><div class="rule-icon">🔨</div><div><h4>Learn by Doing</h4><p>Every lesson has a LEARN section and a BUILD section. Read it, then open Studio and do it.</p></div></div>
-    <div class="rule-card"><div class="rule-icon">🏆</div><div><h4>Milestone Projects</h4><p>5 checkpoints where you clone a famous Roblox game to prove you've mastered each phase.</p></div></div>
-    <div class="rule-card"><div class="rule-icon">📈</div><div><h4>Track Your Progress</h4><p>Click any lesson and mark it complete. Watch the bar at the top fill up as you go.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">🗺️</div><div><h4 data-t="rule1_h">One Growing Game</h4><p data-t="rule1_p">You build ONE game from lesson 1. Every lesson adds something new to it. Never starting over.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">🔨</div><div><h4 data-t="rule2_h">Learn by Doing</h4><p data-t="rule2_p">Every lesson has a LEARN section and a BUILD section. Read it, then open Studio and do it.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">🏆</div><div><h4 data-t="rule3_h">Milestone Projects</h4><p data-t="rule3_p">5 checkpoints where you clone a famous Roblox game to prove you've mastered each phase.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">📈</div><div><h4 data-t="rule4_h">Track Your Progress</h4><p data-t="rule4_p">Click any lesson and mark it complete. Watch the bar at the top fill up as you go.</p></div></div>
   </div>
 </section>
 
@@ -227,14 +324,14 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
 
 <!-- CHEAT SHEET -->
 <section class="how-section fade-in" style="padding-top:1rem">
-  <div class="section-title">Quick reference cheat sheet</div>
+  <div class="section-title" data-t="cheat_title">Quick reference cheat sheet</div>
   <div class="cheat-grid" id="cheat-grid"></div>
 </section>
 
 <!-- FOOTER -->
 <div class="footer-hero fade-in">
-  <h2>Now go build something. 🎮</h2>
-  <p>You don't learn Roblox Studio by reading about it. Open Studio. Break things. Fix them. Ship it.</p>
+  <h2 data-t="footer_h">Now go build something. 🎮</h2>
+  <p data-t="footer_p">You don't learn Roblox Studio by reading about it. Open Studio. Break things. Fix them. Ship it.</p>
 </div>
 
 </div>
@@ -252,211 +349,707 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;ov
     <div class="modal-body">
       <div class="modal-badges" id="modal-badges"></div>
       <div class="modal-section">
-        <div class="modal-section-title">🧠 What You Learn</div>
+        <div class="modal-section-title" data-t="modal_learns_title">🧠 What You Learn</div>
         <div class="modal-list" id="modal-learns"></div>
       </div>
       <div class="modal-section">
-        <div class="modal-section-title">🔨 What You Build</div>
+        <div class="modal-section-title" data-t="modal_builds_title">🔨 What You Build</div>
         <div class="modal-list" id="modal-builds"></div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="modal-complete-btn not-done" id="modal-complete-btn" onclick="toggleComplete()">Mark Complete</button>
-      <button class="modal-next-btn" onclick="nextLesson()">Next Lesson →</button>
+      <button class="modal-complete-btn not-done" id="modal-complete-btn" onclick="toggleComplete()" data-t-notdone="mark_complete" data-t-done="marked_done">Mark Complete</button>
+      <button class="modal-next-btn" onclick="nextLesson()" data-t="next_lesson">Next Lesson →</button>
     </div>
   </div>
 </div>
 
 <script>
+// ─────────────────────────────────────────────
+//  TRANSLATIONS
+// ─────────────────────────────────────────────
+const T = {
+  en: {
+    progress_label:'EXPERT PROGRESS',
+    lessons_word:'lessons',
+    font_label:'SIZE',
+    hero_badge:'From Zero to Expert',
+    hero_h1_line1:'Roblox Studio',
+    hero_h1_line2:'Expert Roadmap',
+    hero_sub:'32 lessons. 8 phases. 5 milestone projects. One game that grows from an empty island to a full publishable experience — lesson by lesson.',
+    stat_lessons:'Lessons',
+    stat_phases:'Phases',
+    stat_milestones:'Milestones',
+    stat_game:'Epic Game',
+    how_title:'How this roadmap works',
+    rule1_h:'One Growing Game',
+    rule1_p:'You build ONE game from lesson 1. Every lesson adds something new to it. Never starting over.',
+    rule2_h:'Learn by Doing',
+    rule2_p:'Every lesson has a LEARN section and a BUILD section. Read it, then open Studio and do it.',
+    rule3_h:'Milestone Projects',
+    rule3_p:'5 checkpoints where you clone a famous Roblox game to prove you\'ve mastered each phase.',
+    rule4_h:'Track Your Progress',
+    rule4_p:'Click any lesson and mark it complete. Watch the bar at the top fill up as you go.',
+    cheat_title:'Quick reference cheat sheet',
+    footer_h:'Now go build something. 🎮',
+    footer_p:'You don\'t learn Roblox Studio by reading about it. Open Studio. Break things. Fix them. Ship it.',
+    modal_learns_title:'🧠 What You Learn',
+    modal_builds_title:'🔨 What You Build',
+    mark_complete:'Mark Complete',
+    marked_done:'✓ Completed!',
+    next_lesson:'Next Lesson →',
+    click_expand:'Click to expand',
+    mark_done:'Mark Done',
+    mark_done_check:'✓ Done',
+    phase_word:'PHASE',
+    lesson_word:'LESSON',
+    synthesis_label:'SYNTHESIS PROJECT',
+    synthesis_desc:'All 32 lessons combined. Pick your simulator theme and build a complete, publishable game. See the milestone below for the full requirements checklist.',
+    milestone_badge:'🏆 MILESTONE',
+    inspired_by:'Inspired by:',
+    diff: {beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'},
+  },
+  ar: {
+    progress_label:'تقدّمك نحو الاحتراف',
+    lessons_word:'دروس',
+    font_label:'الخط',
+    hero_badge:'من الصفر إلى الاحتراف',
+    hero_h1_line1:'Roblox Studio',
+    hero_h1_line2:'خارطة طريق الخبير',
+    hero_sub:'٣٢ درسًا · ٨ مراحل · ٥ مشاريع رئيسية · لعبة واحدة تبدأ من جزيرة فارغة وتنتهي تجربةً كاملة قابلة للنشر — درسًا تلو الآخر.',
+    stat_lessons:'درسًا',
+    stat_phases:'مراحل',
+    stat_milestones:'إنجازات',
+    stat_game:'لعبة ملحمية',
+    how_title:'كيف تعمل خارطة الطريق هذه',
+    rule1_h:'لعبة واحدة تنمو معك',
+    rule1_p:'تبني لعبة واحدة من الدرس الأول. كل درس يضيف شيئًا جديدًا إليها. لا تعيد البداية أبدًا.',
+    rule2_h:'التعلّم عبر التطبيق',
+    rule2_p:'كل درس يحتوي على قسم "ماذا تتعلم" وقسم "ماذا تبني". اقرأ ثم افتح Studio ونفّذ.',
+    rule3_h:'مشاريع الإنجاز',
+    rule3_p:'٥ نقاط تحقق تستنسخ فيها ألعاب Roblox الشهيرة لإثبات إتقانك كل مرحلة.',
+    rule4_h:'تابع تقدّمك',
+    rule4_p:'اضغط على أي درس وضعه علامة مكتمل. شاهد الشريط في الأعلى يمتلئ تدريجيًا.',
+    cheat_title:'ورقة المرجع السريع',
+    footer_h:'الآن اذهب وابنِ شيئًا. 🎮',
+    footer_p:'لا تتعلم Roblox Studio بالقراءة فقط. افتح Studio. اكسر الأشياء. أصلحها. انشرها.',
+    modal_learns_title:'🧠 ماذا ستتعلم',
+    modal_builds_title:'🔨 ماذا ستبني',
+    mark_complete:'وضع علامة مكتمل',
+    marked_done:'✓ مكتمل!',
+    next_lesson:'الدرس التالي ←',
+    click_expand:'اضغط للتوسيع',
+    mark_done:'أتممته',
+    mark_done_check:'✓ تم',
+    phase_word:'المرحلة',
+    lesson_word:'الدرس',
+    synthesis_label:'مشروع التوليف النهائي',
+    synthesis_desc:'كل ٣٢ درسًا مجتمعة. اختر موضوع المحاكاة وابنِ لعبة كاملة قابلة للنشر. راجع الإنجاز أدناه لقائمة المتطلبات الكاملة.',
+    milestone_badge:'🏆 إنجاز',
+    inspired_by:'مستوحى من:',
+    diff: {beginner:'🟢 مبتدئ',easy:'🟡 سهل',intermediate:'🟠 متوسط',advanced:'🔴 متقدم',expert:'🔴🔴 خبير'},
+  }
+};
+
+// ─────────────────────────────────────────────
+//  DATA — EN terms carry Arabic translation
+//  Format: "English term (الترجمة)" in AR mode
+// ─────────────────────────────────────────────
+function arTerm(en, ar){ return `<span class="en-term">${en}</span> <span class="ar-trans">(${ar})</span>`; }
+
 const PHASES = [
   {
     id:1,color:'var(--p1)',bg:'linear-gradient(135deg,#001A17 0%,#003D36 100%)',pc:'var(--p1)',
-    title:'The World Builder',sub:'Learn the Studio interface and build your first 3D environment',
-    chips:['No code yet','3D tools','Parts & Terrain'],
+    title:{en:'The World Builder',ar:'بنّاء العوالم'},
+    sub:{en:'Learn the Studio interface and build your first 3D environment',ar:'تعلّم واجهة Studio وابنِ بيئتك ثلاثية الأبعاد الأولى'},
+    chips:{en:['No code yet','3D tools','Parts & Terrain'],ar:['بدون كود بعد','أدوات ثلاثية الأبعاد','Parts وTerrain']},
     lessons:[
-      {num:1,title:'The Studio Interface',diff:'beginner',time:'1–2 hrs',
-        learns:['The Explorer window — the tree that holds your entire game','The Properties panel — change anything about any object','The Toolbox — free assets and models','Viewport controls: fly, zoom, orbit','Play, Run, and Stop buttons'],
-        builds:['Navigate Studio confidently','Open Explorer & Properties','Place your first Part and move it','Press Play and walk as a character']},
-      {num:2,title:'Parts, Properties & Anchoring',diff:'beginner',time:'2–3 hrs',
-        learns:['Move, Scale, Rotate tools (R, T, Y keys)','Snapping and grid alignment','Size, Color, Material, Transparency','The Anchored property — why everything falls without it','BrickColor vs Color3'],
-        builds:['A floating platform with anchored Parts','Color it, give it a material','Create a kill brick','This becomes the START of your game 🗺️']},
-      {num:3,title:'Terrain & Your Game World',diff:'beginner',time:'2–3 hrs',
-        learns:['Terrain Editor — sculpt, paint, fill, erase','Terrain materials: grass, sand, water, rock','Biome design basics','Sky & Lighting panel','Atmosphere — fog, haze, dramatic skies'],
-        builds:['Create the island your game lives on','Sculpt a mountain, a beach, a river','Set mood with lighting','Place your Lesson 2 platform on the island 🌍']},
-      {num:4,title:'Models, Groups & the DataModel',diff:'beginner',time:'1–2 hrs',
-        learns:['What the DataModel tree is','Grouping parts into Models (Ctrl+G)','Naming objects — why it matters for scripting','Anchoring entire models vs individual parts','SpawnLocation — where characters appear'],
-        builds:['3 platforms grouped as named Models','Set up your SpawnLocation','Properly organized, playable world 🏝️']},
+      {num:1,
+        title:{en:'The Studio Interface',ar:'واجهة Studio'},
+        diff:'beginner',time:'1–2 hrs',
+        learns:{
+          en:['The Explorer window — the tree that holds your entire game','The Properties panel — change anything about any object','The Toolbox — free assets and models','Viewport controls: fly, zoom, orbit','Play, Run, and Stop buttons'],
+          ar:[arTerm('Explorer window','نافذة المستكشف') + ' — الشجرة التي تحتوي لعبتك بأكملها',arTerm('Properties panel','لوحة الخصائص') + ' — غيّر أي شيء في أي كائن',arTerm('Toolbox','صندوق الأدوات') + ' — أصول ونماذج مجانية',arTerm('Viewport','منفذ العرض') + ' — التحكم في الطيران والتكبير والتدوير','أزرار ' + arTerm('Play, Run, Stop','تشغيل، تشغيل بدون حرف، إيقاف')]
+        },
+        builds:{
+          en:['Navigate Studio confidently','Open Explorer & Properties','Place your first Part and move it','Press Play and walk as a character'],
+          ar:['التنقل في Studio بثقة','فتح Explorer و Properties','وضع أول Part لك وتحريكه','الضغط على Play والمشي كشخصية']
+        }
+      },
+      {num:2,
+        title:{en:'Parts, Properties & Anchoring',ar:'الأجزاء والخصائص والتثبيت'},
+        diff:'beginner',time:'2–3 hrs',
+        learns:{
+          en:['Move, Scale, Rotate tools (R, T, Y keys)','Snapping and grid alignment','Size, Color, Material, Transparency','The Anchored property — why everything falls without it','BrickColor vs Color3'],
+          ar:[arTerm('Move, Scale, Rotate','تحريك، تحجيم، تدوير') + ' (مفاتيح R, T, Y)','الالتصاق ومحاذاة الشبكة','الحجم والألوان والمواد والشفافية',arTerm('Anchored','مُثبَّت') + ' — لماذا يسقط كل شيء بدونه',arTerm('BrickColor','لون القرميد') + ' مقابل ' + arTerm('Color3','لون ثلاثي')]
+        },
+        builds:{
+          en:['A floating platform with anchored Parts','Color it, give it a material','Create a kill brick','This becomes the START of your game 🗺️'],
+          ar:['منصة عائمة من Parts مثبّتة','لوّنها وأعطها مادة','أنشئ قرميد القتل (kill brick)','هذا يصبح بداية لعبتك 🗺️']
+        }
+      },
+      {num:3,
+        title:{en:'Terrain & Your Game World',ar:'التضاريس وعالم لعبتك'},
+        diff:'beginner',time:'2–3 hrs',
+        learns:{
+          en:['Terrain Editor — sculpt, paint, fill, erase','Terrain materials: grass, sand, water, rock','Biome design basics','Sky & Lighting panel','Atmosphere — fog, haze, dramatic skies'],
+          ar:[arTerm('Terrain Editor','محرر التضاريس') + ' — نحت، طلاء، تعبئة، حذف','مواد التضاريس: عشب، رمل، ماء، صخر','أساسيات تصميم البيئات الطبيعية',arTerm('Sky & Lighting','السماء والإضاءة') + ' — لوحة الإعدادات',arTerm('Atmosphere','الغلاف الجوي') + ' — ضباب وأجواء دراماتيكية']
+        },
+        builds:{
+          en:['Create the island your game lives on','Sculpt a mountain, a beach, a river','Set mood with lighting','Place your Lesson 2 platform on the island 🌍'],
+          ar:['أنشئ الجزيرة التي تجري عليها لعبتك','انحت جبلًا وشاطئًا ونهرًا','اضبط الأجواء بالإضاءة','ضع منصة الدرس ٢ على الجزيرة 🌍']
+        }
+      },
+      {num:4,
+        title:{en:'Models, Groups & the DataModel',ar:'النماذج والمجموعات وهيكل البيانات'},
+        diff:'beginner',time:'1–2 hrs',
+        learns:{
+          en:['What the DataModel tree is','Grouping parts into Models (Ctrl+G)','Naming objects — why it matters for scripting','Anchoring entire models vs individual parts','SpawnLocation — where characters appear'],
+          ar:['ما هي شجرة ' + arTerm('DataModel','نموذج البيانات'),'تجميع الأجزاء في ' + arTerm('Models','نماذج') + ' (Ctrl+G)','تسمية الكائنات — لماذا يهم ذلك في البرمجة','تثبيت النماذج كاملة مقابل الأجزاء الفردية',arTerm('SpawnLocation','موقع الظهور') + ' — أين تظهر الشخصيات']
+        },
+        builds:{
+          en:['3 platforms grouped as named Models','Set up your SpawnLocation','Properly organized, playable world 🏝️'],
+          ar:['٣ منصات مجمّعة كـ Models مسمّاة','إعداد SpawnLocation','عالم منظم وقابل للعب 🏝️']
+        }
+      },
     ],
-    milestone:{num:1,title:'Build a Classic Obby',inspo:'Natural Disaster Survival / Obby games',mc:'var(--p5)',
-      desc:'Using ONLY Phase 1 knowledge (no scripting!), build a full obstacle course with 10 stages on your island. Vary platform sizes, heights, and gaps. Add KillBricks on the ground. Different material + color theme per stage. Test by pressing Play and completing all 10 stages yourself!'}
+    milestone:{
+      num:1,
+      title:{en:'Build a Classic Obby',ar:'ابنِ حقل عقبات كلاسيكي (Obby)'},
+      inspo:'Natural Disaster Survival / Obby games',
+      mc:'var(--p5)',
+      desc:{
+        en:'Using ONLY Phase 1 knowledge (no scripting!), build a full obstacle course with 10 stages on your island. Vary platform sizes, heights, and gaps. Add KillBricks on the ground. Different material + color theme per stage. Test by pressing Play and completing all 10 stages yourself!',
+        ar:'باستخدام معرفة المرحلة ١ فقط (بدون برمجة!)، ابنِ حقل عقبات كامل بـ١٠ مستويات على جزيرتك. تنويع أحجام المنصات والارتفاعات والفجوات. أضف KillBricks على الأرض. ثيم مادة ولون مختلف لكل مستوى. اختبر بالضغط على Play وأكمل المستويات العشرة بنفسك!'
+      }
+    }
   },
   {
     id:2,color:'var(--p2)',bg:'linear-gradient(135deg,#041A00 0%,#0A3D02 100%)',pc:'var(--p2)',
-    title:'First Lines of Code',sub:'Learn Luau scripting basics and make your world come alive',
-    chips:['Luau syntax','Variables','Loops & Tables'],
+    title:{en:'First Lines of Code',ar:'أول سطور الكود'},
+    sub:{en:'Learn Luau scripting basics and make your world come alive',ar:'تعلّم أساسيات لغة Luau وأحيِ عالمك'},
+    chips:{en:['Luau syntax','Variables','Loops & Tables'],ar:['صياغة Luau','المتغيرات','الحلقات والجداول']},
     lessons:[
-      {num:5,title:'Your First Script',diff:'beginner',time:'2 hrs',
-        learns:['Script vs LocalScript vs ModuleScript','Where to put scripts (ServerScriptService, Part)','print() — your debugging best friend','Comments with --','script.Parent — how a script refers to its object','The Output window'],
-        builds:['Script inside a platform','Print the platform name on start','Change platform color with code','First code that controls your world! 🖥️']},
-      {num:6,title:'Variables & Data Types',diff:'beginner',time:'2–3 hrs',
-        learns:['local vs global (always use local!)','string, number, boolean, nil','Math operators: +, -, *, /, ^, %','String concatenation with ..','tostring() and tonumber()'],
-        builds:['Variables for platform properties','Set position dynamically with math','Challenge: resize a platform 3x using a variable 📐']},
-      {num:7,title:'Conditions (if / elseif / else)',diff:'beginner',time:'2–3 hrs',
-        learns:['if / then / elseif / else / end','Comparison operators: ==, ~=, >, <','Logical: and, or, not','Luau truth rule: 0 and "" are TRUE','Nested conditions'],
-        builds:["Script your KillBrick: 'Danger!' when game starts","If it's red, add Transparency 0.3 glow","Different behavior if NOT red","Your world has logic! 🧩"]},
-      {num:8,title:'Loops & Tables',diff:'easy',time:'3 hrs',
-        learns:['while, for numeric, for generic loops','task.wait() — pause without freezing','Tables as lists and dictionaries','break to exit loops','pairs() and ipairs()'],
-        builds:['Platform that flashes colors via for loop','Table of colors to cycle through','Disappearing platform trap — CanCollide = false','Add to your obby! ⚡']},
-      {num:9,title:'Functions',diff:'easy',time:'2–3 hrs',
-        learns:['function name() end — defining functions','Parameters, arguments, return values','Calling functions from other functions','Anonymous functions','Writing clean, reusable code'],
-        builds:['makeDisappear(platform) that works on ANY part','Apply it to 3 different platforms','resetPlatform(platform) to bring them back','One function, three platforms 🔄']},
+      {num:5,
+        title:{en:'Your First Script',ar:'أول Script لك'},
+        diff:'beginner',time:'2 hrs',
+        learns:{
+          en:['Script vs LocalScript vs ModuleScript','Where to put scripts (ServerScriptService, Part)','print() — your debugging best friend','Comments with --','script.Parent — how a script refers to its object','The Output window'],
+          ar:[arTerm('Script','سكريبت') + ' مقابل ' + arTerm('LocalScript','سكريبت محلي') + ' مقابل ' + arTerm('ModuleScript','وحدة سكريبت'),'أين توضع السكريبتات (' + arTerm('ServerScriptService','خدمة السكريبت بالخادم') + '، Part)',arTerm('print()','دالة الطباعة') + ' — أفضل صديق لك في التصحيح','التعليقات بـ --',arTerm('script.Parent','والد السكريبت') + ' — كيف يشير السكريبت لكائنه','نافذة ' + arTerm('Output','الإخراج')]
+        },
+        builds:{
+          en:['Script inside a platform','Print the platform name on start','Change platform color with code','First code that controls your world! 🖥️'],
+          ar:['سكريبت داخل منصة','طباعة اسم المنصة عند البدء','تغيير لون المنصة بالكود','أول كود يتحكم في عالمك! 🖥️']
+        }
+      },
+      {num:6,
+        title:{en:'Variables & Data Types',ar:'المتغيرات وأنواع البيانات'},
+        diff:'beginner',time:'2–3 hrs',
+        learns:{
+          en:['local vs global (always use local!)','string, number, boolean, nil','Math operators: +, -, *, /, ^, %','String concatenation with ..','tostring() and tonumber()'],
+          ar:[arTerm('local','محلي') + ' مقابل ' + arTerm('global','عام') + ' (استخدم local دائمًا!)',arTerm('string, number, boolean, nil','نص، رقم، منطقي، فارغ'),'المعاملات الحسابية: +، -، *، /، ^، %','دمج النصوص بـ ..',arTerm('tostring()','تحويل لنص') + ' و' + arTerm('tonumber()','تحويل لرقم')]
+        },
+        builds:{
+          en:['Variables for platform properties','Set position dynamically with math','Challenge: resize a platform 3x using a variable 📐'],
+          ar:['متغيرات لخصائص المنصة','تحديد الموضع ديناميكيًا بالحساب','تحدٍّ: قم بتغيير حجم منصة ٣ أضعاف باستخدام متغير 📐']
+        }
+      },
+      {num:7,
+        title:{en:'Conditions (if / elseif / else)',ar:'الشروط (if / elseif / else)'},
+        diff:'beginner',time:'2–3 hrs',
+        learns:{
+          en:['if / then / elseif / else / end','Comparison operators: ==, ~=, >, <','Logical: and, or, not','Luau truth rule: 0 and "" are TRUE','Nested conditions'],
+          ar:[arTerm('if / then / elseif / else / end','إذا / ثم / وإلا إذا / وإلا / نهاية'),'معاملات المقارنة: ==، ~=، >، <','المعاملات المنطقية: and، or، not','قاعدة الصحة في Luau: 0 و "" يساوي TRUE','الشروط المتداخلة']
+        },
+        builds:{
+          en:["Script your KillBrick: 'Danger!' when game starts","If it's red, add Transparency 0.3 glow","Different behavior if NOT red","Your world has logic! 🧩"],
+          ar:["برمجة KillBrick: 'خطر!' عند بدء اللعبة","إذا كان أحمر أضف توهجًا بشفافية ٠.٣","سلوك مختلف إذا لم يكن أحمر","عالمك أصبح يمتلك منطقًا! 🧩"]
+        }
+      },
+      {num:8,
+        title:{en:'Loops & Tables',ar:'الحلقات والجداول'},
+        diff:'easy',time:'3 hrs',
+        learns:{
+          en:['while, for numeric, for generic loops','task.wait() — pause without freezing','Tables as lists and dictionaries','break to exit loops','pairs() and ipairs()'],
+          ar:[arTerm('while, for','بينما، لـ') + ' — حلقات الأرقام والعامة',arTerm('task.wait()','انتظار المهمة') + ' — توقف بدون تجميد',arTerm('Tables','الجداول') + ' كقوائم وقواميس',arTerm('break','قطع') + ' — للخروج من الحلقات',arTerm('pairs(), ipairs()','دوال التكرار على الجداول')]
+        },
+        builds:{
+          en:['Platform that flashes colors via for loop','Table of colors to cycle through','Disappearing platform trap — CanCollide = false','Add to your obby! ⚡'],
+          ar:['منصة تومض بالألوان عبر حلقة for','جدول ألوان للتدوير عليها','مصيدة منصة تختفي — CanCollide = false','أضفها لحقل العقبات! ⚡']
+        }
+      },
+      {num:9,
+        title:{en:'Functions',ar:'الدوال (Functions)'},
+        diff:'easy',time:'2–3 hrs',
+        learns:{
+          en:['function name() end — defining functions','Parameters, arguments, return values','Calling functions from other functions','Anonymous functions','Writing clean, reusable code'],
+          ar:[arTerm('function name() end','تعريف الدوال') + ' — بناء الجملة','المعاملات والوسائط وقيم الإرجاع','استدعاء دوال من داخل دوال أخرى',arTerm('Anonymous functions','الدوال المجهولة'),'كتابة كود نظيف وقابل لإعادة الاستخدام']
+        },
+        builds:{
+          en:['makeDisappear(platform) that works on ANY part','Apply it to 3 different platforms','resetPlatform(platform) to bring them back','One function, three platforms 🔄'],
+          ar:[arTerm('makeDisappear(platform)','اجعل المنصة تختفي') + ' تعمل على أي جزء','تطبيقها على ٣ منصات مختلفة',arTerm('resetPlatform(platform)','إعادة تعيين المنصة') + ' لإعادتها','دالة واحدة، ثلاث منصات 🔄']
+        }
+      },
     ],
-    milestone:{num:2,title:'Scripted Obby Traps',inspo:'Tower of Hell / Flood Escape',mc:'var(--p2)',
-      desc:'Take your Milestone 1 obby and add scripted behavior. Add: (1) disappearing platforms on a timer, (2) a platform that flashes red as a warning before vanishing, (3) a moving platform using a while loop. All 10 stages should still be completable — but now they\'re tricky!'}
+    milestone:{
+      num:2,
+      title:{en:'Scripted Obby Traps',ar:'مصائد Obby مبرمجة'},
+      inspo:'Tower of Hell / Flood Escape',
+      mc:'var(--p2)',
+      desc:{
+        en:"Take your Milestone 1 obby and add scripted behavior. Add: (1) disappearing platforms on a timer, (2) a platform that flashes red as a warning before vanishing, (3) a moving platform using a while loop. All 10 stages should still be completable — but now they're tricky!",
+        ar:'خذ Obby الإنجاز الأول وأضف سلوكيات مبرمجة. أضف: (١) منصات تختفي بمؤقت، (٢) منصة تومض باللون الأحمر تحذيرًا قبل الاختفاء، (٣) منصة متحركة باستخدام حلقة while. يجب أن تظل المستويات العشرة قابلة للإكمال — لكنها أصعب الآن!'
+      }
+    }
   },
   {
     id:3,color:'var(--p3)',bg:'linear-gradient(135deg,#1A0D00 0%,#3D2100 100%)',pc:'var(--p3)',
-    title:'Events & User Interaction',sub:'Make your game respond to players',
-    chips:['Events','GUI','Humanoid','ModuleScripts'],
+    title:{en:'Events & User Interaction',ar:'الأحداث وتفاعل المستخدم'},
+    sub:{en:'Make your game respond to players',ar:'اجعل لعبتك تستجيب للاعبين'},
+    chips:{en:['Events','GUI','Humanoid','ModuleScripts'],ar:['الأحداث','واجهة المستخدم GUI','الإنسان Humanoid','وحدات السكريبت']},
     lessons:[
-      {num:10,title:'Events & Connections',diff:'easy',time:'2–3 hrs',
-        learns:['.Connect() — linking functions to events','Touched event — fires when Part is touched','Checking if hit is a player (FindFirstChild Humanoid)','Disconnecting events — cleanup','How events are better than while loops'],
-        builds:['KillBrick that kills players','Coin pickup that prints "You got a coin!"','Checkpoint that prints your name','Players interact with your world! 🎯']},
-      {num:11,title:'The Humanoid & Character',diff:'easy',time:'2–3 hrs',
-        learns:['Humanoid.Health and :TakeDamage()','Humanoid.WalkSpeed and JumpPower','Character vs Player — the difference','Players.LocalPlayer in LocalScripts','PlayerAdded event'],
-        builds:['Speed pad: WalkSpeed 50 for 5 seconds','Bounce pad: JumpPower 150 briefly','Both reset after 5 seconds using task.wait()','Power-ups placed on your island 🏃💨']},
-      {num:12,title:'GUI — Screens & Buttons',diff:'easy',time:'3–4 hrs',
-        learns:['ScreenGui — 2D layer over the 3D world','Frame, TextLabel, TextButton, ImageLabel','AnchorPoint and Position (scale vs offset)','BackgroundColor3, TextColor3, Font, TextSize','Button.MouseButton1Click:Connect()'],
-        builds:['HUD with coin counter in top corner','Start Screen with game name and Play button','Play button changes color on hover','Your game has a real interface! 🖼️']},
-      {num:13,title:'ModuleScripts',diff:'intermediate',time:'3 hrs',
-        learns:['What is a ModuleScript and why use it','require() — loading a module','Returning tables of functions','Shared logic between scripts','Organizing code into files'],
-        builds:['CoinManager module: addCoin(), getCoins()','Use it from your coin pickup script','Display count on GUI label','Clean, organized code starts here! 📁']},
+      {num:10,
+        title:{en:'Events & Connections',ar:'الأحداث والربط (Events & Connections)'},
+        diff:'easy',time:'2–3 hrs',
+        learns:{
+          en:['.Connect() — linking functions to events','Touched event — fires when Part is touched','Checking if hit is a player (FindFirstChild Humanoid)','Disconnecting events — cleanup','How events are better than while loops'],
+          ar:[arTerm('.Connect()','ربط') + ' — ربط الدوال بالأحداث',arTerm('Touched event','حدث اللمس') + ' — يُطلق عند لمس Part','التحقق إذا كان المصاب لاعبًا (' + arTerm('FindFirstChild Humanoid','إيجاد Humanoid') + ')',arTerm('Disconnecting events','فصل الأحداث') + ' — التنظيف','لماذا الأحداث أفضل من حلقات while']
+        },
+        builds:{
+          en:['KillBrick that kills players','Coin pickup that prints "You got a coin!"','Checkpoint that prints your name','Players interact with your world! 🎯'],
+          ar:['KillBrick يقتل اللاعبين','التقاط عملة تطبع "حصلت على عملة!"','نقطة تفتيش تطبع اسمك','اللاعبون يتفاعلون مع عالمك! 🎯']
+        }
+      },
+      {num:11,
+        title:{en:'The Humanoid & Character',ar:'Humanoid والشخصية'},
+        diff:'easy',time:'2–3 hrs',
+        learns:{
+          en:['Humanoid.Health and :TakeDamage()','Humanoid.WalkSpeed and JumpPower','Character vs Player — the difference','Players.LocalPlayer in LocalScripts','PlayerAdded event'],
+          ar:[arTerm('Humanoid.Health',':صحة الإنسان') + ' و' + arTerm(':TakeDamage()','تلقي الضرر'),arTerm('WalkSpeed','سرعة المشي') + ' و' + arTerm('JumpPower','قوة القفز'),'الفرق بين ' + arTerm('Character','الشخصية') + ' و' + arTerm('Player','اللاعب'),arTerm('Players.LocalPlayer','اللاعب المحلي') + ' في LocalScripts',arTerm('PlayerAdded event','حدث إضافة اللاعب')]
+        },
+        builds:{
+          en:['Speed pad: WalkSpeed 50 for 5 seconds','Bounce pad: JumpPower 150 briefly','Both reset after 5 seconds using task.wait()','Power-ups placed on your island 🏃💨'],
+          ar:['لوحة السرعة: WalkSpeed 50 لمدة ٥ ثوانٍ','لوحة القفز: JumpPower 150 بشكل مؤقت','كلاهما يُعاد تعيينه بعد ٥ ثوانٍ باستخدام task.wait()','تعزيزات القوة موضوعة على جزيرتك 🏃💨']
+        }
+      },
+      {num:12,
+        title:{en:'GUI — Screens & Buttons',ar:'GUI — الشاشات والأزرار'},
+        diff:'easy',time:'3–4 hrs',
+        learns:{
+          en:['ScreenGui — 2D layer over the 3D world','Frame, TextLabel, TextButton, ImageLabel','AnchorPoint and Position (scale vs offset)','BackgroundColor3, TextColor3, Font, TextSize','Button.MouseButton1Click:Connect()'],
+          ar:[arTerm('ScreenGui','واجهة الشاشة') + ' — طبقة ثنائية الأبعاد فوق العالم ثلاثي الأبعاد',arTerm('Frame, TextLabel, TextButton, ImageLabel','الإطار، التسمية، الزر، تسمية الصورة'),arTerm('AnchorPoint','نقطة الارتكاز') + ' والموضع (مقياس مقابل إزاحة)',arTerm('BackgroundColor3, TextColor3, Font, TextSize','لون الخلفية، لون النص، الخط، حجم النص'),arTerm('Button.MouseButton1Click:Connect()','ربط نقرة الزر')]
+        },
+        builds:{
+          en:['HUD with coin counter in top corner','Start Screen with game name and Play button','Play button changes color on hover','Your game has a real interface! 🖼️'],
+          ar:['HUD بعداد عملات في الزاوية العلوية','شاشة بدء باسم اللعبة وزر Play','زر Play يغير اللون عند التمرير فوقه','لعبتك أصبحت تمتلك واجهة حقيقية! 🖼️']
+        }
+      },
+      {num:13,
+        title:{en:'ModuleScripts',ar:'ModuleScripts — وحدات السكريبت'},
+        diff:'intermediate',time:'3 hrs',
+        learns:{
+          en:['What is a ModuleScript and why use it','require() — loading a module','Returning tables of functions','Shared logic between scripts','Organizing code into files'],
+          ar:['ما هو ModuleScript ولماذا نستخدمه',arTerm('require()','استدعاء وحدة') + ' — تحميل وحدة','إرجاع جداول من الدوال','المنطق المشترك بين السكريبتات','تنظيم الكود في ملفات']
+        },
+        builds:{
+          en:['CoinManager module: addCoin(), getCoins()','Use it from your coin pickup script','Display count on GUI label','Clean, organized code starts here! 📁'],
+          ar:['وحدة CoinManager: addCoin()، getCoins()','استخدامها من سكريبت التقاط العملات','عرض العدد على تسمية GUI','الكود النظيف المنظم يبدأ هنا! 📁']
+        }
+      },
     ],
-    milestone:{num:3,title:'Coin Collector Game',inspo:'Classic Obby with rewards',mc:'var(--p3)',
-      desc:'Scatter 20 coins across your island. Each coin gives +1 and destroys on touch. Display the total on a GUI. Add a goal zone — touching it with 20 coins prints YOU WIN! on screen. First complete mini-game with a real loop: collect → win!'}
+    milestone:{
+      num:3,
+      title:{en:'Coin Collector Game',ar:'لعبة جمع العملات'},
+      inspo:'Classic Obby with rewards',
+      mc:'var(--p3)',
+      desc:{
+        en:'Scatter 20 coins across your island. Each coin gives +1 and destroys on touch. Display the total on a GUI. Add a goal zone — touching it with 20 coins prints YOU WIN! on screen. First complete mini-game with a real loop: collect → win!',
+        ar:'وزّع ٢٠ عملة عبر جزيرتك. كل عملة تعطي +١ وتختفي عند اللمس. اعرض المجموع على GUI. أضف منطقة هدف — لمسها وعندك ٢٠ عملة يطبع "فزت!" على الشاشة. أول لعبة ميني كاملة بحلقة حقيقية: جمع ← فوز!'
+      }
+    }
   },
   {
     id:4,color:'var(--p4)',bg:'linear-gradient(135deg,#1A0008 0%,#3D0011 100%)',pc:'var(--p4)',
-    title:'Client vs. Server',sub:'Master multiplayer architecture — the most important concept in Roblox',
-    chips:['RemoteEvents','DataStores','Security'],
+    title:{en:'Client vs. Server',ar:'العميل مقابل الخادم'},
+    sub:{en:'Master multiplayer architecture — the most important concept in Roblox',ar:'أتقن معمارية اللعب الجماعي — أهم مفهوم في Roblox'},
+    chips:{en:['RemoteEvents','DataStores','Security'],ar:['الأحداث البعيدة','مخازن البيانات','الأمان']},
     lessons:[
-      {num:14,title:'Client-Server Architecture',diff:'intermediate',time:'3–4 hrs',
-        learns:['Server: one truth, runs the game for everyone','Client: each player\'s local view','Script vs LocalScript — which runs where','ServerScriptService vs StarterPlayerScripts','Why you NEVER trust the client with game data'],
-        builds:['Move coin logic to ServerScript','Keep GUI updates in LocalScript','Different containers — architecture is professional! 🏗️']},
-      {num:15,title:'RemoteEvents — Client ↔ Server',diff:'intermediate',time:'4 hrs',
-        learns:['RemoteEvent: bridge between client and server','Where to put them (ReplicatedStorage)','FireServer() — client tells server','OnServerEvent — server listens','FireClient() and FireAllClients()','NEVER trust FireServer data — always validate!'],
-        builds:["GUI 'Collect Bonus' button fires RemoteEvent",'Server validates and adds coins','Server fires back to update GUI','Secure coin system — no cheating possible! 🔒']},
-      {num:16,title:'RemoteFunctions & BindableEvents',diff:'intermediate',time:'3 hrs',
-        learns:['RemoteFunction: two-way communication','InvokeServer() and OnServerInvoke','BindableEvent: server-to-server','BindableFunction: server-side two-way calls','When to use each type'],
-        builds:["'Check Balance' button: client asks server",'Server responds with coin count','BindableEvent notifies another script on purchase','Full communication system! 📡']},
-      {num:17,title:'DataStores — Saving Player Data',diff:'intermediate',time:'4–5 hrs',
-        learns:['DataStoreService:GetDataStore("name")','SetAsync(key, value) and GetAsync(key)','pcall() — ALWAYS use this for DataStores!','PlayerRemoving — save when player leaves','Auto-saving with a timer loop'],
-        builds:['Save coin count when player leaves','Load it back on rejoin','Test: collect 15 coins, leave, rejoin — they persist!','Your game remembers players 💾']},
+      {num:14,
+        title:{en:'Client-Server Architecture',ar:'معمارية العميل-الخادم'},
+        diff:'intermediate',time:'3–4 hrs',
+        learns:{
+          en:["Server: one truth, runs the game for everyone","Client: each player's local view","Script vs LocalScript — which runs where","ServerScriptService vs StarterPlayerScripts","Why you NEVER trust the client with game data"],
+          ar:[arTerm('Server','الخادم') + ': حقيقة واحدة، يدير اللعبة للجميع',arTerm('Client','العميل') + ': منظور كل لاعب المحلي',arTerm('Script','سكريبت') + ' مقابل ' + arTerm('LocalScript','سكريبت محلي') + ' — أيهما يعمل أين',arTerm('ServerScriptService','خدمة سكريبت الخادم') + ' مقابل ' + arTerm('StarterPlayerScripts','سكريبتات بداية اللاعب'),'لماذا لا تثق أبدًا بالعميل ببيانات اللعبة']
+        },
+        builds:{
+          en:['Move coin logic to ServerScript','Keep GUI updates in LocalScript','Different containers — architecture is professional! 🏗️'],
+          ar:['نقل منطق العملات إلى ServerScript','إبقاء تحديثات GUI في LocalScript','حاويات مختلفة — معمارية احترافية! 🏗️']
+        }
+      },
+      {num:15,
+        title:{en:'RemoteEvents — Client ↔ Server',ar:'RemoteEvents — العميل ↔ الخادم'},
+        diff:'intermediate',time:'4 hrs',
+        learns:{
+          en:['RemoteEvent: bridge between client and server','Where to put them (ReplicatedStorage)','FireServer() — client tells server','OnServerEvent — server listens','FireClient() and FireAllClients()','NEVER trust FireServer data — always validate!'],
+          ar:[arTerm('RemoteEvent','الحدث البعيد') + ': جسر بين العميل والخادم','أين تضعها (' + arTerm('ReplicatedStorage','مخزن البيانات المتكرر') + ')',arTerm('FireServer()','إطلاق للخادم') + ' — العميل يخبر الخادم',arTerm('OnServerEvent','حدث الخادم') + ' — الخادم يستمع',arTerm('FireClient(), FireAllClients()','إطلاق للعميل، إطلاق للجميع'),'لا تثق أبدًا ببيانات FireServer — تحقق دائمًا!']
+        },
+        builds:{
+          en:["GUI 'Collect Bonus' button fires RemoteEvent",'Server validates and adds coins','Server fires back to update GUI','Secure coin system — no cheating possible! 🔒'],
+          ar:["زر 'جمع المكافأة' في GUI يُطلق RemoteEvent",'الخادم يتحقق ويضيف العملات','الخادم يُطلق للرجوع لتحديث GUI','نظام عملات آمن — لا غش ممكن! 🔒']
+        }
+      },
+      {num:16,
+        title:{en:'RemoteFunctions & BindableEvents',ar:'RemoteFunctions وBindableEvents'},
+        diff:'intermediate',time:'3 hrs',
+        learns:{
+          en:['RemoteFunction: two-way communication','InvokeServer() and OnServerInvoke','BindableEvent: server-to-server','BindableFunction: server-side two-way calls','When to use each type'],
+          ar:[arTerm('RemoteFunction','الدالة البعيدة') + ': التواصل ثنائي الاتجاه',arTerm('InvokeServer()','استدعاء الخادم') + ' و' + arTerm('OnServerInvoke','استجابة الخادم'),arTerm('BindableEvent','الحدث القابل للربط') + ': من خادم إلى خادم',arTerm('BindableFunction','الدالة القابلة للربط') + ': استدعاءات ثنائية الاتجاه على الخادم','متى تستخدم كل نوع']
+        },
+        builds:{
+          en:["'Check Balance' button: client asks server",'Server responds with coin count','BindableEvent notifies another script on purchase','Full communication system! 📡'],
+          ar:["زر 'التحقق من الرصيد': العميل يسأل الخادم",'الخادم يرد بعدد العملات','BindableEvent يُخطر سكريبتًا آخر عند الشراء','نظام تواصل كامل! 📡']
+        }
+      },
+      {num:17,
+        title:{en:'DataStores — Saving Player Data',ar:'DataStores — حفظ بيانات اللاعب'},
+        diff:'intermediate',time:'4–5 hrs',
+        learns:{
+          en:["DataStoreService:GetDataStore('name')",'SetAsync(key, value) and GetAsync(key)','pcall() — ALWAYS use this for DataStores!','PlayerRemoving — save when player leaves','Auto-saving with a timer loop'],
+          ar:[arTerm("DataStoreService:GetDataStore('name')",'الحصول على مخزن البيانات'),arTerm('SetAsync(key, value), GetAsync(key)','حفظ واسترجاع البيانات بشكل غير متزامن'),arTerm('pcall()','استدعاء محمي') + ' — استخدمه دائمًا مع DataStores!',arTerm('PlayerRemoving','مغادرة اللاعب') + ' — احفظ عند مغادرة اللاعب','الحفظ التلقائي بحلقة مؤقت']
+        },
+        builds:{
+          en:['Save coin count when player leaves','Load it back on rejoin','Test: collect 15 coins, leave, rejoin — they persist!','Your game remembers players 💾'],
+          ar:['حفظ عدد العملات عند مغادرة اللاعب','تحميله عند إعادة الانضمام','اختبار: اجمع ١٥ عملة، اخرج، أعد الانضمام — إنها لا تزال موجودة!','لعبتك تتذكر اللاعبين 💾']
+        }
+      },
     ],
-    milestone:{num:4,title:'Multiplayer Upgrade Shop',inspo:'Simulator games / Obby with upgrades',mc:'var(--p4)',
-      desc:'Add a Shop GUI with 3 buttons: Speed Boost (50 coins), Jump Boost (75 coins), Double Coins (100 coins). Each upgrade: requires enough server-side coins, deducts on the server, applies the effect. Coins save between sessions. Test with 2 players simultaneously!'}
+    milestone:{
+      num:4,
+      title:{en:'Multiplayer Upgrade Shop',ar:'متجر الترقيات متعدد اللاعبين'},
+      inspo:'Simulator games / Obby with upgrades',
+      mc:'var(--p4)',
+      desc:{
+        en:'Add a Shop GUI with 3 buttons: Speed Boost (50 coins), Jump Boost (75 coins), Double Coins (100 coins). Each upgrade: requires enough server-side coins, deducts on the server, applies the effect. Coins save between sessions. Test with 2 players simultaneously!',
+        ar:'أضف GUI للمتجر بـ٣ أزرار: تعزيز السرعة (٥٠ عملة)، تعزيز القفز (٧٥ عملة)، مضاعفة العملات (١٠٠ عملة). كل ترقية: تتطلب عملات كافية على الخادم، يُخصم من الخادم، ويُطبَّق التأثير. العملات تُحفظ بين الجلسات. اختبر مع لاعبَين في آنٍ واحد!'
+      }
+    }
   },
   {
     id:5,color:'var(--p5)',bg:'linear-gradient(135deg,#130020 0%,#2D0050 100%)',pc:'var(--p5)',
-    title:'Visual Polish & Game Feel',sub:'Make your game look and sound amazing',
-    chips:['TweenService','Sound','Particles','Animations'],
+    title:{en:'Visual Polish & Game Feel',ar:'اللمسات البصرية وإحساس اللعبة'},
+    sub:{en:'Make your game look and sound amazing',ar:'اجعل لعبتك تبدو وتُسمع بشكل مذهل'},
+    chips:{en:['TweenService','Sound','Particles','Animations'],ar:['خدمة الانتقالات','الصوت','الجسيمات','الحركات']},
     lessons:[
-      {num:18,title:'TweenService — Smooth Animations',diff:'intermediate',time:'3 hrs',
-        learns:['TweenService:Create(instance, TweenInfo, properties)','TweenInfo: duration, EasingStyle, EasingDirection','EasingStyles: Bounce, Elastic, Quad, Back','Tweening Position, Size, Color, Transparency, CFrame','Tween:Play(), Pause(), Cancel()','Tween.Completed event'],
-        builds:['Coins slowly rotate and float up/down','Upgrade shop GUI slides in from the side','Platforms move smoothly instead of snapping','Your game feels alive and smooth! ✨']},
-      {num:19,title:'Sound & Music',diff:'easy',time:'2 hrs',
-        learns:['Sound objects — in Workspace or Parts','Sound:Play(), Stop(), Pause()','Volume, PlaybackSpeed, Looped, RollOffMaxDistance','3D sounds vs 2D sounds (SoundService)','Finding free sounds in the Toolbox'],
-        builds:['Background music (looping)','Coin collected sound','Purchase sound for shop','Footstep sounds on speed pads 🎵']},
-      {num:20,title:'Particles & Visual Effects',diff:'intermediate',time:'3 hrs',
-        learns:['ParticleEmitter — key properties: Texture, Rate, Speed, Lifetime, Color','Enabling/disabling emitters','Beam — connecting two parts with a visual beam','BillboardGui — 3D floating GUI above objects','SelectionBox and SelectionSphere'],
-        builds:['Sparkle particles on coins','Level-up burst when buying upgrade','Floating name tags above collectibles (BillboardGui)','Give them sparkles. 🌟']},
-      {num:21,title:'Animations',diff:'intermediate',time:'4 hrs',
-        learns:['Animation Editor (Plugins > Animation Editor)','Creating custom animations in Studio','Humanoid:LoadAnimation() and Animation:Play()','Looping, priorities, blending','Using Roblox default animation IDs'],
-        builds:['Custom coin spin animation','Character cheer animation on win','Animate an NPC waving','Your game has character! 🕺']},
-      {num:22,title:'ProximityPrompts & Tools',diff:'intermediate',time:'3 hrs',
-        learns:['ProximityPrompt — the interaction popup over objects','ProximityPrompt.Triggered event','ActionText, ObjectText, KeyboardKeyCode, HoldDuration','Tool objects — equippable items','Tool.Activated — fires on click','Tool.Equipped and Unequipped events'],
-        builds:["Press E to collect coins (ProximityPrompt)",'Shovel Tool from a chest','Shovel digs up buried coins when activated','Interactive world with equippable items! ⛏️']},
+      {num:18,
+        title:{en:'TweenService — Smooth Animations',ar:'TweenService — الحركات السلسة'},
+        diff:'intermediate',time:'3 hrs',
+        learns:{
+          en:['TweenService:Create(instance, TweenInfo, properties)','TweenInfo: duration, EasingStyle, EasingDirection','EasingStyles: Bounce, Elastic, Quad, Back','Tweening Position, Size, Color, Transparency, CFrame','Tween:Play(), Pause(), Cancel()','Tween.Completed event'],
+          ar:[arTerm('TweenService:Create()','إنشاء انتقال') + ' — المعاملات الثلاثة',arTerm('TweenInfo','معلومات الانتقال') + ': المدة، أسلوب التخفيف، الاتجاه',arTerm('EasingStyles','أساليب التخفيف') + ': Bounce، Elastic، Quad، Back','إضافة انتقالات للموضع والحجم واللون والشفافية و CFrame',arTerm('Tween:Play(), Pause(), Cancel()','تشغيل وإيقاف مؤقت وإلغاء الانتقال'),arTerm('Tween.Completed','حدث اكتمال الانتقال')]
+        },
+        builds:{
+          en:['Coins slowly rotate and float up/down','Upgrade shop GUI slides in from the side','Platforms move smoothly instead of snapping','Your game feels alive and smooth! ✨'],
+          ar:['العملات تدور ببطء وتطفو للأعلى والأسفل','GUI متجر الترقيات ينزلق من الجانب','المنصات تتحرك بسلاسة بدلًا من القفز','لعبتك تبدو حية وسلسة! ✨']
+        }
+      },
+      {num:19,
+        title:{en:'Sound & Music',ar:'الأصوات والموسيقى'},
+        diff:'easy',time:'2 hrs',
+        learns:{
+          en:['Sound objects — in Workspace or Parts','Sound:Play(), Stop(), Pause()','Volume, PlaybackSpeed, Looped, RollOffMaxDistance','3D sounds vs 2D sounds (SoundService)','Finding free sounds in the Toolbox'],
+          ar:['كائنات ' + arTerm('Sound','الصوت') + ' — في Workspace أو الأجزاء',arTerm('Sound:Play(), Stop(), Pause()','تشغيل وإيقاف الصوت'),'مستوى الصوت والسرعة والتكرار والمسافة ثلاثية الأبعاد','الفرق بين الصوت ثلاثي الأبعاد والثنائي (' + arTerm('SoundService','خدمة الصوت') + ')','إيجاد أصوات مجانية في Toolbox']
+        },
+        builds:{
+          en:['Background music (looping)','Coin collected sound','Purchase sound for shop','Footstep sounds on speed pads 🎵'],
+          ar:['موسيقى خلفية (متكررة)','صوت جمع العملات','صوت الشراء في المتجر','أصوات الخطوات على ألواح السرعة 🎵']
+        }
+      },
+      {num:20,
+        title:{en:'Particles & Visual Effects',ar:'الجسيمات والمؤثرات البصرية'},
+        diff:'intermediate',time:'3 hrs',
+        learns:{
+          en:['ParticleEmitter — key properties: Texture, Rate, Speed, Lifetime, Color','Enabling/disabling emitters','Beam — connecting two parts with a visual beam','BillboardGui — 3D floating GUI above objects','SelectionBox and SelectionSphere'],
+          ar:[arTerm('ParticleEmitter','باعث الجسيمات') + ' — الخصائص الرئيسية: النسيج، المعدل، السرعة، العمر، اللون','تفعيل/تعطيل الباعثات',arTerm('Beam','الشعاع') + ' — ربط جزأين بشعاع بصري',arTerm('BillboardGui','واجهة اللوحة الإعلانية') + ' — واجهة عائمة ثلاثية الأبعاد فوق الكائنات',arTerm('SelectionBox, SelectionSphere','صندوق التحديد، كرة التحديد')]
+        },
+        builds:{
+          en:['Sparkle particles on coins','Level-up burst when buying upgrade','Floating name tags above collectibles (BillboardGui)','Give them sparkles. 🌟'],
+          ar:['جسيمات تألق على العملات','انفجار عند شراء ترقية','وسوم أسماء عائمة فوق المقتنيات (BillboardGui)','أضف لها بريقًا ولمعانًا. 🌟']
+        }
+      },
+      {num:21,
+        title:{en:'Animations',ar:'الحركات التصويرية (Animations)'},
+        diff:'intermediate',time:'4 hrs',
+        learns:{
+          en:['Animation Editor (Plugins > Animation Editor)','Creating custom animations in Studio','Humanoid:LoadAnimation() and Animation:Play()','Looping, priorities, blending','Using Roblox default animation IDs'],
+          ar:[arTerm('Animation Editor','محرر الحركات') + ' (Plugins > Animation Editor)','إنشاء حركات مخصصة في Studio',arTerm('Humanoid:LoadAnimation()','تحميل حركة') + ' و' + arTerm('Animation:Play()','تشغيل حركة'),'التكرار والأولويات والمزج','استخدام معرّفات حركات Roblox الافتراضية']
+        },
+        builds:{
+          en:['Custom coin spin animation','Character cheer animation on win','Animate an NPC waving','Your game has character! 🕺'],
+          ar:['حركة دوران مخصصة للعملة','حركة احتفال الشخصية عند الفوز','تحريك NPC للتلويح','لعبتك أصبحت تمتلك شخصية! 🕺']
+        }
+      },
+      {num:22,
+        title:{en:'ProximityPrompts & Tools',ar:'ProximityPrompts والأدوات'},
+        diff:'intermediate',time:'3 hrs',
+        learns:{
+          en:['ProximityPrompt — the interaction popup over objects','ProximityPrompt.Triggered event','ActionText, ObjectText, KeyboardKeyCode, HoldDuration','Tool objects — equippable items','Tool.Activated — fires on click','Tool.Equipped and Unequipped events'],
+          ar:[arTerm('ProximityPrompt','نافذة التفاعل القريب') + ' — النافذة المنبثقة فوق الكائنات',arTerm('ProximityPrompt.Triggered','حدث تفعيل التفاعل القريب'),arTerm('ActionText, ObjectText, KeyboardKeyCode, HoldDuration','نص الإجراء، نص الكائن، مفتاح لوحة المفاتيح، مدة الضغط'),arTerm('Tool','الأداة') + ' — عناصر قابلة للتجهيز',arTerm('Tool.Activated','تفعيل الأداة') + ' — يُطلق عند النقر',arTerm('Tool.Equipped, Unequipped','أحداث تجهيز وخلع الأداة')]
+        },
+        builds:{
+          en:['Press E to collect coins (ProximityPrompt)','Shovel Tool from a chest','Shovel digs up buried coins when activated','Interactive world with equippable items! ⛏️'],
+          ar:['اضغط E لجمع العملات (ProximityPrompt)','أداة المجرفة من صندوق','المجرفة تحفر عملات مدفونة عند التفعيل','عالم تفاعلي بأدوات قابلة للتجهيز! ⛏️']
+        }
+      },
     ],
-    milestone:{num:5,title:'Pet Simulator Style Clone',inspo:'Pet Simulator X / Mining Simulator',mc:'var(--p5)',
-      desc:'Build a stripped-down simulator. Core loop: equip pickaxe, click rock, get coins (particle burst + sound). DataStore saves. Shop upgrades give bigger pickaxe value. 2 zones: Starter (free) and Premium (500 coins gate that tweens open). Floating BillboardGui zone names. A full mini-simulator!'}
+    milestone:{
+      num:5,
+      title:{en:'Pet Simulator Style Clone',ar:'نسخة بأسلوب Pet Simulator'},
+      inspo:'Pet Simulator X / Mining Simulator',
+      mc:'var(--p5)',
+      desc:{
+        en:'Build a stripped-down simulator. Core loop: equip pickaxe, click rock, get coins (particle burst + sound). DataStore saves. Shop upgrades give bigger pickaxe value. 2 zones: Starter (free) and Premium (500 coins gate that tweens open). Floating BillboardGui zone names. A full mini-simulator!',
+        ar:'ابنِ محاكيًا مبسطًا. الحلقة الأساسية: جهّز معول، انقر على صخرة، احصل على عملات (انفجار جسيمات + صوت). DataStore يحفظ. ترقيات المتجر تعطي قيمة معول أكبر. منطقتان: للمبتدئين (مجانية) والمميزة (بوابة ٥٠٠ عملة تفتح بانتقال سلس). أسماء مناطق عائمة. محاكٍ ميني كامل!'
+      }
+    }
   },
   {
     id:6,color:'var(--p6)',bg:'linear-gradient(135deg,#000F1A 0%,#00243D 100%)',pc:'var(--p6)',
-    title:'Advanced Systems',sub:'Build the systems that power complex games',
-    chips:['Round-based','Raycasting','OOP','Pathfinding'],
+    title:{en:'Advanced Systems',ar:'الأنظمة المتقدمة'},
+    sub:{en:'Build the systems that power complex games',ar:'ابنِ الأنظمة التي تُشغّل الألعاب المعقدة'},
+    chips:{en:['Round-based','Raycasting','OOP','Pathfinding'],ar:['مبنية على جولات','Raycasting','البرمجة الكائنية','إيجاد المسارات']},
     lessons:[
-      {num:23,title:'Round-Based Game Loop',diff:'intermediate',time:'4 hrs',
-        learns:['State machine: Lobby → Match → Cleanup','Teleporting players using CFrame','Countdown timer synced to all clients','BindableEvents for server-internal communication','Cloning maps from ServerStorage to reset'],
-        builds:['Round system: 30-second countdown then reset','Timer on every player\'s GUI','Teleport all players to arena at match start','Return to lobby when time runs out 🏟️']},
-      {num:24,title:'Raycasting & Hit Detection',diff:'advanced',time:'4–5 hrs',
-        learns:['What is raycasting? (invisible laser in 3D)','Workspace:Raycast(origin, direction, params)','RaycastParams: FilterType, FilterDescendantsInstances','RaycastResult: Instance, Position, Distance, Normal','Calculating direction from two 3D points'],
-        builds:['Gun Tool using raycasting for hit detection','Raycast from barrel, check if Part is hit','Hits a player → server deals damage','Laser beam visual with Beam 🔫']},
-      {num:25,title:'CollectionService & Tags',diff:'intermediate',time:'2–3 hrs',
-        learns:['CollectionService:GetTagged("TagName")','AddTag() and RemoveTag()','Instance:HasTag() — check if tagged','Why tagging beats manual lists at scale','ItemAdded and ItemRemoved signals'],
-        builds:['Tag all coins with "Coin"','One script handles ALL coins with GetTagged','Delete 20 individual scripts — replaced by ONE','Tag enemy NPCs for next lesson 🏷️']},
-      {num:26,title:'RunService & Frame Loops',diff:'advanced',time:'3–4 hrs',
-        learns:['RunService.PreRender (replaces RenderStepped)','PreSimulation / PostSimulation','Delta time (dt) — frame-rate independent motion','BindToRenderStep() with priority levels','When to use loops vs events (performance!)'],
-        builds:['Smooth camera that orbits a point (PreRender)','Coins bob up/down via PostSimulation + dt','Dash mechanic: burst velocity on keypress','Buttery smooth motion everywhere! 🎞️']},
-      {num:27,title:'Pathfinding & NPCs',diff:'advanced',time:'4 hrs',
-        learns:['PathfindingService:CreatePath()','Path:ComputeAsync() and GetWaypoints()','Humanoid:MoveTo() and MoveToFinished event','Handling blocked paths — recomputing','Making NPCs patrol, chase, or flee'],
-        builds:['Merchant NPC patrolling your island','Enemy NPC that chases the nearest player','Enemy deals damage on touch','Tag all enemies with "Enemy" via CollectionService 🤖']},
-      {num:28,title:'OOP in Luau (Classes & Metatables)',diff:'advanced',time:'5 hrs',
-        learns:['Tables as objects — properties + methods','Metatables and the __index metamethod','Constructors: function MyClass.new()','Method syntax: function MyClass:method() and self','Inheritance in Luau'],
-        builds:['Enemy refactored into an Enemy class','Enemy.new(), Enemy:Chase(), Enemy:TakeDamage()','Spawn 5 enemies in a for loop','Clean, professional code architecture! ⚙️']},
+      {num:23,
+        title:{en:'Round-Based Game Loop',ar:'حلقة اللعبة المبنية على الجولات'},
+        diff:'intermediate',time:'4 hrs',
+        learns:{
+          en:['State machine: Lobby → Match → Cleanup','Teleporting players using CFrame','Countdown timer synced to all clients','BindableEvents for server-internal communication','Cloning maps from ServerStorage to reset'],
+          ar:[arTerm('State machine','آلة الحالات') + ': انتظار ← مباراة ← تنظيف','نقل اللاعبين فوريًا باستخدام ' + arTerm('CFrame','إطار الإحداثيات'),'عداد تنازلي متزامن لجميع العملاء',arTerm('BindableEvents','الأحداث القابلة للربط') + ' للتواصل الداخلي للخادم','استنساخ الخرائط من ' + arTerm('ServerStorage','مخزن الخادم') + ' لإعادة الضبط']
+        },
+        builds:{
+          en:['Round system: 30-second countdown then reset','Timer on every player\'s GUI','Teleport all players to arena at match start','Return to lobby when time runs out 🏟️'],
+          ar:['نظام الجولات: عداد ٣٠ ثانية ثم إعادة الضبط','مؤقت على GUI كل لاعب','نقل جميع اللاعبين إلى الساحة عند بدء المباراة','العودة لغرفة الانتظار عند انتهاء الوقت 🏟️']
+        }
+      },
+      {num:24,
+        title:{en:'Raycasting & Hit Detection',ar:'Raycasting وكشف الاصطدام'},
+        diff:'advanced',time:'4–5 hrs',
+        learns:{
+          en:['What is raycasting? (invisible laser in 3D)','Workspace:Raycast(origin, direction, params)','RaycastParams: FilterType, FilterDescendantsInstances','RaycastResult: Instance, Position, Distance, Normal','Calculating direction from two 3D points'],
+          ar:['ما هو ' + arTerm('Raycasting','الإشعاع')+'؟ (ليزر غير مرئي في الفضاء ثلاثي الأبعاد)',arTerm('Workspace:Raycast()','إطلاق إشعاع من نقطة باتجاه') + ' — المعاملات',arTerm('RaycastParams','معاملات الإشعاع') + ': نوع التصفية والمثيلات',arTerm('RaycastResult','نتيجة الإشعاع') + ': المثيل، الموضع، المسافة، الوجه','حساب الاتجاه من نقطتين ثلاثيتي الأبعاد']
+        },
+        builds:{
+          en:['Gun Tool using raycasting for hit detection','Raycast from barrel, check if Part is hit','Hits a player → server deals damage','Laser beam visual with Beam 🔫'],
+          ar:['أداة مسدس تستخدم Raycasting لكشف الاصطدام','إشعاع من ماسورة السلاح للتحقق من الإصابة','إصابة لاعب ← الخادم يتعامل مع الضرر','شعاع ليزر بصري باستخدام Beam 🔫']
+        }
+      },
+      {num:25,
+        title:{en:'CollectionService & Tags',ar:'CollectionService والوسوم'},
+        diff:'intermediate',time:'2–3 hrs',
+        learns:{
+          en:["CollectionService:GetTagged('TagName')",'AddTag() and RemoveTag()','Instance:HasTag() — check if tagged','Why tagging beats manual lists at scale','ItemAdded and ItemRemoved signals'],
+          ar:[arTerm("CollectionService:GetTagged()",'الحصول على كل الكائنات الموسومة'),arTerm('AddTag(), RemoveTag()','إضافة وحذف الوسوم'),arTerm('Instance:HasTag()','التحقق من وجود وسم') + ' — التحقق','لماذا الوسوم تتفوق على القوائم اليدوية في الحجم الكبير',arTerm('ItemAdded, ItemRemoved','إشارات إضافة وحذف العناصر')]
+        },
+        builds:{
+          en:['Tag all coins with "Coin"','One script handles ALL coins with GetTagged','Delete 20 individual scripts — replaced by ONE','Tag enemy NPCs for next lesson 🏷️'],
+          ar:['وضع وسم "Coin" على كل العملات','سكريبت واحد يتعامل مع كل العملات بـ GetTagged','حذف ٢٠ سكريبت فردي — تم استبدالها بواحدة','وضع وسوم على NPCs الأعداء للدرس التالي 🏷️']
+        }
+      },
+      {num:26,
+        title:{en:'RunService & Frame Loops',ar:'RunService وحلقات الإطارات'},
+        diff:'advanced',time:'3–4 hrs',
+        learns:{
+          en:['RunService.PreRender (replaces RenderStepped)','PreSimulation / PostSimulation','Delta time (dt) — frame-rate independent motion','BindToRenderStep() with priority levels','When to use loops vs events (performance!)'],
+          ar:[arTerm('RunService.PreRender','ما قبل التصيير') + ' (يحل محل RenderStepped)',arTerm('PreSimulation / PostSimulation','ما قبل المحاكاة / ما بعدها'),arTerm('Delta time (dt)','الزمن التفاضلي') + ' — حركة مستقلة عن معدل الإطارات',arTerm('BindToRenderStep()','الربط بخطوة التصيير') + ' مع مستويات الأولوية','متى تستخدم الحلقات مقابل الأحداث (الأداء!)']
+        },
+        builds:{
+          en:['Smooth camera that orbits a point (PreRender)','Coins bob up/down via PostSimulation + dt','Dash mechanic: burst velocity on keypress','Buttery smooth motion everywhere! 🎞️'],
+          ar:['كاميرا سلسة تدور حول نقطة (PreRender)','العملات تطفو للأعلى والأسفل عبر PostSimulation + dt','ميكانيك الاندفاع: سرعة انفجارية عند الضغط على المفتاح','حركة سلسة كالزبدة في كل مكان! 🎞️']
+        }
+      },
+      {num:27,
+        title:{en:'Pathfinding & NPCs',ar:'إيجاد المسارات والـ NPCs'},
+        diff:'advanced',time:'4 hrs',
+        learns:{
+          en:['PathfindingService:CreatePath()','Path:ComputeAsync() and GetWaypoints()','Humanoid:MoveTo() and MoveToFinished event','Handling blocked paths — recomputing','Making NPCs patrol, chase, or flee'],
+          ar:[arTerm('PathfindingService:CreatePath()','إنشاء مسار') + ' — تهيئة المسار',arTerm('Path:ComputeAsync(), GetWaypoints()','حساب المسار وجلب نقاط الطريق'),arTerm('Humanoid:MoveTo(), MoveToFinished','التحرك لنقطة، حدث اكتمال الحركة'),'التعامل مع المسارات المحجوبة — إعادة الحساب','جعل NPCs تدور وتطارد وتهرب']
+        },
+        builds:{
+          en:['Merchant NPC patrolling your island','Enemy NPC that chases the nearest player','Enemy deals damage on touch','Tag all enemies with "Enemy" via CollectionService 🤖'],
+          ar:['NPC تاجر يتجول في جزيرتك','NPC عدو يطارد أقرب لاعب','العدو يتعامل مع الضرر عند اللمس','وضع وسم "Enemy" على كل الأعداء عبر CollectionService 🤖']
+        }
+      },
+      {num:28,
+        title:{en:'OOP in Luau (Classes & Metatables)',ar:'البرمجة الكائنية في Luau (كلاسات وجداول ميتا)'},
+        diff:'advanced',time:'5 hrs',
+        learns:{
+          en:['Tables as objects — properties + methods','Metatables and the __index metamethod','Constructors: function MyClass.new()','Method syntax: function MyClass:method() and self','Inheritance in Luau'],
+          ar:[arTerm('Tables','الجداول') + ' كأشياء — خصائص + طرق',arTerm('Metatables','الجداول الميتا') + ' و' + arTerm('__index','الأسلوب الميتا للفهرسة'),arTerm('Constructors','المُنشئات') + ': ' + arTerm('function MyClass.new()','دالة إنشاء الكلاس'),arTerm('Method syntax','صياغة الطريقة') + ': ' + arTerm('function MyClass:method() and self','الدالة والمرجع الذاتي'),'الوراثة في Luau']
+        },
+        builds:{
+          en:['Enemy refactored into an Enemy class','Enemy.new(), Enemy:Chase(), Enemy:TakeDamage()','Spawn 5 enemies in a for loop','Clean, professional code architecture! ⚙️'],
+          ar:['إعادة هيكلة العدو إلى كلاس Enemy',arTerm('Enemy.new(), Enemy:Chase(), Enemy:TakeDamage()','إنشاء عدو، مطاردة، تلقي ضرر'),'إنشاء ٥ أعداء في حلقة for','معمارية كود نظيفة واحترافية! ⚙️']
+        }
+      },
     ],
     milestone:null
   },
   {
     id:7,color:'var(--p7)',bg:'linear-gradient(135deg,#0A001A 0%,#1A0040 100%)',pc:'var(--p7)',
-    title:'Advanced Luau & Optimization',sub:'Type checking, performance, and pro-level scripting',
-    chips:['Type Safety','Performance','DataStores','Monetization'],
+    title:{en:'Advanced Luau & Optimization',ar:'Luau المتقدمة والتحسين'},
+    sub:{en:'Type checking, performance, and pro-level scripting',ar:'فحص الأنواع والأداء والبرمجة الاحترافية'},
+    chips:{en:['Type Safety','Performance','DataStores','Monetization'],ar:['أمان الأنواع','الأداء','مخازن البيانات','التحقيق المالي']},
     lessons:[
-      {num:29,title:'Luau Type Checking',diff:'advanced',time:'3 hrs',
-        learns:['--!strict, --!nonstrict, --!nocheck modes','Type annotations: local x: number = 5','Function type signatures: function foo(x: number): string','Optional types: local name: string?','type aliases with type MyType = {}'],
-        builds:['Add --!strict to CoinManager','Fix type errors Studio highlights','Type annotations on Enemy class','Studio autocompletes and catches errors instantly 🛡️']},
-      {num:30,title:'Performance & Optimization',diff:'advanced',time:'4 hrs',
-        learns:['The MicroProfiler (Ctrl+F6) — find slow code','Minimizing remote event calls — batch data','Object pooling — reuse instead of create/destroy','Debounce — preventing rapid repeated events','Streaming Enabled — load parts as players approach'],
-        builds:['Profile your game with MicroProfiler','Debounce on coin pickups','Object pool for coin particles','StreamingEnabled in game settings','Your game runs clean and fast! 🚀']},
-      {num:31,title:'Advanced DataStores & Leaderboards',diff:'advanced',time:'4 hrs',
-        learns:['OrderedDataStore — sorted data for leaderboards','GetSortedAsync() — fetching ranked data','Pagination with maxPageSize','Session locking to prevent data loss on crash','Retry logic with exponential backoff'],
-        builds:['Global leaderboard showing top 10 earners','Large 3D Board in lobby showing rankings','Auto-updates every 60 seconds','Retry logic in save function 📊']},
-      {num:32,title:'Monetization & Publishing',diff:'intermediate',time:'3–4 hrs',
-        learns:['Publishing: File > Publish to Roblox','Game settings: genre, thumbnail, max players','Developer Products — one-time purchases','Passes — permanent unlocks (VIP, etc)','MarketplaceService:PromptProductPurchase()','ProcessReceipt — handling purchases securely'],
-        builds:['PUBLISH YOUR GAME! 🚀','Double Coins Developer Product','Purchase button in your shop','ProcessReceipt on server','Your game can make real money! 💰']},
+      {num:29,
+        title:{en:'Luau Type Checking',ar:'فحص الأنواع في Luau'},
+        diff:'advanced',time:'3 hrs',
+        learns:{
+          en:['--!strict, --!nonstrict, --!nocheck modes','Type annotations: local x: number = 5','Function type signatures: function foo(x: number): string','Optional types: local name: string?','type aliases with type MyType = {}'],
+          ar:[arTerm('--!strict, --!nonstrict, --!nocheck','أوضاع الفحص الصارم والمرن والمعطل'),arTerm('Type annotations','تعليقات الأنواع') + ': local x: number = 5',arTerm('Function type signatures','توقيعات أنواع الدوال') + ': function foo(x: number): string',arTerm('Optional types','الأنواع الاختيارية') + ': local name: string?',arTerm('type aliases','أسماء مستعارة للأنواع') + ' مع ' + arTerm('type MyType = {}','تعريف النوع')]
+        },
+        builds:{
+          en:['Add --!strict to CoinManager','Fix type errors Studio highlights','Type annotations on Enemy class','Studio autocompletes and catches errors instantly 🛡️'],
+          ar:['إضافة --!strict إلى CoinManager','إصلاح أخطاء الأنواع التي يُبرزها Studio','تعليقات أنواع على كلاس Enemy','Studio يكمل تلقائيًا ويكشف الأخطاء فورًا 🛡️']
+        }
+      },
+      {num:30,
+        title:{en:'Performance & Optimization',ar:'الأداء والتحسين'},
+        diff:'advanced',time:'4 hrs',
+        learns:{
+          en:['The MicroProfiler (Ctrl+F6) — find slow code','Minimizing remote event calls — batch data','Object pooling — reuse instead of create/destroy','Debounce — preventing rapid repeated events','Streaming Enabled — load parts as players approach'],
+          ar:[arTerm('MicroProfiler','محلل الأداء المجهري') + ' (Ctrl+F6) — ابحث عن الكود البطيء','تقليل استدعاءات الأحداث البعيدة — دُفعات البيانات',arTerm('Object pooling','تجميع الكائنات') + ' — إعادة الاستخدام بدلًا من الإنشاء والحذف',arTerm('Debounce','التخفيف') + ' — منع الأحداث المتكررة السريعة',arTerm('Streaming Enabled','البث المُفعَّل') + ' — تحميل الأجزاء عند اقتراب اللاعبين']
+        },
+        builds:{
+          en:['Profile your game with MicroProfiler','Debounce on coin pickups','Object pool for coin particles','StreamingEnabled in game settings','Your game runs clean and fast! 🚀'],
+          ar:['تحليل لعبتك بـ MicroProfiler','تطبيق Debounce على التقاط العملات','تجميع كائنات لجسيمات العملات','تفعيل StreamingEnabled في إعدادات اللعبة','لعبتك تعمل بنظافة وسرعة! 🚀']
+        }
+      },
+      {num:31,
+        title:{en:'Advanced DataStores & Leaderboards',ar:'DataStores المتقدمة ولوحات المتصدرين'},
+        diff:'advanced',time:'4 hrs',
+        learns:{
+          en:['OrderedDataStore — sorted data for leaderboards','GetSortedAsync() — fetching ranked data','Pagination with maxPageSize','Session locking to prevent data loss on crash','Retry logic with exponential backoff'],
+          ar:[arTerm('OrderedDataStore','مخزن البيانات المرتّب') + ' — بيانات مرتّبة للوحات المتصدرين',arTerm('GetSortedAsync()','الحصول على بيانات مرتّبة') + ' — جلب البيانات المصنّفة',arTerm('Pagination','التصفح بالصفحات') + ' مع maxPageSize','قفل الجلسة لمنع فقدان البيانات عند الانهيار',arTerm('Retry logic with exponential backoff','منطق إعادة المحاولة مع التراجع الأسي')]
+        },
+        builds:{
+          en:['Global leaderboard showing top 10 earners','Large 3D Board in lobby showing rankings','Auto-updates every 60 seconds','Retry logic in save function 📊'],
+          ar:['لوحة متصدرين عالمية تعرض أفضل ١٠ لاعبين','لوحة ثلاثية الأبعاد كبيرة في غرفة الانتظار','تحديث تلقائي كل ٦٠ ثانية','منطق إعادة المحاولة في دالة الحفظ 📊']
+        }
+      },
+      {num:32,
+        title:{en:'Monetization & Publishing',ar:'التحقيق المالي والنشر'},
+        diff:'intermediate',time:'3–4 hrs',
+        learns:{
+          en:['Publishing: File > Publish to Roblox','Game settings: genre, thumbnail, max players','Developer Products — one-time purchases','Passes — permanent unlocks (VIP, etc)','MarketplaceService:PromptProductPurchase()','ProcessReceipt — handling purchases securely'],
+          ar:['النشر: File > Publish to Roblox','إعدادات اللعبة: النوع والصورة المصغرة وأقصى عدد لاعبين',arTerm('Developer Products','منتجات المطور') + ' — مشتريات لمرة واحدة',arTerm('Passes','التصاريح') + ' — فتح دائم (VIP وغيره)',arTerm('MarketplaceService:PromptProductPurchase()','دفع شراء المنتج') + ' — طلب الشراء',arTerm('ProcessReceipt','معالجة الإيصال') + ' — التعامل مع المشتريات بأمان']
+        },
+        builds:{
+          en:['PUBLISH YOUR GAME! 🚀','Double Coins Developer Product','Purchase button in your shop','ProcessReceipt on server','Your game can make real money! 💰'],
+          ar:['انشر لعبتك! 🚀','منتج Developer لمضاعفة العملات','زر الشراء في متجرك',arTerm('ProcessReceipt','معالجة الإيصال') + ' على الخادم','لعبتك يمكن أن تجني أموالًا حقيقية! 💰']
+        }
+      },
     ],
     milestone:null
   },
   {
     id:8,color:'var(--p8)',bg:'linear-gradient(135deg,#1A1400 0%,#3D3000 100%)',pc:'var(--p8)',
-    title:'The Final Boss',sub:'Build a complete, polished, publishable Roblox game from scratch',
-    chips:['Full Game','All Systems','Publish','Earn Robux'],
+    title:{en:'The Final Boss',ar:'المستوى الأخير'},
+    sub:{en:'Build a complete, polished, publishable Roblox game from scratch',ar:'ابنِ لعبة Roblox كاملة ومصقولة وقابلة للنشر من الصفر'},
+    chips:{en:['Full Game','All Systems','Publish','Earn Robux'],ar:['لعبة كاملة','جميع الأنظمة','نشر','اكسب Robux']},
     lessons:[],
     finalProject:true,
-    milestone:{num:'FINAL',title:'Ship Your Own Simulator Game',inspo:'Pet Simulator / Lumber Tycoon / Mining Simulator',mc:'var(--p8)',
-      desc:'Pick a theme: Mining, Farming, Punching, Clicking — your choice. Required systems: 3+ zones with progression gating, DataStore saving, secure server-side logic, upgrade shop, global leaderboard, tweens/particles/sounds, NPC pathfinding, quest system, mobile-friendly UI, Developer Product + Game Pass, tested with 2+ clients simultaneously. Publish it. Share the link. You are no longer a beginner.'}
+    milestone:{
+      num:'FINAL',
+      title:{en:'Ship Your Own Simulator Game',ar:'انشر لعبة المحاكاة الخاصة بك'},
+      inspo:'Pet Simulator / Lumber Tycoon / Mining Simulator',
+      mc:'var(--p8)',
+      desc:{
+        en:'Pick a theme: Mining, Farming, Punching, Clicking — your choice. Required systems: 3+ zones with progression gating, DataStore saving, secure server-side logic, upgrade shop, global leaderboard, tweens/particles/sounds, NPC pathfinding, quest system, mobile-friendly UI, Developer Product + Game Pass, tested with 2+ clients simultaneously. Publish it. Share the link. You are no longer a beginner.',
+        ar:'اختر ثيمًا: تعدين، زراعة، ملاكمة، نقر — اختيارك. الأنظمة المطلوبة: ٣+ مناطق مع بوابات التقدم، حفظ DataStore، منطق خادم آمن، متجر ترقيات، لوحة متصدرين عالمية، انتقالات/جسيمات/أصوات، إيجاد مسارات NPC، نظام مهام، واجهة مناسبة للجوال، Developer Product + Game Pass، اختبار مع عميلَين أو أكثر في آنٍ واحد. انشرها. شارك الرابط. لم تعد مبتدئًا.'
+      }
+    }
   },
 ];
 
 const CHEAT = [
-  {code:'local x = 5',desc:'Always use local! Faster and safer than global variables.'},
-  {code:'task.wait(n)',desc:'Pause a script. Always use task.wait, never old wait().'},
-  {code:'pcall(func)',desc:'Protect against errors — essential for DataStore calls.'},
-  {code:':FindFirstChild(n)',desc:'Safely find a child — returns nil if missing, never errors.'},
-  {code:"game:GetService('S')",desc:'The correct way to get any Roblox service.'},
-  {code:'Workspace:Raycast()',desc:'Cast a ray — returns RaycastResult or nil if nothing hit.'},
-  {code:'TweenService:Create()',desc:'Smooth animations. Always use this over manual loops.'},
-  {code:"GetTagged('tag')",desc:'CollectionService — find ALL objects with a tag at once.'},
-  {code:'RemoteEvent',desc:'ReplicatedStorage. FireServer(), FireClient(), FireAllClients().'},
-  {code:'--!strict',desc:'Enable type checking at the top of any ModuleScript.'},
-  {code:'deltaTime (dt)',desc:'Multiply movement by dt for frame-rate independent motion.'},
-  {code:'PlayerRemoving',desc:'ALWAYS save DataStore here — fires when a player leaves.'},
+  {code:'local x = 5',desc:{en:'Always use local! Faster and safer than global variables.',ar:'استخدم local دائمًا! أسرع وأأمن من المتغيرات العامة.'}},
+  {code:'task.wait(n)',desc:{en:'Pause a script. Always use task.wait, never old wait().',ar:'أوقف السكريبت مؤقتًا. استخدم task.wait دائمًا.'}},
+  {code:'pcall(func)',desc:{en:'Protect against errors — essential for DataStore calls.',ar:'الحماية من الأخطاء — ضروري لاستدعاءات DataStore.'}},
+  {code:':FindFirstChild(n)',desc:{en:'Safely find a child — returns nil if missing, never errors.',ar:'البحث الآمن عن كائن ابن — يُرجع nil إذا لم يوجد.'}},
+  {code:"game:GetService('S')",desc:{en:'The correct way to get any Roblox service.',ar:'الطريقة الصحيحة للحصول على أي خدمة في Roblox.'}},
+  {code:'Workspace:Raycast()',desc:{en:'Cast a ray — returns RaycastResult or nil if nothing hit.',ar:'أطلق إشعاعًا — يُرجع RaycastResult أو nil.'}},
+  {code:'TweenService:Create()',desc:{en:'Smooth animations. Always use this over manual loops.',ar:'الحركات السلسة. استخدمه دائمًا بدلًا من الحلقات.'}},
+  {code:"GetTagged('tag')",desc:{en:'CollectionService — find ALL objects with a tag at once.',ar:'CollectionService — اعثر على كل الكائنات بوسم واحد.'}},
+  {code:'RemoteEvent',desc:{en:'ReplicatedStorage. FireServer(), FireClient(), FireAllClients().',ar:'ReplicatedStorage. FireServer()، FireClient()، FireAllClients().'}},
+  {code:'--!strict',desc:{en:'Enable type checking at the top of any ModuleScript.',ar:'فعّل فحص الأنواع في أعلى أي ModuleScript.'}},
+  {code:'deltaTime (dt)',desc:{en:'Multiply movement by dt for frame-rate independent motion.',ar:'اضرب الحركة في dt للاستقلالية عن معدل الإطارات.'}},
+  {code:'PlayerRemoving',desc:{en:'ALWAYS save DataStore here — fires when a player leaves.',ar:'احفظ DataStore هنا دائمًا — يُطلق عند مغادرة اللاعب.'}},
 ];
 
+// ─────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────
+let currentLang = localStorage.getItem('rb_lang') || 'en';
+let currentFontScale = parseFloat(localStorage.getItem('rb_font') || '1');
 const completed = new Set(JSON.parse(localStorage.getItem('rb_done') || '[]'));
 let activeLesson = null;
+const FONT_STEPS = [0.75, 0.85, 1, 1.1, 1.2, 1.35, 1.5];
+let fontIdx = FONT_STEPS.findIndex(v => Math.abs(v - currentFontScale) < 0.01);
+if(fontIdx < 0) fontIdx = 2;
 
 function saveCompleted(){localStorage.setItem('rb_done',JSON.stringify([...completed]))}
+function t(key){ return T[currentLang][key] || T.en[key] || key; }
+function tDiff(d){ return (T[currentLang].diff||{})[d] || d; }
+function getTitle(obj){ return typeof obj === 'object' ? (obj[currentLang] || obj.en) : obj; }
 
+// ─────────────────────────────────────────────
+//  FONT SIZE
+// ─────────────────────────────────────────────
+function applyFont(){
+  const scale = FONT_STEPS[fontIdx];
+  document.documentElement.style.setProperty('--base-font-size', (scale * 16) + 'px');
+  document.getElementById('font-indicator').textContent = Math.round(scale * 100) + '%';
+  localStorage.setItem('rb_font', scale);
+}
+document.getElementById('font-up').addEventListener('click', () => {
+  if(fontIdx < FONT_STEPS.length - 1){ fontIdx++; applyFont(); }
+});
+document.getElementById('font-down').addEventListener('click', () => {
+  if(fontIdx > 0){ fontIdx--; applyFont(); }
+});
+
+// ─────────────────────────────────────────────
+//  LANGUAGE
+// ─────────────────────────────────────────────
+function applyLang(){
+  document.getElementById('lang-select').value = currentLang;
+  const isAr = currentLang === 'ar';
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+  document.body.classList.toggle('ar', isAr);
+  localStorage.setItem('rb_lang', currentLang);
+
+  // Update static [data-t] elements
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.dataset.t;
+    const val = T[currentLang][key];
+    if(val !== undefined) el.textContent = val;
+  });
+
+  // Rebuild dynamic content
+  buildPhaseNav();
+  buildPhases();
+  buildCheatSheet();
+  updateProgress();
+}
+
+document.getElementById('lang-select').addEventListener('change', e => {
+  currentLang = e.target.value;
+  applyLang();
+});
+
+// ─────────────────────────────────────────────
+//  PROGRESS
+// ─────────────────────────────────────────────
 function updateProgress(){
   const total = 32;
   const done = completed.size;
@@ -466,8 +1059,117 @@ function updateProgress(){
     const num = parseInt(card.dataset.num);
     card.classList.toggle('completed', completed.has(num));
     const btn = card.querySelector('.mark-btn');
-    if(btn) btn.textContent = completed.has(num) ? '✓ Done' : 'Mark Done';
+    if(btn) btn.textContent = completed.has(num) ? t('mark_done_check') : t('mark_done');
   });
+}
+
+// ─────────────────────────────────────────────
+//  PHASE NAV
+// ─────────────────────────────────────────────
+function buildPhaseNav(){
+  const phaseNames = {
+    en:['P1 World','P2 Scripting','P3 Events','P4 Client/Server','P5 Polish','P6 Advanced','P7 Pro Luau','P8 Final Boss'],
+    ar:['م١ العالم','م٢ البرمجة','م٣ الأحداث','م٤ العميل/الخادم','م٥ الصقل','م٦ متقدم','م٧ Luau احتراف','م٨ المستوى الأخير']
+  };
+  const colors = ['var(--p1)','var(--p2)','var(--p3)','var(--p4)','var(--p5)','var(--p6)','var(--p7)','var(--p8)'];
+  const nav = document.getElementById('phase-nav');
+  nav.innerHTML = PHASES.map((p,i) => 
+    `<button class="phase-tab" data-phase="${p.id}" style="--accent-color:${colors[i]}">${(phaseNames[currentLang]||phaseNames.en)[i]}</button>`
+  ).join('');
+  nav.querySelectorAll('.phase-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.getElementById('phase-'+tab.dataset.phase)?.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+//  PHASES
+// ─────────────────────────────────────────────
+function diffClass(d){ return {beginner:'diff-beginner',easy:'diff-easy',intermediate:'diff-intermediate',advanced:'diff-advanced',expert:'diff-expert'}[d]||'diff-beginner'; }
+
+function buildPhases(){
+  const container = document.getElementById('phases-container');
+  container.innerHTML = '';
+  PHASES.forEach(phase => {
+    const sec = document.createElement('section');
+    sec.className = 'phase-section fade-in';
+    sec.id = 'phase-'+phase.id;
+
+    const chips = getTitle(phase.chips) || phase.chips.en;
+    let html = `<div class="phase-header" style="background:${phase.bg};--pc:${phase.pc};border:1px solid rgba(255,255,255,0.08)">
+      <div class="phase-num">${t('phase_word')} ${phase.id}</div>
+      <div class="phase-title" style="color:${phase.color}">${getTitle(phase.title)}</div>
+      <div class="phase-sub">${getTitle(phase.sub)}</div>
+      <div class="phase-chips">${chips.map(c=>`<span class="phase-chip">${c}</span>`).join('')}</div>
+    </div>`;
+
+    if(phase.finalProject){
+      html += `<div class="final-box">
+        <div class="final-box-label">${t('synthesis_label')}</div>
+        <div class="final-box-desc">${t('synthesis_desc')}</div>
+      </div>`;
+    }
+
+    if(phase.lessons.length > 0){
+      html += '<div class="lessons-grid">';
+      phase.lessons.forEach(lesson => {
+        const learns = getTitle(lesson.learns) || lesson.learns.en;
+        const previews = learns.slice(0,3).map(l=>`<div class="preview-tag">${l}</div>`).join('');
+        html += `<div class="lesson-card" data-num="${lesson.num}" data-phase="${phase.id}" style="--lcolor:${phase.color}" onclick="openLesson(${phase.id},${lesson.num})">
+          <div class="lcard-header">
+            <div class="lcard-num">
+              <span class="lcard-num-badge" style="background:${phase.color}15;color:${phase.color}">${t('lesson_word').substring(0,1)}${lesson.num}</span>
+              <span class="diff-badge ${diffClass(lesson.diff)}">${tDiff(lesson.diff)}</span>
+            </div>
+            <div class="lcard-title">${getTitle(lesson.title)}</div>
+            <div class="lcard-time">⏱ ${lesson.time}</div>
+          </div>
+          <div class="lcard-preview">${previews}</div>
+          <div class="lcard-footer">
+            <span class="lcard-footer-left">${t('click_expand')}</span>
+            <button class="mark-btn" onclick="event.stopPropagation();const n=${lesson.num};completed.has(n)?completed.delete(n):completed.add(n);saveCompleted();updateProgress()">${completed.has(lesson.num)?t('mark_done_check'):t('mark_done')}</button>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+    }
+
+    if(phase.milestone){
+      const ms = phase.milestone;
+      html += `<div class="milestone-card" style="background:${phase.bg};border:1px solid rgba(255,255,255,0.1);--mc:${ms.mc};animation:${ms.num==='FINAL'?'pulse-border 3s infinite':'none'}">
+        <div class="ms-top">
+          <span class="ms-badge" style="color:${ms.mc};border-color:${ms.mc}40">${t('milestone_badge')} #${ms.num}</span>
+        </div>
+        <div class="ms-title" style="color:${ms.mc}">${getTitle(ms.title)}</div>
+        <div class="ms-inspo" style="color:rgba(255,255,255,0.5)">${t('inspired_by')} ${ms.inspo}</div>
+        <div class="ms-desc">${getTitle(ms.desc)}</div>
+      </div>`;
+    }
+
+    sec.innerHTML = html;
+    container.appendChild(sec);
+  });
+
+  // Re-observe
+  document.querySelectorAll('.phase-section').forEach(s=>phaseObserver.observe(s));
+  document.querySelectorAll('.fade-in').forEach(el=>{ if(!el.classList.contains('visible')) fadeObserver.observe(el); });
+}
+
+// ─────────────────────────────────────────────
+//  CHEAT SHEET
+// ─────────────────────────────────────────────
+function buildCheatSheet(){
+  const el = document.getElementById('cheat-grid');
+  el.innerHTML = CHEAT.map(c=>`<div class="cheat-item"><span class="cheat-code">${c.code}</span><span class="cheat-desc">${getTitle(c.desc)}</span></div>`).join('');
+}
+
+// ─────────────────────────────────────────────
+//  MODAL
+// ─────────────────────────────────────────────
+function hexToRgb(cssVar){
+  const map = {'var(--p1)':'0,229,204','var(--p2)':'57,255,20','var(--p3)':'255,140,0','var(--p4)':'255,45,85','var(--p5)':'191,95,255','var(--p6)':'0,180,255','var(--p7)':'123,47,255','var(--p8)':'255,215,0'};
+  return map[cssVar]||'255,255,255';
 }
 
 function openLesson(phaseId, lessonNum){
@@ -475,36 +1177,32 @@ function openLesson(phaseId, lessonNum){
   const lesson = phase.lessons.find(l=>l.num===lessonNum);
   activeLesson = {phase, lesson};
 
-  document.getElementById('modal-num').textContent = `PHASE ${phaseId} — LESSON ${lessonNum}`;
-  document.getElementById('modal-title').textContent = lesson.title;
+  document.getElementById('modal-num').textContent = `${t('phase_word')} ${phaseId} — ${t('lesson_word')} ${lessonNum}`;
+  document.getElementById('modal-title').textContent = getTitle(lesson.title);
 
-  const badgesEl = document.getElementById('modal-badges');
-  const diffClass = 'diff-'+lesson.diff;
-  const diffLabels = {beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'};
-  badgesEl.innerHTML = `<span class="diff-badge ${diffClass}">${diffLabels[lesson.diff]||lesson.diff}</span><span class="diff-badge" style="background:rgba(255,255,255,0.06);color:var(--muted)">⏱ ${lesson.time}</span>`;
+  const diffLabels = {beginner:'🟢',easy:'🟡',intermediate:'🟠',advanced:'🔴',expert:'🔴🔴'};
+  document.getElementById('modal-badges').innerHTML =
+    `<span class="diff-badge ${diffClass(lesson.diff)}">${diffLabels[lesson.diff]||''} ${tDiff(lesson.diff)}</span>` +
+    `<span class="diff-badge" style="background:rgba(255,255,255,0.06);color:var(--muted)">⏱ ${lesson.time}</span>`;
 
   const color = phase.color;
-  const learnsEl = document.getElementById('modal-learns');
-  learnsEl.innerHTML = lesson.learns.map(l=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,255,255,0.05);color:${color}">▸</div><div>${l}</div></div>`).join('');
-  const buildsEl = document.getElementById('modal-builds');
-  buildsEl.innerHTML = lesson.builds.map(b=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,140,0,0.1);color:var(--p3)">+</div><div>${b}</div></div>`).join('');
+  const learns = getTitle(lesson.learns);
+  const builds = getTitle(lesson.builds);
+  document.getElementById('modal-learns').innerHTML = learns.map(l=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,255,255,0.05);color:${color}">▸</div><div>${l}</div></div>`).join('');
+  document.getElementById('modal-builds').innerHTML = builds.map(b=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,140,0,0.1);color:var(--p3)">+</div><div>${b}</div></div>`).join('');
 
   document.getElementById('modal-inner').style.borderColor = `rgba(${hexToRgb(phase.color)}, 0.3)`;
   updateModalBtn();
   document.getElementById('modal').classList.add('open');
 }
 
-function hexToRgb(cssVar){
-  const map = {'var(--p1)':'0,229,204','var(--p2)':'57,255,20','var(--p3)':'255,140,0','var(--p4)':'255,45,85','var(--p5)':'191,95,255','var(--p6)':'0,180,255','var(--p7)':'123,47,255','var(--p8)':'255,215,0'};
-  return map[cssVar]||'255,255,255';
-}
-
 function updateModalBtn(){
   if(!activeLesson) return;
   const btn = document.getElementById('modal-complete-btn');
   const done = completed.has(activeLesson.lesson.num);
-  btn.textContent = done ? '✓ Completed!' : 'Mark Complete';
+  btn.textContent = done ? t('marked_done') : t('mark_complete');
   btn.className = 'modal-complete-btn '+(done?'done':'not-done');
+  document.querySelector('.modal-next-btn').textContent = t('next_lesson');
 }
 
 function toggleComplete(){
@@ -538,82 +1236,9 @@ document.getElementById('modal').addEventListener('click', function(e){
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal()});
 
-// BUILD PHASES
-const container = document.getElementById('phases-container');
-const diffClass = d => ({beginner:'diff-beginner',easy:'diff-easy',intermediate:'diff-intermediate',advanced:'diff-advanced',expert:'diff-expert'}[d]||'diff-beginner');
-const diffLabel = d => ({beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'}[d]||'Beginner');
-
-PHASES.forEach(phase => {
-  const sec = document.createElement('section');
-  sec.className = 'phase-section fade-in';
-  sec.id = 'phase-'+phase.id;
-
-  let html = `<div class="phase-header" style="background:${phase.bg};--pc:${phase.pc};border:1px solid rgba(255,255,255,0.08)">
-    <div class="phase-num">PHASE ${phase.id}</div>
-    <div class="phase-title" style="color:${phase.color}">${phase.title}</div>
-    <div class="phase-sub">${phase.sub}</div>
-    <div class="phase-chips">${phase.chips.map(c=>`<span class="phase-chip">${c}</span>`).join('')}</div>
-  </div>`;
-
-  if(phase.finalProject){
-    html += `<div style="text-align:center;padding:2rem;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:12px;margin-bottom:1.5rem">
-      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;letter-spacing:2px;color:var(--p8);margin-bottom:0.75rem">SYNTHESIS PROJECT</div>
-      <div style="font-size:1.1rem;color:rgba(255,255,255,0.8);line-height:1.7;max-width:700px;margin:0 auto">All 32 lessons combined. Pick your simulator theme and build a complete, publishable game. See the milestone below for the full requirements checklist.</div>
-    </div>`;
-  }
-
-  if(phase.lessons.length > 0){
-    html += '<div class="lessons-grid">';
-    phase.lessons.forEach(lesson => {
-      const previews = lesson.learns.slice(0,3).map(l=>`<div class="preview-tag">${l}</div>`).join('');
-      html += `<div class="lesson-card" data-num="${lesson.num}" data-phase="${phase.id}" onclick="openLesson(${phase.id},${lesson.num})">
-        <div class="lcard-header" style="border-left:3px solid ${phase.color}">
-          <div class="lcard-num">
-            <span class="lcard-num-badge" style="background:${phase.color}15;color:${phase.color}">L${lesson.num}</span>
-            <span class="diff-badge ${diffClass(lesson.diff)}">${diffLabel(lesson.diff)}</span>
-          </div>
-          <div class="lcard-title">${lesson.title}</div>
-          <div class="lcard-time">⏱ ${lesson.time}</div>
-        </div>
-        <div class="lcard-preview">${previews}</div>
-        <div class="lcard-footer">
-          <span class="lcard-footer-left">Click to expand</span>
-          <button class="mark-btn" onclick="event.stopPropagation();const n=${lesson.num};completed.has(n)?completed.delete(n):completed.add(n);saveCompleted();updateProgress()">Mark Done</button>
-        </div>
-      </div>`;
-    });
-    html += '</div>';
-  }
-
-  if(phase.milestone){
-    const ms = phase.milestone;
-    html += `<div class="milestone-card" style="background:${phase.bg};border:1px solid rgba(255,255,255,0.1);--mc:${ms.mc};animation:${ms.num==='FINAL'?'pulse-border 3s infinite':'none'}">
-      <div class="ms-top">
-        <span class="ms-badge" style="color:${ms.mc};border-color:${ms.mc}40">🏆 MILESTONE #${ms.num}</span>
-      </div>
-      <div class="ms-title" style="color:${ms.mc}">${ms.title}</div>
-      <div class="ms-inspo" style="color:rgba(255,255,255,0.5)">Inspired by: ${ms.inspo}</div>
-      <div class="ms-desc">${ms.desc}</div>
-    </div>`;
-  }
-
-  sec.innerHTML = html;
-  container.appendChild(sec);
-});
-
-// CHEAT SHEET
-const cheatEl = document.getElementById('cheat-grid');
-cheatEl.innerHTML = CHEAT.map(c=>`<div class="cheat-item"><span class="cheat-code">${c.code}</span><span class="cheat-desc">${c.desc}</span></div>`).join('');
-
-// PHASE NAV CLICKS
-document.querySelectorAll('.phase-tab').forEach(tab=>{
-  tab.addEventListener('click', ()=>{
-    const id = tab.dataset.phase;
-    document.getElementById('phase-'+id)?.scrollIntoView({behavior:'smooth',block:'start'});
-  });
-});
-
-// INTERSECTION OBSERVER — phase tabs + fade-in
+// ─────────────────────────────────────────────
+//  INTERSECTION OBSERVERS
+// ─────────────────────────────────────────────
 const phaseObserver = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
@@ -624,18 +1249,18 @@ const phaseObserver = new IntersectionObserver(entries=>{
   });
 },{threshold:0.2});
 
-document.querySelectorAll('.phase-section').forEach(s=>phaseObserver.observe(s));
-
 const fadeObserver = new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
 },{threshold:0.05});
-document.querySelectorAll('.fade-in').forEach(el=>fadeObserver.observe(el));
 
-// STARS
+document.querySelectorAll('.fade-in:not(.phase-section)').forEach(el=>fadeObserver.observe(el));
+
+// ─────────────────────────────────────────────
+//  STARS
+// ─────────────────────────────────────────────
 function makeStars(){
   const c = document.getElementById('stars-container');
-  const count = 120;
-  for(let i=0;i<count;i++){
+  for(let i=0;i<120;i++){
     const s = document.createElement('div');
     s.className = 'star';
     const size = Math.random()*2+0.5;
@@ -643,8 +1268,13 @@ function makeStars(){
     c.appendChild(s);
   }
 }
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
 makeStars();
-updateProgress();
+applyFont();
+applyLang(); // builds everything + applies lang
 </script>
 </body>
 </html>
