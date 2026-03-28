@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roblox Studio Expert Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p1:#00E5CC;--p1d:#003D36;--p1g:#001A17;
+  --p2:#39FF14;--p2d:#0A3D02;--p2g:#041A00;
+  --p3:#FF8C00;--p3d:#3D2100;--p3g:#1A0D00;
+  --p4:#FF2D55;--p4d:#3D0011;--p4g:#1A0008;
+  --p5:#BF5FFF;--p5d:#2D0050;--p5g:#130020;
+  --p6:#00B4FF;--p6d:#00243D;--p6g:#000F1A;
+  --p7:#7B2FFF;--p7d:#1A0040;--p7g:#0A001A;
+  --p8:#FFD700;--p8d:#3D3000;--p8g:#1A1400;
+  --bg:#060818;--card:#0D1117;--card2:#111827;
+  --text:#E8EBF0;--muted:#7A8599;
+  --glow-size:0 0 20px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;min-height:100vh}
+
+/* STARS */
+#stars-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:0.1}50%{opacity:1}}
+
+/* MAIN */
+#app{position:relative;z-index:1}
+
+/* TOP BAR */
+.topbar{background:rgba(6,8,24,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 2rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:1.5rem;height:64px}
+.logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:#fff;white-space:nowrap;letter-spacing:2px}
+.logo span{color:var(--p1)}
+.progress-wrap{flex:1;max-width:400px}
+.progress-label{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;font-family:'Orbitron',monospace}
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p5),var(--p8));border-radius:3px;transition:width 0.5s ease;position:relative}
+.progress-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
+.prog-count{font-family:'Orbitron',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* PHASE NAV */
+.phase-nav{background:rgba(6,8,24,0.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05);padding:0 2rem;overflow-x:auto;scrollbar-width:none;display:flex;gap:0;position:sticky;top:64px;z-index:99}
+.phase-nav::-webkit-scrollbar{display:none}
+.phase-tab{padding:0.75rem 1.25rem;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:1px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.3s;text-transform:uppercase}
+.phase-tab:hover{color:#fff}
+.phase-tab.active{color:#fff;border-bottom-color:var(--accent-color,#fff)}
+
+/* HERO */
+.hero{text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-badge{display:inline-block;font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:3px;padding:0.4rem 1rem;border:1px solid var(--p1);color:var(--p1);border-radius:2px;margin-bottom:1.5rem;text-transform:uppercase}
+.hero h1{font-family:'Orbitron',monospace;font-size:clamp(2rem,6vw,4.5rem);font-weight:900;line-height:1;margin-bottom:1rem;color:#fff}
+.hero h1 em{display:block;font-style:normal;background:linear-gradient(90deg,var(--p1),var(--p5),var(--p8));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:600px;margin:0 auto 2.5rem;line-height:1.6}
+.hero-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.hstat{text-align:center;padding:1rem 1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px}
+.hstat-num{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;line-height:1}
+.hstat-label{font-size:0.8rem;color:var(--muted);letter-spacing:1px;margin-top:0.25rem}
+
+/* HOW IT WORKS */
+.how-section{padding:3rem 2rem;max-width:1100px;margin:0 auto}
+.section-title{font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.rule-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.25rem;display:flex;gap:1rem;align-items:flex-start}
+.rule-icon{font-size:1.5rem;flex-shrink:0;line-height:1}
+.rule-card h4{font-size:0.9rem;font-weight:600;color:#fff;margin-bottom:0.3rem}
+.rule-card p{font-size:0.82rem;color:var(--muted);line-height:1.5}
+
+/* PHASE SECTION */
+.phase-section{padding:3rem 2rem;max-width:1100px;margin:0 auto}
+.phase-header{border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;position:relative;overflow:hidden}
+.phase-header::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;border-radius:50%;opacity:0.15;background:radial-gradient(circle,var(--pc) 0%,transparent 70%)}
+.phase-num{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:3px;opacity:0.7;margin-bottom:0.5rem}
+.phase-title{font-family:'Orbitron',monospace;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff;margin-bottom:0.5rem}
+.phase-sub{font-size:1rem;opacity:0.8;color:#fff;max-width:600px}
+.phase-chips{display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap}
+.phase-chip{font-size:0.7rem;padding:0.25rem 0.75rem;border-radius:100px;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.8);font-family:'Orbitron',monospace;letter-spacing:1px}
+
+/* LESSON GRID */
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin-bottom:1.5rem}
+
+/* LESSON CARD */
+.lesson-card{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.3s;position:relative}
+.lesson-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.15)}
+.lesson-card.completed{border-color:rgba(57,255,20,0.3)}
+.lesson-card.completed .lcard-header::after{content:'✓';position:absolute;top:0.75rem;right:0.75rem;width:22px;height:22px;border-radius:50%;background:var(--p2);color:#000;font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center}
+.lcard-header{padding:1rem 1.25rem 0.75rem;position:relative;border-bottom:1px solid rgba(255,255,255,0.05)}
+.lcard-num{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.5rem}
+.lcard-num-badge{padding:0.2rem 0.5rem;border-radius:4px;font-size:0.6rem;font-family:'Orbitron',monospace;font-weight:700}
+.diff-badge{padding:0.2rem 0.6rem;border-radius:100px;font-size:0.6rem;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:0.5px}
+.diff-beginner{background:rgba(57,255,20,0.12);color:var(--p2)}
+.diff-easy{background:rgba(255,214,0,0.12);color:#FFD600}
+.diff-intermediate{background:rgba(255,140,0,0.12);color:var(--p3)}
+.diff-advanced{background:rgba(255,45,85,0.12);color:var(--p4)}
+.diff-expert{background:rgba(191,95,255,0.12);color:var(--p5)}
+.lcard-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.2rem;line-height:1.3}
+.lcard-time{font-size:0.75rem;color:var(--muted)}
+.lcard-preview{padding:0.75rem 1.25rem 1rem;display:flex;gap:0.5rem;flex-direction:column}
+.preview-tag{font-size:0.75rem;color:var(--muted);display:flex;align-items:center;gap:0.5rem;line-height:1.4}
+.preview-tag::before{content:'▸';flex-shrink:0}
+.lcard-footer{padding:0.6rem 1.25rem;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:space-between}
+.lcard-footer-left{font-size:0.7rem;color:var(--muted)}
+.mark-btn{font-size:0.7rem;font-family:'Orbitron',monospace;padding:0.3rem 0.8rem;border-radius:100px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+.mark-btn:hover{border-color:var(--p2);color:var(--p2)}
+.lesson-card.completed .mark-btn{border-color:var(--p2);color:var(--p2);background:rgba(57,255,20,0.08)}
+
+/* MILESTONE */
+.milestone-card{border-radius:16px;padding:2rem 2.5rem;margin:1.5rem 0;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.3s}
+.milestone-card:hover{transform:scale(1.01)}
+.milestone-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03) 0%,transparent 60%)}
+.milestone-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mc),transparent)}
+.ms-top{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.ms-badge{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;padding:0.3rem 0.8rem;border:1px solid;border-radius:4px;text-transform:uppercase}
+.ms-num{font-family:'Orbitron',monospace;font-size:0.65rem;color:rgba(255,255,255,0.5);letter-spacing:1px}
+.ms-title{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:0.5rem}
+.ms-inspo{font-size:0.85rem;margin-bottom:0.75rem;opacity:0.7;font-style:italic}
+.ms-desc{font-size:0.9rem;line-height:1.7;color:rgba(255,255,255,0.75);max-width:700px}
+.ms-expand{margin-top:1rem;font-size:0.75rem;font-family:'Orbitron',monospace;letter-spacing:1px;opacity:0.5}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(10px)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#0D1117;border:1px solid rgba(255,255,255,0.12);border-radius:20px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;position:relative;transform:scale(0.9);transition:transform 0.3s;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-header{padding:1.5rem 2rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;background:#0D1117;z-index:10;display:flex;justify-content:space-between;align-items:flex-start}
+.modal-lesson-num{font-family:'Orbitron',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--muted);margin-bottom:0.4rem}
+.modal-title{font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:#fff;line-height:1.3}
+.modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--muted);cursor:pointer;width:32px;height:32px;border-radius:8px;font-size:1rem;flex-shrink:0;transition:all 0.2s}
+.modal-close:hover{background:rgba(255,45,85,0.15);border-color:rgba(255,45,85,0.4);color:var(--p4)}
+.modal-body{padding:1.5rem 2rem}
+.modal-badges{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.modal-section{margin-bottom:1.5rem}
+.modal-section-title{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+.modal-list{display:flex;flex-direction:column;gap:0.5rem}
+.modal-item{display:flex;gap:0.75rem;align-items:flex-start;font-size:0.9rem;line-height:1.5;color:rgba(255,255,255,0.8)}
+.modal-bullet{width:20px;height:20px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:900;margin-top:2px}
+.modal-footer{padding:1rem 2rem 1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap}
+.modal-complete-btn{flex:1;min-width:140px;padding:0.8rem 1.5rem;border-radius:100px;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;cursor:pointer;transition:all 0.3s;border:2px solid;text-transform:uppercase}
+.modal-complete-btn.not-done{background:transparent;border-color:rgba(57,255,20,0.4);color:var(--p2)}
+.modal-complete-btn.not-done:hover{background:rgba(57,255,20,0.1)}
+.modal-complete-btn.done{background:rgba(57,255,20,0.1);border-color:var(--p2);color:var(--p2)}
+.modal-next-btn{padding:0.8rem 1.5rem;border-radius:100px;font-family:'Orbitron',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;cursor:pointer;transition:all 0.3s;background:transparent;border:2px solid rgba(255,255,255,0.15);color:var(--muted)}
+.modal-next-btn:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+
+/* SCROLL ANIMATION */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* CONNECTOR PATH */
+.phase-connector{display:flex;align-items:center;justify-content:center;padding:0.5rem 0;color:rgba(255,255,255,0.15);font-size:1.5rem}
+
+/* FOOTER */
+.footer-hero{text-align:center;padding:5rem 2rem;position:relative}
+.footer-hero h2{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:1rem}
+.footer-hero p{font-size:1.1rem;color:var(--muted);max-width:500px;margin:0 auto}
+
+/* CHEATSHEET */
+.cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.75rem;margin-top:1.5rem}
+.cheat-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:0.75rem 1rem;display:flex;gap:1rem;align-items:flex-start}
+.cheat-code{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--p1);background:rgba(0,229,204,0.08);padding:0.2rem 0.5rem;border-radius:4px;flex-shrink:0;white-space:nowrap}
+.cheat-desc{font-size:0.82rem;color:var(--muted);line-height:1.4}
+
+/* PULSE ANIMATION ON MILESTONE */
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,0.2)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="stars-container"></div>
+
+<div id="app">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">ROBLOX<span>ACADEMY</span></div>
+  <div class="progress-wrap">
+    <div class="progress-label">EXPERT PROGRESS</div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="prog-count"><span id="prog-done">0</span> / 32 lessons</div>
+</div>
+
+<!-- PHASE NAV -->
+<nav class="phase-nav" id="phase-nav">
+  <button class="phase-tab" data-phase="1" style="--accent-color:var(--p1)">P1 World</button>
+  <button class="phase-tab" data-phase="2" style="--accent-color:var(--p2)">P2 Scripting</button>
+  <button class="phase-tab" data-phase="3" style="--accent-color:var(--p3)">P3 Events</button>
+  <button class="phase-tab" data-phase="4" style="--accent-color:var(--p4)">P4 Client/Server</button>
+  <button class="phase-tab" data-phase="5" style="--accent-color:var(--p5)">P5 Polish</button>
+  <button class="phase-tab" data-phase="6" style="--accent-color:var(--p6)">P6 Advanced</button>
+  <button class="phase-tab" data-phase="7" style="--accent-color:var(--p7)">P7 Pro Luau</button>
+  <button class="phase-tab" data-phase="8" style="--accent-color:var(--p8)">P8 Final Boss</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero fade-in">
+  <div class="hero-badge">From Zero to Expert</div>
+  <h1>Roblox Studio<em>Expert Roadmap</em></h1>
+  <p class="hero-sub">32 lessons. 8 phases. 5 milestone projects. One game that grows from an empty island to a full publishable experience — lesson by lesson.</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num" style="color:var(--p1)">32</div><div class="hstat-label">Lessons</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p5)">8</div><div class="hstat-label">Phases</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p8)">5</div><div class="hstat-label">Milestones</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:var(--p2)">1</div><div class="hstat-label">Epic Game</div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section fade-in">
+  <div class="section-title">How this roadmap works</div>
+  <div class="rules-grid">
+    <div class="rule-card"><div class="rule-icon">🗺️</div><div><h4>One Growing Game</h4><p>You build ONE game from lesson 1. Every lesson adds something new to it. Never starting over.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">🔨</div><div><h4>Learn by Doing</h4><p>Every lesson has a LEARN section and a BUILD section. Read it, then open Studio and do it.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">🏆</div><div><h4>Milestone Projects</h4><p>5 checkpoints where you clone a famous Roblox game to prove you've mastered each phase.</p></div></div>
+    <div class="rule-card"><div class="rule-icon">📈</div><div><h4>Track Your Progress</h4><p>Click any lesson and mark it complete. Watch the bar at the top fill up as you go.</p></div></div>
+  </div>
+</section>
+
+<div id="phases-container"></div>
+
+<!-- CHEAT SHEET -->
+<section class="how-section fade-in" style="padding-top:1rem">
+  <div class="section-title">Quick reference cheat sheet</div>
+  <div class="cheat-grid" id="cheat-grid"></div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-hero fade-in">
+  <h2>Now go build something. 🎮</h2>
+  <p>You don't learn Roblox Studio by reading about it. Open Studio. Break things. Fix them. Ship it.</p>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" id="modal-inner">
+    <div class="modal-header">
+      <div>
+        <div class="modal-lesson-num" id="modal-num"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-badges" id="modal-badges"></div>
+      <div class="modal-section">
+        <div class="modal-section-title">🧠 What You Learn</div>
+        <div class="modal-list" id="modal-learns"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">🔨 What You Build</div>
+        <div class="modal-list" id="modal-builds"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-complete-btn not-done" id="modal-complete-btn" onclick="toggleComplete()">Mark Complete</button>
+      <button class="modal-next-btn" onclick="nextLesson()">Next Lesson →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHASES = [
+  {
+    id:1,color:'var(--p1)',bg:'linear-gradient(135deg,#001A17 0%,#003D36 100%)',pc:'var(--p1)',
+    title:'The World Builder',sub:'Learn the Studio interface and build your first 3D environment',
+    chips:['No code yet','3D tools','Parts & Terrain'],
+    lessons:[
+      {num:1,title:'The Studio Interface',diff:'beginner',time:'1–2 hrs',
+        learns:['The Explorer window — the tree that holds your entire game','The Properties panel — change anything about any object','The Toolbox — free assets and models','Viewport controls: fly, zoom, orbit','Play, Run, and Stop buttons'],
+        builds:['Navigate Studio confidently','Open Explorer & Properties','Place your first Part and move it','Press Play and walk as a character']},
+      {num:2,title:'Parts, Properties & Anchoring',diff:'beginner',time:'2–3 hrs',
+        learns:['Move, Scale, Rotate tools (R, T, Y keys)','Snapping and grid alignment','Size, Color, Material, Transparency','The Anchored property — why everything falls without it','BrickColor vs Color3'],
+        builds:['A floating platform with anchored Parts','Color it, give it a material','Create a kill brick','This becomes the START of your game 🗺️']},
+      {num:3,title:'Terrain & Your Game World',diff:'beginner',time:'2–3 hrs',
+        learns:['Terrain Editor — sculpt, paint, fill, erase','Terrain materials: grass, sand, water, rock','Biome design basics','Sky & Lighting panel','Atmosphere — fog, haze, dramatic skies'],
+        builds:['Create the island your game lives on','Sculpt a mountain, a beach, a river','Set mood with lighting','Place your Lesson 2 platform on the island 🌍']},
+      {num:4,title:'Models, Groups & the DataModel',diff:'beginner',time:'1–2 hrs',
+        learns:['What the DataModel tree is','Grouping parts into Models (Ctrl+G)','Naming objects — why it matters for scripting','Anchoring entire models vs individual parts','SpawnLocation — where characters appear'],
+        builds:['3 platforms grouped as named Models','Set up your SpawnLocation','Properly organized, playable world 🏝️']},
+    ],
+    milestone:{num:1,title:'Build a Classic Obby',inspo:'Natural Disaster Survival / Obby games',mc:'var(--p5)',
+      desc:'Using ONLY Phase 1 knowledge (no scripting!), build a full obstacle course with 10 stages on your island. Vary platform sizes, heights, and gaps. Add KillBricks on the ground. Different material + color theme per stage. Test by pressing Play and completing all 10 stages yourself!'}
+  },
+  {
+    id:2,color:'var(--p2)',bg:'linear-gradient(135deg,#041A00 0%,#0A3D02 100%)',pc:'var(--p2)',
+    title:'First Lines of Code',sub:'Learn Luau scripting basics and make your world come alive',
+    chips:['Luau syntax','Variables','Loops & Tables'],
+    lessons:[
+      {num:5,title:'Your First Script',diff:'beginner',time:'2 hrs',
+        learns:['Script vs LocalScript vs ModuleScript','Where to put scripts (ServerScriptService, Part)','print() — your debugging best friend','Comments with --','script.Parent — how a script refers to its object','The Output window'],
+        builds:['Script inside a platform','Print the platform name on start','Change platform color with code','First code that controls your world! 🖥️']},
+      {num:6,title:'Variables & Data Types',diff:'beginner',time:'2–3 hrs',
+        learns:['local vs global (always use local!)','string, number, boolean, nil','Math operators: +, -, *, /, ^, %','String concatenation with ..','tostring() and tonumber()'],
+        builds:['Variables for platform properties','Set position dynamically with math','Challenge: resize a platform 3x using a variable 📐']},
+      {num:7,title:'Conditions (if / elseif / else)',diff:'beginner',time:'2–3 hrs',
+        learns:['if / then / elseif / else / end','Comparison operators: ==, ~=, >, <','Logical: and, or, not','Luau truth rule: 0 and "" are TRUE','Nested conditions'],
+        builds:["Script your KillBrick: 'Danger!' when game starts","If it's red, add Transparency 0.3 glow","Different behavior if NOT red","Your world has logic! 🧩"]},
+      {num:8,title:'Loops & Tables',diff:'easy',time:'3 hrs',
+        learns:['while, for numeric, for generic loops','task.wait() — pause without freezing','Tables as lists and dictionaries','break to exit loops','pairs() and ipairs()'],
+        builds:['Platform that flashes colors via for loop','Table of colors to cycle through','Disappearing platform trap — CanCollide = false','Add to your obby! ⚡']},
+      {num:9,title:'Functions',diff:'easy',time:'2–3 hrs',
+        learns:['function name() end — defining functions','Parameters, arguments, return values','Calling functions from other functions','Anonymous functions','Writing clean, reusable code'],
+        builds:['makeDisappear(platform) that works on ANY part','Apply it to 3 different platforms','resetPlatform(platform) to bring them back','One function, three platforms 🔄']},
+    ],
+    milestone:{num:2,title:'Scripted Obby Traps',inspo:'Tower of Hell / Flood Escape',mc:'var(--p2)',
+      desc:'Take your Milestone 1 obby and add scripted behavior. Add: (1) disappearing platforms on a timer, (2) a platform that flashes red as a warning before vanishing, (3) a moving platform using a while loop. All 10 stages should still be completable — but now they\'re tricky!'}
+  },
+  {
+    id:3,color:'var(--p3)',bg:'linear-gradient(135deg,#1A0D00 0%,#3D2100 100%)',pc:'var(--p3)',
+    title:'Events & User Interaction',sub:'Make your game respond to players',
+    chips:['Events','GUI','Humanoid','ModuleScripts'],
+    lessons:[
+      {num:10,title:'Events & Connections',diff:'easy',time:'2–3 hrs',
+        learns:['.Connect() — linking functions to events','Touched event — fires when Part is touched','Checking if hit is a player (FindFirstChild Humanoid)','Disconnecting events — cleanup','How events are better than while loops'],
+        builds:['KillBrick that kills players','Coin pickup that prints "You got a coin!"','Checkpoint that prints your name','Players interact with your world! 🎯']},
+      {num:11,title:'The Humanoid & Character',diff:'easy',time:'2–3 hrs',
+        learns:['Humanoid.Health and :TakeDamage()','Humanoid.WalkSpeed and JumpPower','Character vs Player — the difference','Players.LocalPlayer in LocalScripts','PlayerAdded event'],
+        builds:['Speed pad: WalkSpeed 50 for 5 seconds','Bounce pad: JumpPower 150 briefly','Both reset after 5 seconds using task.wait()','Power-ups placed on your island 🏃💨']},
+      {num:12,title:'GUI — Screens & Buttons',diff:'easy',time:'3–4 hrs',
+        learns:['ScreenGui — 2D layer over the 3D world','Frame, TextLabel, TextButton, ImageLabel','AnchorPoint and Position (scale vs offset)','BackgroundColor3, TextColor3, Font, TextSize','Button.MouseButton1Click:Connect()'],
+        builds:['HUD with coin counter in top corner','Start Screen with game name and Play button','Play button changes color on hover','Your game has a real interface! 🖼️']},
+      {num:13,title:'ModuleScripts',diff:'intermediate',time:'3 hrs',
+        learns:['What is a ModuleScript and why use it','require() — loading a module','Returning tables of functions','Shared logic between scripts','Organizing code into files'],
+        builds:['CoinManager module: addCoin(), getCoins()','Use it from your coin pickup script','Display count on GUI label','Clean, organized code starts here! 📁']},
+    ],
+    milestone:{num:3,title:'Coin Collector Game',inspo:'Classic Obby with rewards',mc:'var(--p3)',
+      desc:'Scatter 20 coins across your island. Each coin gives +1 and destroys on touch. Display the total on a GUI. Add a goal zone — touching it with 20 coins prints YOU WIN! on screen. First complete mini-game with a real loop: collect → win!'}
+  },
+  {
+    id:4,color:'var(--p4)',bg:'linear-gradient(135deg,#1A0008 0%,#3D0011 100%)',pc:'var(--p4)',
+    title:'Client vs. Server',sub:'Master multiplayer architecture — the most important concept in Roblox',
+    chips:['RemoteEvents','DataStores','Security'],
+    lessons:[
+      {num:14,title:'Client-Server Architecture',diff:'intermediate',time:'3–4 hrs',
+        learns:['Server: one truth, runs the game for everyone','Client: each player\'s local view','Script vs LocalScript — which runs where','ServerScriptService vs StarterPlayerScripts','Why you NEVER trust the client with game data'],
+        builds:['Move coin logic to ServerScript','Keep GUI updates in LocalScript','Different containers — architecture is professional! 🏗️']},
+      {num:15,title:'RemoteEvents — Client ↔ Server',diff:'intermediate',time:'4 hrs',
+        learns:['RemoteEvent: bridge between client and server','Where to put them (ReplicatedStorage)','FireServer() — client tells server','OnServerEvent — server listens','FireClient() and FireAllClients()','NEVER trust FireServer data — always validate!'],
+        builds:["GUI 'Collect Bonus' button fires RemoteEvent",'Server validates and adds coins','Server fires back to update GUI','Secure coin system — no cheating possible! 🔒']},
+      {num:16,title:'RemoteFunctions & BindableEvents',diff:'intermediate',time:'3 hrs',
+        learns:['RemoteFunction: two-way communication','InvokeServer() and OnServerInvoke','BindableEvent: server-to-server','BindableFunction: server-side two-way calls','When to use each type'],
+        builds:["'Check Balance' button: client asks server",'Server responds with coin count','BindableEvent notifies another script on purchase','Full communication system! 📡']},
+      {num:17,title:'DataStores — Saving Player Data',diff:'intermediate',time:'4–5 hrs',
+        learns:['DataStoreService:GetDataStore("name")','SetAsync(key, value) and GetAsync(key)','pcall() — ALWAYS use this for DataStores!','PlayerRemoving — save when player leaves','Auto-saving with a timer loop'],
+        builds:['Save coin count when player leaves','Load it back on rejoin','Test: collect 15 coins, leave, rejoin — they persist!','Your game remembers players 💾']},
+    ],
+    milestone:{num:4,title:'Multiplayer Upgrade Shop',inspo:'Simulator games / Obby with upgrades',mc:'var(--p4)',
+      desc:'Add a Shop GUI with 3 buttons: Speed Boost (50 coins), Jump Boost (75 coins), Double Coins (100 coins). Each upgrade: requires enough server-side coins, deducts on the server, applies the effect. Coins save between sessions. Test with 2 players simultaneously!'}
+  },
+  {
+    id:5,color:'var(--p5)',bg:'linear-gradient(135deg,#130020 0%,#2D0050 100%)',pc:'var(--p5)',
+    title:'Visual Polish & Game Feel',sub:'Make your game look and sound amazing',
+    chips:['TweenService','Sound','Particles','Animations'],
+    lessons:[
+      {num:18,title:'TweenService — Smooth Animations',diff:'intermediate',time:'3 hrs',
+        learns:['TweenService:Create(instance, TweenInfo, properties)','TweenInfo: duration, EasingStyle, EasingDirection','EasingStyles: Bounce, Elastic, Quad, Back','Tweening Position, Size, Color, Transparency, CFrame','Tween:Play(), Pause(), Cancel()','Tween.Completed event'],
+        builds:['Coins slowly rotate and float up/down','Upgrade shop GUI slides in from the side','Platforms move smoothly instead of snapping','Your game feels alive and smooth! ✨']},
+      {num:19,title:'Sound & Music',diff:'easy',time:'2 hrs',
+        learns:['Sound objects — in Workspace or Parts','Sound:Play(), Stop(), Pause()','Volume, PlaybackSpeed, Looped, RollOffMaxDistance','3D sounds vs 2D sounds (SoundService)','Finding free sounds in the Toolbox'],
+        builds:['Background music (looping)','Coin collected sound','Purchase sound for shop','Footstep sounds on speed pads 🎵']},
+      {num:20,title:'Particles & Visual Effects',diff:'intermediate',time:'3 hrs',
+        learns:['ParticleEmitter — key properties: Texture, Rate, Speed, Lifetime, Color','Enabling/disabling emitters','Beam — connecting two parts with a visual beam','BillboardGui — 3D floating GUI above objects','SelectionBox and SelectionSphere'],
+        builds:['Sparkle particles on coins','Level-up burst when buying upgrade','Floating name tags above collectibles (BillboardGui)','Give them sparkles. 🌟']},
+      {num:21,title:'Animations',diff:'intermediate',time:'4 hrs',
+        learns:['Animation Editor (Plugins > Animation Editor)','Creating custom animations in Studio','Humanoid:LoadAnimation() and Animation:Play()','Looping, priorities, blending','Using Roblox default animation IDs'],
+        builds:['Custom coin spin animation','Character cheer animation on win','Animate an NPC waving','Your game has character! 🕺']},
+      {num:22,title:'ProximityPrompts & Tools',diff:'intermediate',time:'3 hrs',
+        learns:['ProximityPrompt — the interaction popup over objects','ProximityPrompt.Triggered event','ActionText, ObjectText, KeyboardKeyCode, HoldDuration','Tool objects — equippable items','Tool.Activated — fires on click','Tool.Equipped and Unequipped events'],
+        builds:["Press E to collect coins (ProximityPrompt)",'Shovel Tool from a chest','Shovel digs up buried coins when activated','Interactive world with equippable items! ⛏️']},
+    ],
+    milestone:{num:5,title:'Pet Simulator Style Clone',inspo:'Pet Simulator X / Mining Simulator',mc:'var(--p5)',
+      desc:'Build a stripped-down simulator. Core loop: equip pickaxe, click rock, get coins (particle burst + sound). DataStore saves. Shop upgrades give bigger pickaxe value. 2 zones: Starter (free) and Premium (500 coins gate that tweens open). Floating BillboardGui zone names. A full mini-simulator!'}
+  },
+  {
+    id:6,color:'var(--p6)',bg:'linear-gradient(135deg,#000F1A 0%,#00243D 100%)',pc:'var(--p6)',
+    title:'Advanced Systems',sub:'Build the systems that power complex games',
+    chips:['Round-based','Raycasting','OOP','Pathfinding'],
+    lessons:[
+      {num:23,title:'Round-Based Game Loop',diff:'intermediate',time:'4 hrs',
+        learns:['State machine: Lobby → Match → Cleanup','Teleporting players using CFrame','Countdown timer synced to all clients','BindableEvents for server-internal communication','Cloning maps from ServerStorage to reset'],
+        builds:['Round system: 30-second countdown then reset','Timer on every player\'s GUI','Teleport all players to arena at match start','Return to lobby when time runs out 🏟️']},
+      {num:24,title:'Raycasting & Hit Detection',diff:'advanced',time:'4–5 hrs',
+        learns:['What is raycasting? (invisible laser in 3D)','Workspace:Raycast(origin, direction, params)','RaycastParams: FilterType, FilterDescendantsInstances','RaycastResult: Instance, Position, Distance, Normal','Calculating direction from two 3D points'],
+        builds:['Gun Tool using raycasting for hit detection','Raycast from barrel, check if Part is hit','Hits a player → server deals damage','Laser beam visual with Beam 🔫']},
+      {num:25,title:'CollectionService & Tags',diff:'intermediate',time:'2–3 hrs',
+        learns:['CollectionService:GetTagged("TagName")','AddTag() and RemoveTag()','Instance:HasTag() — check if tagged','Why tagging beats manual lists at scale','ItemAdded and ItemRemoved signals'],
+        builds:['Tag all coins with "Coin"','One script handles ALL coins with GetTagged','Delete 20 individual scripts — replaced by ONE','Tag enemy NPCs for next lesson 🏷️']},
+      {num:26,title:'RunService & Frame Loops',diff:'advanced',time:'3–4 hrs',
+        learns:['RunService.PreRender (replaces RenderStepped)','PreSimulation / PostSimulation','Delta time (dt) — frame-rate independent motion','BindToRenderStep() with priority levels','When to use loops vs events (performance!)'],
+        builds:['Smooth camera that orbits a point (PreRender)','Coins bob up/down via PostSimulation + dt','Dash mechanic: burst velocity on keypress','Buttery smooth motion everywhere! 🎞️']},
+      {num:27,title:'Pathfinding & NPCs',diff:'advanced',time:'4 hrs',
+        learns:['PathfindingService:CreatePath()','Path:ComputeAsync() and GetWaypoints()','Humanoid:MoveTo() and MoveToFinished event','Handling blocked paths — recomputing','Making NPCs patrol, chase, or flee'],
+        builds:['Merchant NPC patrolling your island','Enemy NPC that chases the nearest player','Enemy deals damage on touch','Tag all enemies with "Enemy" via CollectionService 🤖']},
+      {num:28,title:'OOP in Luau (Classes & Metatables)',diff:'advanced',time:'5 hrs',
+        learns:['Tables as objects — properties + methods','Metatables and the __index metamethod','Constructors: function MyClass.new()','Method syntax: function MyClass:method() and self','Inheritance in Luau'],
+        builds:['Enemy refactored into an Enemy class','Enemy.new(), Enemy:Chase(), Enemy:TakeDamage()','Spawn 5 enemies in a for loop','Clean, professional code architecture! ⚙️']},
+    ],
+    milestone:null
+  },
+  {
+    id:7,color:'var(--p7)',bg:'linear-gradient(135deg,#0A001A 0%,#1A0040 100%)',pc:'var(--p7)',
+    title:'Advanced Luau & Optimization',sub:'Type checking, performance, and pro-level scripting',
+    chips:['Type Safety','Performance','DataStores','Monetization'],
+    lessons:[
+      {num:29,title:'Luau Type Checking',diff:'advanced',time:'3 hrs',
+        learns:['--!strict, --!nonstrict, --!nocheck modes','Type annotations: local x: number = 5','Function type signatures: function foo(x: number): string','Optional types: local name: string?','type aliases with type MyType = {}'],
+        builds:['Add --!strict to CoinManager','Fix type errors Studio highlights','Type annotations on Enemy class','Studio autocompletes and catches errors instantly 🛡️']},
+      {num:30,title:'Performance & Optimization',diff:'advanced',time:'4 hrs',
+        learns:['The MicroProfiler (Ctrl+F6) — find slow code','Minimizing remote event calls — batch data','Object pooling — reuse instead of create/destroy','Debounce — preventing rapid repeated events','Streaming Enabled — load parts as players approach'],
+        builds:['Profile your game with MicroProfiler','Debounce on coin pickups','Object pool for coin particles','StreamingEnabled in game settings','Your game runs clean and fast! 🚀']},
+      {num:31,title:'Advanced DataStores & Leaderboards',diff:'advanced',time:'4 hrs',
+        learns:['OrderedDataStore — sorted data for leaderboards','GetSortedAsync() — fetching ranked data','Pagination with maxPageSize','Session locking to prevent data loss on crash','Retry logic with exponential backoff'],
+        builds:['Global leaderboard showing top 10 earners','Large 3D Board in lobby showing rankings','Auto-updates every 60 seconds','Retry logic in save function 📊']},
+      {num:32,title:'Monetization & Publishing',diff:'intermediate',time:'3–4 hrs',
+        learns:['Publishing: File > Publish to Roblox','Game settings: genre, thumbnail, max players','Developer Products — one-time purchases','Passes — permanent unlocks (VIP, etc)','MarketplaceService:PromptProductPurchase()','ProcessReceipt — handling purchases securely'],
+        builds:['PUBLISH YOUR GAME! 🚀','Double Coins Developer Product','Purchase button in your shop','ProcessReceipt on server','Your game can make real money! 💰']},
+    ],
+    milestone:null
+  },
+  {
+    id:8,color:'var(--p8)',bg:'linear-gradient(135deg,#1A1400 0%,#3D3000 100%)',pc:'var(--p8)',
+    title:'The Final Boss',sub:'Build a complete, polished, publishable Roblox game from scratch',
+    chips:['Full Game','All Systems','Publish','Earn Robux'],
+    lessons:[],
+    finalProject:true,
+    milestone:{num:'FINAL',title:'Ship Your Own Simulator Game',inspo:'Pet Simulator / Lumber Tycoon / Mining Simulator',mc:'var(--p8)',
+      desc:'Pick a theme: Mining, Farming, Punching, Clicking — your choice. Required systems: 3+ zones with progression gating, DataStore saving, secure server-side logic, upgrade shop, global leaderboard, tweens/particles/sounds, NPC pathfinding, quest system, mobile-friendly UI, Developer Product + Game Pass, tested with 2+ clients simultaneously. Publish it. Share the link. You are no longer a beginner.'}
+  },
+];
+
+const CHEAT = [
+  {code:'local x = 5',desc:'Always use local! Faster and safer than global variables.'},
+  {code:'task.wait(n)',desc:'Pause a script. Always use task.wait, never old wait().'},
+  {code:'pcall(func)',desc:'Protect against errors — essential for DataStore calls.'},
+  {code:':FindFirstChild(n)',desc:'Safely find a child — returns nil if missing, never errors.'},
+  {code:"game:GetService('S')",desc:'The correct way to get any Roblox service.'},
+  {code:'Workspace:Raycast()',desc:'Cast a ray — returns RaycastResult or nil if nothing hit.'},
+  {code:'TweenService:Create()',desc:'Smooth animations. Always use this over manual loops.'},
+  {code:"GetTagged('tag')",desc:'CollectionService — find ALL objects with a tag at once.'},
+  {code:'RemoteEvent',desc:'ReplicatedStorage. FireServer(), FireClient(), FireAllClients().'},
+  {code:'--!strict',desc:'Enable type checking at the top of any ModuleScript.'},
+  {code:'deltaTime (dt)',desc:'Multiply movement by dt for frame-rate independent motion.'},
+  {code:'PlayerRemoving',desc:'ALWAYS save DataStore here — fires when a player leaves.'},
+];
+
+const completed = new Set(JSON.parse(localStorage.getItem('rb_done') || '[]'));
+let activeLesson = null;
+
+function saveCompleted(){localStorage.setItem('rb_done',JSON.stringify([...completed]))}
+
+function updateProgress(){
+  const total = 32;
+  const done = completed.size;
+  document.getElementById('prog-done').textContent = done;
+  document.getElementById('prog-fill').style.width = (done/total*100)+'%';
+  document.querySelectorAll('.lesson-card').forEach(card=>{
+    const num = parseInt(card.dataset.num);
+    card.classList.toggle('completed', completed.has(num));
+    const btn = card.querySelector('.mark-btn');
+    if(btn) btn.textContent = completed.has(num) ? '✓ Done' : 'Mark Done';
+  });
+}
+
+function openLesson(phaseId, lessonNum){
+  const phase = PHASES.find(p=>p.id===phaseId);
+  const lesson = phase.lessons.find(l=>l.num===lessonNum);
+  activeLesson = {phase, lesson};
+
+  document.getElementById('modal-num').textContent = `PHASE ${phaseId} — LESSON ${lessonNum}`;
+  document.getElementById('modal-title').textContent = lesson.title;
+
+  const badgesEl = document.getElementById('modal-badges');
+  const diffClass = 'diff-'+lesson.diff;
+  const diffLabels = {beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'};
+  badgesEl.innerHTML = `<span class="diff-badge ${diffClass}">${diffLabels[lesson.diff]||lesson.diff}</span><span class="diff-badge" style="background:rgba(255,255,255,0.06);color:var(--muted)">⏱ ${lesson.time}</span>`;
+
+  const color = phase.color;
+  const learnsEl = document.getElementById('modal-learns');
+  learnsEl.innerHTML = lesson.learns.map(l=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,255,255,0.05);color:${color}">▸</div><div>${l}</div></div>`).join('');
+  const buildsEl = document.getElementById('modal-builds');
+  buildsEl.innerHTML = lesson.builds.map(b=>`<div class="modal-item"><div class="modal-bullet" style="background:rgba(255,140,0,0.1);color:var(--p3)">+</div><div>${b}</div></div>`).join('');
+
+  document.getElementById('modal-inner').style.borderColor = `rgba(${hexToRgb(phase.color)}, 0.3)`;
+  updateModalBtn();
+  document.getElementById('modal').classList.add('open');
+}
+
+function hexToRgb(cssVar){
+  const map = {'var(--p1)':'0,229,204','var(--p2)':'57,255,20','var(--p3)':'255,140,0','var(--p4)':'255,45,85','var(--p5)':'191,95,255','var(--p6)':'0,180,255','var(--p7)':'123,47,255','var(--p8)':'255,215,0'};
+  return map[cssVar]||'255,255,255';
+}
+
+function updateModalBtn(){
+  if(!activeLesson) return;
+  const btn = document.getElementById('modal-complete-btn');
+  const done = completed.has(activeLesson.lesson.num);
+  btn.textContent = done ? '✓ Completed!' : 'Mark Complete';
+  btn.className = 'modal-complete-btn '+(done?'done':'not-done');
+}
+
+function toggleComplete(){
+  if(!activeLesson) return;
+  const num = activeLesson.lesson.num;
+  if(completed.has(num)) completed.delete(num); else completed.add(num);
+  saveCompleted();
+  updateProgress();
+  updateModalBtn();
+}
+
+function nextLesson(){
+  if(!activeLesson) return;
+  const {phase, lesson} = activeLesson;
+  const idx = phase.lessons.findIndex(l=>l.num===lesson.num);
+  if(idx<phase.lessons.length-1){
+    openLesson(phase.id, phase.lessons[idx+1].num);
+  } else {
+    const nextPhase = PHASES.find(p=>p.id===phase.id+1);
+    if(nextPhase && nextPhase.lessons.length>0) openLesson(nextPhase.id, nextPhase.lessons[0].num);
+    else closeModal();
+  }
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+}
+
+document.getElementById('modal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal()});
+
+// BUILD PHASES
+const container = document.getElementById('phases-container');
+const diffClass = d => ({beginner:'diff-beginner',easy:'diff-easy',intermediate:'diff-intermediate',advanced:'diff-advanced',expert:'diff-expert'}[d]||'diff-beginner');
+const diffLabel = d => ({beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'}[d]||'Beginner');
+
+PHASES.forEach(phase => {
+  const sec = document.createElement('section');
+  sec.className = 'phase-section fade-in';
+  sec.id = 'phase-'+phase.id;
+
+  let html = `<div class="phase-header" style="background:${phase.bg};--pc:${phase.pc};border:1px solid rgba(255,255,255,0.08)">
+    <div class="phase-num">PHASE ${phase.id}</div>
+    <div class="phase-title" style="color:${phase.color}">${phase.title}</div>
+    <div class="phase-sub">${phase.sub}</div>
+    <div class="phase-chips">${phase.chips.map(c=>`<span class="phase-chip">${c}</span>`).join('')}</div>
+  </div>`;
+
+  if(phase.finalProject){
+    html += `<div style="text-align:center;padding:2rem;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:12px;margin-bottom:1.5rem">
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;letter-spacing:2px;color:var(--p8);margin-bottom:0.75rem">SYNTHESIS PROJECT</div>
+      <div style="font-size:1.1rem;color:rgba(255,255,255,0.8);line-height:1.7;max-width:700px;margin:0 auto">All 32 lessons combined. Pick your simulator theme and build a complete, publishable game. See the milestone below for the full requirements checklist.</div>
+    </div>`;
+  }
+
+  if(phase.lessons.length > 0){
+    html += '<div class="lessons-grid">';
+    phase.lessons.forEach(lesson => {
+      const previews = lesson.learns.slice(0,3).map(l=>`<div class="preview-tag">${l}</div>`).join('');
+      html += `<div class="lesson-card" data-num="${lesson.num}" data-phase="${phase.id}" onclick="openLesson(${phase.id},${lesson.num})">
+        <div class="lcard-header" style="border-left:3px solid ${phase.color}">
+          <div class="lcard-num">
+            <span class="lcard-num-badge" style="background:${phase.color}15;color:${phase.color}">L${lesson.num}</span>
+            <span class="diff-badge ${diffClass(lesson.diff)}">${diffLabel(lesson.diff)}</span>
+          </div>
+          <div class="lcard-title">${lesson.title}</div>
+          <div class="lcard-time">⏱ ${lesson.time}</div>
+        </div>
+        <div class="lcard-preview">${previews}</div>
+        <div class="lcard-footer">
+          <span class="lcard-footer-left">Click to expand</span>
+          <button class="mark-btn" onclick="event.stopPropagation();const n=${lesson.num};completed.has(n)?completed.delete(n):completed.add(n);saveCompleted();updateProgress()">Mark Done</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  if(phase.milestone){
+    const ms = phase.milestone;
+    html += `<div class="milestone-card" style="background:${phase.bg};border:1px solid rgba(255,255,255,0.1);--mc:${ms.mc};animation:${ms.num==='FINAL'?'pulse-border 3s infinite':'none'}">
+      <div class="ms-top">
+        <span class="ms-badge" style="color:${ms.mc};border-color:${ms.mc}40">🏆 MILESTONE #${ms.num}</span>
+      </div>
+      <div class="ms-title" style="color:${ms.mc}">${ms.title}</div>
+      <div class="ms-inspo" style="color:rgba(255,255,255,0.5)">Inspired by: ${ms.inspo}</div>
+      <div class="ms-desc">${ms.desc}</div>
+    </div>`;
+  }
+
+  sec.innerHTML = html;
+  container.appendChild(sec);
+});
+
+// CHEAT SHEET
+const cheatEl = document.getElementById('cheat-grid');
+cheatEl.innerHTML = CHEAT.map(c=>`<div class="cheat-item"><span class="cheat-code">${c.code}</span><span class="cheat-desc">${c.desc}</span></div>`).join('');
+
+// PHASE NAV CLICKS
+document.querySelectorAll('.phase-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    const id = tab.dataset.phase;
+    document.getElementById('phase-'+id)?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// INTERSECTION OBSERVER — phase tabs + fade-in
+const phaseObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id.replace('phase-','');
+      document.querySelectorAll('.phase-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelector(`[data-phase="${id}"]`)?.classList.add('active');
+    }
+  });
+},{threshold:0.2});
+
+document.querySelectorAll('.phase-section').forEach(s=>phaseObserver.observe(s));
+
+const fadeObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.05});
+document.querySelectorAll('.fade-in').forEach(el=>fadeObserver.observe(el));
+
+// STARS
+function makeStars(){
+  const c = document.getElementById('stars-container');
+  const count = 120;
+  for(let i=0;i<count;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*2+0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s;opacity:${Math.random()*0.5}`;
+    c.appendChild(s);
+  }
+}
+makeStars();
+updateProgress();
+</script>
+</body>
+</html>
