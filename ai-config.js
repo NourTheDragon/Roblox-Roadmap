@@ -7,36 +7,65 @@
 const AI_CONFIG = {
 
   // ── ACTIVE MODEL ──────────────────────────────────────────────────────────
-  // Change this line to switch models instantly.
-  // Pick from the FREE_MODELS list below, or paste any OpenRouter model ID.
+  // This is the default model selected on first load.
+  // The dropdown in the modal is populated from FREE_MODELS below.
   model: "google/gemma-3-27b-it:free",
 
-  // ── FREE MODELS YOU CAN SWAP IN ───────────────────────────────────────────
-  // Uncomment any line below and copy it to `model:` above.
-  // "nvidia/nemotron-3-super-120b-a12b:free"  ← don't knowwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-  // "google/gemini-2.0-flash-exp:free"        ← fast, smart, good code quality
-  // "google/gemini-2.5-pro-exp-03-25:free"    ← best free model (may be slow)
-  // "meta-llama/llama-4-maverick:free"         ← Meta's newest free Llama
-  // "meta-llama/llama-4-scout:free"            ← lighter Llama 4 variant
-  // "deepseek/deepseek-r1:free"                ← strong reasoning model
-  // "deepseek/deepseek-v3-0324:free"           ← DeepSeek V3, great coding
-  // "mistralai/mistral-small-3.2-24b-instruct:free"
-  // "qwen/qwen3-235b-a22b:free"                ← Qwen 3 large
-  // "microsoft/phi-4-reasoning-plus:free"      ← Microsoft Phi-4 reasoning
+  // ── FREE MODELS LIST ─────────────────────────────────────────────────────
+  // Add or remove models here — the dropdown in the UI is built from this list.
+  // Each entry: { id: "openrouter-model-id", label: "display name (optional)" }
+  FREE_MODELS: [
+    {
+      group: "Usually Fast",
+      groupAr: "سريعة عادةً",
+      models: [
+        { id: "google/gemma-3-27b-it:free" },
+        { id: "meta-llama/llama-4-scout:free" },
+        { id: "meta-llama/llama-4-maverick:free" },
+        { id: "mistralai/mistral-small-3.2-24b-instruct:free" },
+      ]
+    },
+    {
+      group: "High Quality (may be slower)",
+      groupAr: "جودة عالية (قد تكون أبطأ)",
+      models: [
+        { id: "google/gemini-2.0-flash-exp:free" },
+        { id: "google/gemini-2.5-pro-exp-03-25:free" },
+        { id: "deepseek/deepseek-v3-0324:free" },
+        { id: "deepseek/deepseek-r1:free" },
+      ]
+    },
+    {
+      group: "Experimental",
+      groupAr: "تجريبية",
+      models: [
+        { id: "qwen/qwen3-235b-a22b:free" },
+        { id: "microsoft/phi-4-reasoning-plus:free" },
+      ]
+    },
+    {
+      group: "Ibra Special",
+      groupAr: "إبرا سبيشل",
+      models: [
+        { id: "stepfun/step-3.5-flash:free" },
+        { id: "nvidia/nemotron-3-super-120b-a12b:free" },
+        { id: "qwen/qwen3-coder:free" },
+        { id: "minimax/minimax-m2.5:free" },
+        { id: "liquid/lfm-2.5-1.2b-thinking:free" },
+      ]
+    }
+  ],
 
   // ── OPENROUTER API ────────────────────────────────────────────────────────
   // Get your FREE key at https://openrouter.ai → Sign in → Keys
-  // The free tier works without billing info for free models.
   apiKey: "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",
 
   // ── GENERATION SETTINGS ───────────────────────────────────────────────────
   maxTokens: 2048,
   temperature: 0.7,
 
-  // ── SYSTEM PROMPT ─────────────────────────────────────────────────────────
-  // This tells the AI how to format its lesson explanations.
-  // Uses the LATEST Roblox Studio docs & Luau syntax.
-  systemPrompt: `You are an expert Roblox Studio educator with deep knowledge of the LATEST version of Roblox Studio (2024-2025) and modern Luau scripting language.
+  // ── ENGLISH SYSTEM PROMPT ─────────────────────────────────────────────────
+  systemPrompt: `You are an expert Roblox Studio educator with deep knowledge of the LATEST version of Roblox Studio (2025-2026) and modern Luau scripting language.
 
 You explain lessons in a clear, beginner-friendly but thorough way.
 Reference the official Roblox documentation at https://create.roblox.com/docs/ when relevant.
@@ -62,7 +91,39 @@ Include Luau code snippets where needed, using the latest syntax (task library, 
 List 1-3 relevant pages from https://create.roblox.com/docs/ (use real, likely URLs).
 
 Keep your response thorough but focused. Use friendly, encouraging language.
-Always use the latest Luau patterns: prefer task.wait() over wait(), use local variables, use modern API like :AddTag(), etc.`
+Always use the latest Luau patterns: prefer task.wait() over wait(), use local variables, use modern API like :AddTag(), etc.`,
+
+  // ── ARABIC SYSTEM PROMPT ──────────────────────────────────────────────────
+  // Used automatically when the page language is set to Arabic.
+  systemPromptAr: `انت خبير في تعليم Roblox Studio، تمتلك معرفة عميقة بأحدث إصدار من Roblox Studio (2025-2026) ولغة Luau الحديثة.
+
+تشرح الدروس بأسلوب واضح، مناسب للمبتدئين مع التفصيل الكافي.
+
+قاعدة مهمة جداً للتنسيق: أسماء الأدوات والنوافذ والدوال والمصطلحات التقنية الخاصة بـ Roblox Studio تُكتب دائماً بالإنجليزي أولاً، ثم الترجمة العربية بين قوسين مباشرة بعدها.
+أمثلة صحيحة: Explorer (المستكشف)، Properties (الخصائص)، Script (السكريبت)، Workspace (مساحة العمل)، ServerScriptService (خدمة السكريبت)، task.wait() (انتظار المهمة)، Humanoid (شخصية اللاعب).
+
+نسّق ردك بهذه الأقسام مع رموز تعبيرية:
+
+## 🧠 ما الذي يدور حوله هذا الدرس فعلاً
+ملخص بجملتين أو ثلاث بلغة عربية واضحة للمفهوم الأساسي.
+
+## 📖 المفاهيم الأساسية موضحةً
+اشرح كل مفهوم من قائمة ماذا ستتعلم بمصطلحات بسيطة.
+استخدم نقاطاً. للمفاهيم البرمجية، أضف أمثلة قصيرة بكود Luau داخل code blocks.
+
+## 🛠️ خطوات التنفيذ
+خطوات مرقمة يتبعها الطالب في Roblox Studio لإتمام مهمة ماذا ستبني.
+كن دقيقاً — اذكر أسماء القوائم بالإنجليزي مع الترجمة بين قوسين، ومفاتيح لوحة المفاتيح، وعناصر الواجهة.
+أضف كود Luau حيثما لزم بأحدث صياغة (مكتبة task وليس wait() القديمة).
+
+## 💡 نصائح احترافية وأخطاء شائعة
+نصيحتان أو ثلاث خاصة بهذا الدرس. اذكر الأخطاء الشائعة للمبتدئين وكيف تتجنبها.
+
+## 🔗 وثائق Roblox الرسمية للمراجعة
+اذكر 1-3 صفحات ذات صلة من https://create.roblox.com/docs/
+
+اجعل ردك شاملاً ومركزاً. استخدم لغة ودية ومشجعة.
+دائماً استخدم أحدث أنماط Luau: فضّل task.wait() على wait()، واستخدم المتغيرات المحلية، والـ API الحديثة مثل :AddTag().`
 
 };
 

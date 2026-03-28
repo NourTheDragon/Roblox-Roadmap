@@ -542,7 +542,7 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
 
       <!-- API Key row -->
       <div class="ai-row">
-        <span class="ai-row-label">KEY</span>
+        <span class="ai-row-label" data-t="ai_key_label">KEY</span>
         <div class="ai-key-input-wrap">
           <input
             type="password"
@@ -561,32 +561,10 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
 
       <!-- Model picker row -->
       <div class="ai-row">
-        <span class="ai-row-label">MODEL</span>
+        <span class="ai-row-label" data-t="ai_model_label">MODEL</span>
         <div class="ai-select-wrap">
           <select id="ai-model-select" class="ai-model-select" onchange="saveModelChoice(this.value)">
-            <optgroup label="Usually Fast">
-              <option value="google/gemma-3-27b-it:free">google/gemma-3-27b-it:free</option>
-              <option value="meta-llama/llama-4-scout:free">meta-llama/llama-4-scout:free</option>
-              <option value="meta-llama/llama-4-maverick:free">meta-llama/llama-4-maverick:free</option>
-              <option value="mistralai/mistral-small-3.2-24b-instruct:free">mistralai/mistral-small-3.2-24b-instruct:free</option>
-            </optgroup>
-            <optgroup label="High Quality (may be slower)">
-              <option value="google/gemini-2.0-flash-exp:free">google/gemini-2.0-flash-exp:free</option>
-              <option value="google/gemini-2.5-pro-exp-03-25:free">google/gemini-2.5-pro-exp-03-25:free</option>
-              <option value="deepseek/deepseek-v3-0324:free">deepseek/deepseek-v3-0324:free</option>
-              <option value="deepseek/deepseek-r1:free">deepseek/deepseek-r1:free</option>
-            </optgroup>
-            <optgroup label="Experimental">
-              <option value="qwen/qwen3-235b-a22b:free">qwen/qwen3-235b-a22b:free</option>
-              <option value="microsoft/phi-4-reasoning-plus:free">microsoft/phi-4-reasoning-plus:free</option>
-            </optgroup>
-            <optgroup label="Ibra Special">
-              <option value="stepfun/step-3.5-flash:free">stepfun/step-3.5-flash:free</option>
-              <option value="nvidia/nemotron-3-super-120b-a12b:free">nvidia/nemotron-3-super-120b-a12b:free</option>
-              <option value="qwen/qwen3-coder:free">qwen/qwen3-coder:free</option>
-              <option value="minimax/minimax-m2.5:free">minimax/minimax-m2.5:free</option>
-              <option value="liquid/lfm-2.5-1.2b-thinking:free">liquid/lfm-2.5-1.2b-thinking:free</option>
-            </optgroup>
+            <!-- Populated dynamically from AI_CONFIG.FREE_MODELS in ai-config.js -->
           </select>
         </div>
         <span id="ai-model-status" class="ai-status-tag"></span>
@@ -595,7 +573,7 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
       <!-- Explain button -->
       <button class="ai-explain-btn" id="ai-explain-btn" onclick="requestAIExplanation()">
         <span class="ai-btn-icon">&#129302;</span>
-        <span class="ai-btn-text" id="ai-btn-text">Explain This Lesson with AI</span>
+        <span class="ai-btn-text" id="ai-btn-text" data-t="ai_btn_text">Explain This Lesson with AI</span>
         <div class="spinner"></div>
       </button>
     </div>
@@ -603,7 +581,7 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
         <!-- AI Explanation Panel -->
     <div class="ai-panel" id="ai-panel">
       <div class="ai-panel-header">
-        <div class="ai-panel-title">🤖 AI LESSON EXPLANATION</div>
+        <div class="ai-panel-title" data-t="ai_panel_title">🤖 AI LESSON EXPLANATION</div>
         <button class="ai-panel-close" onclick="closeAIPanel()" title="Close">✕</button>
       </div>
       <div class="ai-panel-body" id="ai-panel-body"></div>
@@ -661,6 +639,19 @@ const T = {
     milestone_badge:'🏆 MILESTONE',
     inspired_by:'Inspired by:',
     diff: {beginner:'🟢 Beginner',easy:'🟡 Easy',intermediate:'🟠 Intermediate',advanced:'🔴 Advanced',expert:'🔴🔴 Expert'},
+    ai_key_label: 'KEY',
+    ai_model_label: 'MODEL',
+    ai_btn_text: 'Explain This Lesson with AI',
+    ai_btn_loading: 'Generating explanation…',
+    ai_panel_title: '🤖 AI LESSON EXPLANATION',
+    ai_key_placeholder: 'Paste your OpenRouter key (saved in browser)...',
+    ai_no_key_title: '🔑 No API key found!',
+    ai_no_key_body: 'Paste your free OpenRouter key in the KEY field above — it saves automatically in your browser.',
+    ai_no_key_link: "Don't have one? Go to openrouter.ai → Sign in → Keys → Create Key (free, no billing needed for :free models).",
+    ai_error_retry: 'Try switching to a different model in the dropdown above, then click the button again.',
+    ai_loading_msg: 'AI is reading the lesson and writing your explanation…',
+    ai_no_config: '⚠️ Could not load ai-config.js. Make sure both files are in the same folder.',
+    ai_cached_badge: '📌 Previous result — click button above to refresh',
   },
   ar: {
     progress_label:'تقدّمك نحو الاحتراف',
@@ -701,6 +692,19 @@ const T = {
     milestone_badge:'🏆 إنجاز',
     inspired_by:'مستوحى من:',
     diff: {beginner:'🟢 مبتدئ',easy:'🟡 سهل',intermediate:'🟠 متوسط',advanced:'🔴 متقدم',expert:'🔴🔴 خبير'},
+    ai_key_label: 'المفتاح',
+    ai_model_label: 'النموذج',
+    ai_btn_text: 'اشرح هذا الدرس بالذكاء الاصطناعي',
+    ai_btn_loading: 'جارٍ توليد الشرح…',
+    ai_panel_title: '🤖 شرح الدرس بالذكاء الاصطناعي',
+    ai_key_placeholder: 'الصق مفتاح OpenRouter هنا (يُحفظ في المتصفح)...',
+    ai_no_key_title: '🔑 لم يُعثر على مفتاح API!',
+    ai_no_key_body: 'الصق مفتاح OpenRouter المجاني في حقل المفتاح أعلاه — يُحفظ تلقائياً في متصفحك.',
+    ai_no_key_link: 'ليس لديك مفتاح؟ اذهب إلى openrouter.ai ← سجّل الدخول ← المفاتيح ← أنشئ مفتاحاً (مجاني بدون بيانات دفع لنماذج :free).',
+    ai_error_retry: 'جرب تغيير النموذج من القائمة أعلاه ثم اضغط الزر مجدداً.',
+    ai_loading_msg: 'الذكاء الاصطناعي يقرأ الدرس ويكتب شرحك…',
+    ai_no_config: '⚠️ تعذّر تحميل ai-config.js. تأكد من وجود الملفين في نفس المجلد.',
+    ai_cached_badge: '📌 النتيجة السابقة — اضغط الزر أعلاه للتحديث',
   }
 };
 
@@ -1288,6 +1292,13 @@ function applyLang(){
     if(val !== undefined) el.textContent = val;
   });
 
+  // Update AI key input placeholder
+  const keyInput = document.getElementById('ai-key-input');
+  if(keyInput) keyInput.placeholder = t('ai_key_placeholder');
+
+  // Rebuild model dropdown with translated group labels
+  buildModelSelect();
+
   // Rebuild dynamic content
   buildPhaseNav();
   buildPhases();
@@ -1533,6 +1544,11 @@ applyLang(); // builds everything + applies lang
 //  AI LESSON EXPLANATION
 // ─────────────────────────────────────────────
 
+// Cached AI result per lesson: key = "phaseId-lessonNum", value = html string
+const aiResultCache = {};
+// Track which lesson the panel currently shows
+let aiPanelLessonKey = null;
+
 // Simple markdown-to-HTML renderer (no external lib needed)
 function mdToHtml(md) {
   let html = md
@@ -1571,14 +1587,38 @@ function mdToHtml(md) {
 
 function buildAIPrompt(phase, lesson) {
   const lang = currentLang || 'en';
-  const title = lang === 'ar' && lesson.title.ar ? lesson.title.ar : lesson.title.en;
-  const learns = lesson.learns.en;  // always use EN for AI
+  const isAr = lang === 'ar';
+
+  // Always use EN lesson data for the context block (AI parses it more reliably)
+  const learns = lesson.learns.en;
   const builds = lesson.builds.en;
   const phaseTitle = phase.title.en;
+  const lessonTitle = lesson.title.en;
+
+  if (isAr) {
+    // Arabic prompt — instructs AI to respond in Arabic with EN terms in parens
+    return `أنا أتعلم تطوير الألعاب باستخدام Roblox Studio. أنا في المرحلة ${phase.id}: "${phase.title.ar || phaseTitle}".
+
+الدرس الحالي: الدرس ${lesson.num} — "${lesson.title.ar || lessonTitle}" (المستوى: ${lesson.diff}، الوقت المقدر: ${lesson.time})
+
+سياق خارطة الطريق الكاملة:
+هذا جزء من خارطة طريق مكونة من 32 درسًا و8 مراحل. الطالب يبني لعبة واحدة تنمو — تبدأ من جزيرة فارغة وتضاف إليها ميزات كل درس. هذا الدرس يأتي ضمن هذا التسلسل.
+
+ما يغطيه هذا الدرس:
+أهداف التعلم:
+${learns.map((l,i) => `${i+1}. ${l.replace(/<[^>]+>/g,'')}`).join('\n')}
+
+ما يقوم الطالب ببنائه:
+${builds.map((b,i) => `${i+1}. ${b.replace(/<[^>]+>/g,'')}`).join('\n')}
+
+أعطني شرحاً كاملاً ومفصلاً لهذا الدرس باللغة العربية حتى أتمكن من تعلمه وإكماله في Roblox Studio.
+تذكر: أسماء الأدوات والنوافذ والدوال مثل Explorer وProperties وScript وServerScriptService وtask.wait() تُكتب بالإنجليزي مع الترجمة العربية بين قوسين مباشرة بعدها.
+استخدم أحدث إصدار من Roblox Studio (2024-2025) وصياغة Luau الحديثة.`;
+  }
 
   return `I am learning Roblox Studio game development. I am on Phase ${phase.id}: "${phaseTitle}".
 
-Current Lesson: Lesson ${lesson.num} — "${lesson.title.en}" (difficulty: ${lesson.diff}, estimated time: ${lesson.time})
+Current Lesson: Lesson ${lesson.num} — "${lessonTitle}" (difficulty: ${lesson.diff}, estimated time: ${lesson.time})
 
 FULL ROADMAP CONTEXT:
 This is part of a 32-lesson, 8-phase roadmap. The student is building ONE growing game — starting from an empty island and adding features each lesson. This lesson fits within that progression.
@@ -1598,7 +1638,7 @@ async function requestAIExplanation() {
 
   const cfg = window.AI_CONFIG;
   if (!cfg) {
-    showAIPanel(`<div class="ai-no-key">⚠️ Could not load <code>ai-config.js</code>. Make sure both files are in the same folder.</div>`);
+    showAIPanel(`<div class="ai-no-key">${t('ai_no_config')}</div>`);
     return;
   }
 
@@ -1609,12 +1649,15 @@ async function requestAIExplanation() {
 
   if (!resolvedKey) {
     showAIPanel(`<div class="ai-no-key">
-      <strong style="color:#fff">&#128273; No API key found!</strong><br><br>
-      Paste your free OpenRouter key in the <strong>KEY</strong> field above — it saves automatically in your browser.<br><br>
-      Don't have one? Go to <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> &rarr; Sign in &rarr; Keys &rarr; Create Key (free, no billing needed for :free models).
+      <strong style="color:#fff">${t('ai_no_key_title')}</strong><br><br>
+      ${t('ai_no_key_body')}<br><br>
+      ${t('ai_no_key_link').replace('openrouter.ai', '<a href="https://openrouter.ai" target="_blank">openrouter.ai</a>')}
     </div>`);
     return;
   }
+
+  const {phase, lesson} = activeLesson;
+  const lessonKey = `${phase.id}-${lesson.num}`;
 
   // Read model from dropdown
   const select = document.getElementById('ai-model-select');
@@ -1623,8 +1666,8 @@ async function requestAIExplanation() {
   const btn = document.getElementById('ai-explain-btn');
   const panel = document.getElementById('ai-panel');
 
-  // If panel already open with content, just close it (toggle)
-  if (panel.classList.contains('visible') && !btn.classList.contains('loading')) {
+  // If panel is already visible AND shows this same lesson → toggle closed
+  if (panel.classList.contains('visible') && aiPanelLessonKey === lessonKey && !btn.classList.contains('loading')) {
     closeAIPanel();
     return;
   }
@@ -1632,15 +1675,18 @@ async function requestAIExplanation() {
   // Set loading state
   btn.disabled = true;
   btn.classList.add('loading');
-  document.getElementById('ai-btn-text').textContent = 'Generating explanation…';
+  document.getElementById('ai-btn-text').textContent = t('ai_btn_loading');
   setModelStatus('⏳ asking…');
   showAIPanel(`<div style="padding:0.5rem 0;color:var(--muted);display:flex;align-items:center;gap:0.75rem">
     <div class="spinner" style="display:block;width:18px;height:18px;border-width:2px"></div>
-    <span>AI is reading the lesson and writing your explanation…</span>
+    <span>${t('ai_loading_msg')}</span>
   </div>`);
 
-  const {phase, lesson} = activeLesson;
   const prompt = buildAIPrompt(phase, lesson);
+
+  // Choose system prompt based on language
+  const isAr = currentLang === 'ar';
+  const systemPrompt = (isAr && cfg.systemPromptAr) ? cfg.systemPromptAr : cfg.systemPrompt;
 
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -1656,7 +1702,7 @@ async function requestAIExplanation() {
         max_tokens: cfg.maxTokens || 2048,
         temperature: cfg.temperature ?? 0.7,
         messages: [
-          { role: 'system', content: cfg.systemPrompt },
+          { role: 'system', content: systemPrompt },
           { role: 'user', content: prompt }
         ]
       })
@@ -1679,28 +1725,84 @@ async function requestAIExplanation() {
 
     const modelUsed = data.model || activeModel;
     const html = mdToHtml(text);
-    setModelStatus('✅ done');
-    showAIPanel(
-      `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">
+    const resultHtml = `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">
         ✅ ${modelUsed}
-       </div>` + html
-    );
+       </div>` + html;
+
+    // Cache the result for this lesson
+    aiResultCache[lessonKey] = resultHtml;
+    aiPanelLessonKey = lessonKey;
+
+    setModelStatus('✅ done');
+    showAIPanel(resultHtml);
 
   } catch(err) {
     setModelStatus('❌ failed');
     showAIPanel(`<div class="ai-panel-error">⚠️ <span><strong>Error:</strong> ${err.message}<br>
-      <span style="color:var(--muted);font-size:0.8rem">Try switching to a different model in the dropdown above, then click the button again.</span>
+      <span style="color:var(--muted);font-size:0.8rem">${t('ai_error_retry')}</span>
     </span></div>`);
   } finally {
     btn.disabled = false;
     btn.classList.remove('loading');
-    document.getElementById('ai-btn-text').textContent = 'Explain This Lesson with AI';
+    document.getElementById('ai-btn-text').textContent = t('ai_btn_text');
   }
 }
 
 function setModelStatus(msg) {
   const el = document.getElementById('ai-model-status');
   if (el) el.textContent = msg;
+}
+
+// ── MODEL DROPDOWN ─────────────────────────────────────────────────────────
+// Build the <select> from AI_CONFIG.FREE_MODELS (called on lang change too)
+function buildModelSelect() {
+  const select = document.getElementById('ai-model-select');
+  if (!select) return;
+  const cfg = window.AI_CONFIG;
+  if (!cfg || !cfg.FREE_MODELS) return;
+
+  const isAr = currentLang === 'ar';
+  const savedModel = (function() {
+    try { return localStorage.getItem('ai_model_choice') || cfg.model; } catch(_){ return cfg.model; }
+  })();
+
+  select.innerHTML = '';
+  cfg.FREE_MODELS.forEach(group => {
+    const og = document.createElement('optgroup');
+    og.label = (isAr && group.groupAr) ? group.groupAr : group.group;
+    group.models.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = m.label || m.id;
+      og.appendChild(opt);
+    });
+    select.appendChild(og);
+  });
+
+  // Restore saved selection
+  if (savedModel) {
+    const match = select.querySelector(`option[value="${savedModel}"]`);
+    if (match) {
+      select.value = savedModel;
+    } else {
+      // custom model not in list — add it
+      const o = document.createElement('option');
+      o.value = savedModel; o.textContent = savedModel;
+      select.appendChild(o);
+      select.value = savedModel;
+    }
+  }
+}
+
+function initModelSelect() {
+  buildModelSelect();
+  const keyInput = document.getElementById('ai-key-input');
+  if (keyInput) {
+    const saved = getUserKey();
+    keyInput.value = saved;
+    keyInput.placeholder = t('ai_key_placeholder');
+    updateKeyUI(saved);
+  }
 }
 
 // ── KEY PERSISTENCE ──────────────────────────────────────────────────────────
@@ -1745,39 +1847,7 @@ function toggleKeyVisibility() {
 function saveModelChoice(val) {
   try { localStorage.setItem('ai_model_choice', val); } catch(_){}
   setModelStatus('');
-  closeAIPanel();
-}
-
-function initModelSelect() {
-  const select = document.getElementById('ai-model-select');
-  const keyInput = document.getElementById('ai-key-input');
-
-  // Restore saved model
-  if (select) {
-    try {
-      const saved = localStorage.getItem('ai_model_choice');
-      const target = saved || window.AI_CONFIG?.model;
-      if (target) {
-        const opt = select.querySelector(`option[value="${target}"]`);
-        if (opt) {
-          select.value = target;
-        } else if (saved) {
-          // custom model not in list — add it
-          const o = document.createElement('option');
-          o.value = saved; o.textContent = saved;
-          select.appendChild(o);
-          select.value = saved;
-        }
-      }
-    } catch(_){}
-  }
-
-  // Restore saved user key
-  if (keyInput) {
-    const saved = getUserKey();
-    keyInput.value = saved;
-    updateKeyUI(saved);
-  }
+  // Don't close panel — user is just changing model
 }
 
 function showAIPanel(html) {
@@ -1792,16 +1862,29 @@ function closeAIPanel() {
   setModelStatus('');
 }
 
-// Reset AI panel when modal opens a new lesson
+// ── OPEN LESSON — restore cached AI result if available ───────────────────────
 const _origOpenLesson = openLesson;
 window.openLesson = function(phaseId, lessonNum) {
-  closeAIPanel();
   _origOpenLesson(phaseId, lessonNum);
-  // Re-init select each time modal opens (DOM may have rebuilt)
-  setTimeout(initModelSelect, 0);
+  setTimeout(() => {
+    initModelSelect();
+    const lessonKey = `${phaseId}-${lessonNum}`;
+    const panel = document.getElementById('ai-panel');
+    if (aiResultCache[lessonKey]) {
+      // Restore previous result with a subtle "cached" badge
+      const badge = `<div style="font-size:0.62rem;color:var(--muted);margin-bottom:0.75rem;padding:0.3rem 0.6rem;background:rgba(255,255,255,0.04);border-radius:6px;display:inline-block">${t('ai_cached_badge')}</div><br>`;
+      document.getElementById('ai-panel-body').innerHTML = badge + aiResultCache[lessonKey];
+      panel.classList.add('visible');
+      aiPanelLessonKey = lessonKey;
+    } else {
+      // No cached result — keep panel closed
+      panel.classList.remove('visible');
+      aiPanelLessonKey = null;
+    }
+  }, 0);
 };
 
-// Init on first load too
+// Init on first load
 setTimeout(initModelSelect, 300);
 
 </script>
