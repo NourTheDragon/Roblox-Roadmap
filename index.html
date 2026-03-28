@@ -1466,7 +1466,7 @@ async function requestAIExplanation() {
     return;
   }
 
-  if (!cfg.apiKey || cfg.apiKey === 'YOUR_OPENROUTER_API_KEY_HERE') {
+  if (!cfg.apiKey || cfg.apiKey.trim() === 'YOUR_OPENROUTER_API_KEY_HERE') {
     showAIPanel(`<div class="ai-no-key">
       🔑 <strong style="color:#fff">Add your free OpenRouter API key to get AI explanations!</strong><br><br>
       1. Go to <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Sign in (free) → Keys → Create Key<br>
@@ -1504,9 +1504,9 @@ async function requestAIExplanation() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${cfg.apiKey}`,
-        'HTTP-Referer': location.href,
-        'X-Title': 'Roblox Academy Roadmap'
+        'Authorization': `Bearer ${cfg.apiKey.trim()}`,
+        'HTTP-Referer': 'https://github.com',
+        'X-OpenRouter-Title': 'Roblox Academy Roadmap'
       },
       body: JSON.stringify({
         model: cfg.model,
@@ -1520,8 +1520,13 @@ async function requestAIExplanation() {
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err?.error?.message || `HTTP ${res.status}`);
+      const errText = await res.text().catch(() => '');
+      let errMsg = `HTTP ${res.status}`;
+      try { errMsg = JSON.parse(errText)?.error?.message || errMsg; } catch(_){}
+      if (res.status === 401) errMsg = `401 Unauthorized — your API key is invalid or missing. Double-check it in ai-config.js (no extra spaces or quotes).`;
+      if (res.status === 402) errMsg = `402 — You need credits on OpenRouter, or the model requires payment. Try a :free model.`;
+      if (res.status === 429) errMsg = `429 — Rate limited. Wait a moment and try again.`;
+      throw new Error(errMsg);
     }
 
     const data = await res.json();
