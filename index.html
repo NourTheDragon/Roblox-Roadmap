@@ -595,6 +595,7 @@ body.ar .final-box-label{font-family:'Cairo',sans-serif;letter-spacing:0;font-si
 </div>
 
 <script src="ai-config.js"></script>
+<script src="lessons-content.js"></script>
 <script>
 // ─────────────────────────────────────────────
 //  TRANSLATIONS
@@ -1658,6 +1659,25 @@ async function requestAIExplanation() {
 
   const {phase, lesson} = activeLesson;
   const lessonKey = `${phase.id}-${lesson.num}`;
+
+  // ── HARDCODED CONTENT CHECK ───────────────────────────────────────────────
+  // If a pre-written lesson exists for this key, show it instantly — no API call needed.
+  const hardcodedContent = window.LESSON_CONTENT && window.LESSON_CONTENT[lessonKey];
+  if (hardcodedContent) {
+    const panel = document.getElementById('ai-panel');
+    // Toggle closed if already showing this lesson
+    if (panel.classList.contains('visible') && aiPanelLessonKey === lessonKey) {
+      closeAIPanel();
+      return;
+    }
+    const html = mdToHtml(hardcodedContent);
+    const resultHtml = `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:1rem;font-family:'JetBrains Mono',monospace">📖 Full Lesson</div>` + html;
+    aiResultCache[lessonKey] = resultHtml;
+    aiPanelLessonKey = lessonKey;
+    showAIPanel(resultHtml);
+    return;
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   // Read model from dropdown
   const select = document.getElementById('ai-model-select');
