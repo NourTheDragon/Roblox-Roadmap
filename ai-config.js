@@ -9,10 +9,11 @@ const AI_CONFIG = {
   // ── ACTIVE MODEL ──────────────────────────────────────────────────────────
   // Change this line to switch models instantly.
   // Pick from the FREE_MODELS list below, or paste any OpenRouter model ID.
-  model: "nvidia/nemotron-3-super-120b-a12b:free",
+  model: "google/gemma-3-27b-it:free",
 
   // ── FREE MODELS YOU CAN SWAP IN ───────────────────────────────────────────
   // Uncomment any line below and copy it to `model:` above.
+  // "nvidia/nemotron-3-super-120b-a12b:free"  ← don't knowwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
   // "google/gemini-2.0-flash-exp:free"        ← fast, smart, good code quality
   // "google/gemini-2.5-pro-exp-03-25:free"    ← best free model (may be slow)
   // "meta-llama/llama-4-maverick:free"         ← Meta's newest free Llama
