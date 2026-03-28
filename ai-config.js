@@ -9,7 +9,7 @@ const AI_CONFIG = {
   // ── ACTIVE MODEL ──────────────────────────────────────────────────────────
   // Change this line to switch models instantly.
   // Pick from the FREE_MODELS list below, or paste any OpenRouter model ID.
-  model: "google/gemini-2.0-flash-exp:free",
+  model: "nvidia/nemotron-3-super-120b-a12b:free",
 
   // ── FREE MODELS YOU CAN SWAP IN ───────────────────────────────────────────
   // Uncomment any line below and copy it to `model:` above.
@@ -26,7 +26,7 @@ const AI_CONFIG = {
   // ── OPENROUTER API ────────────────────────────────────────────────────────
   // Get your FREE key at https://openrouter.ai → Sign in → Keys
   // The free tier works without billing info for free models.
-  apiKey: "YOUR_OPENROUTER_API_KEY_HERE",
+  apiKey: "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",
 
   // ── GENERATION SETTINGS ───────────────────────────────────────────────────
   maxTokens: 2048,
